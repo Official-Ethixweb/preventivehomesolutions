@@ -5,16 +5,22 @@ const servicesList = [
     title: 'Plumbing',
     description: 'Leak defense, repairs, repipes.',
     iconSrc: '/plumbing-removebg-preview.svg',
+    photo: '/Pot Filler Faucet Install in Ogden.jpeg',
+    photoAlt: 'Pot filler faucet installation — real job photo',
   },
   {
     title: 'HVAC',
     description: 'Furnaces, boilers, heat pumps.',
     iconSrc: '/hvac-removebg-preview.svg',
+    photo: '/Heating furnace.jpg',
+    photoAlt: 'Furnace system installation',
   },
   {
     title: 'AC Conditioning',
     description: 'AC install, tune-ups, repair.',
     iconSrc: '/ac_conditioning-removebg-preview.svg',
+    photo: '/AC installed 01.jpg',
+    photoAlt: 'AC unit installation — real job photo',
   },
 ]
 
@@ -22,27 +28,26 @@ export default function Services() {
   return (
     <section id="services" className="relative overflow-hidden bg-[#FAF8F5] py-20 lg:py-28">
       <div className="relative mx-auto max-w-[1200px] px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
-          {/* Left Column: Image Card */}
+          {/* Left Column: Team + Van Photo */}
           <div className="lg:col-span-5 relative">
-            <Reveal variant="left" className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[3/4] w-full rounded-[2rem] overflow-hidden border border-[#e6ded4] shadow-xl group">
-              <img
-                src="/d0484732fe6d7b7993abcea3ba29e28d.jpg"
-                alt="Preventive Home Solutions Crew"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-phsNavy/90 via-phsNavy/30 to-transparent" />
-              <div className="absolute bottom-0 left-0 p-8 sm:p-10 text-white">
-                <p className="font-mono text-xs font-bold tracking-[0.2em] text-phsOrange uppercase">
-                  OUR CREW
-                </p>
-                <h3 className="mt-2 font-display text-2xl sm:text-3xl font-black uppercase tracking-tight leading-none">
-                  Warrior-Grade<br />Reliability
-                </h3>
-                <p className="mt-3 text-xs sm:text-sm text-white/70 font-sans leading-relaxed">
-                  Defending your home from Northern Utah's hardest elements.
-                </p>
+            <Reveal variant="left" className="relative w-full">
+              {/* White frame with orange corner accents */}
+              <div className="relative bg-white p-3 shadow-2xl">
+                <span className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-phsOrange z-10" />
+                <span className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-phsOrange z-10" />
+                <span className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-phsOrange z-10" />
+                <span className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-phsOrange z-10" />
+                <div className="relative aspect-[4/5] sm:aspect-[4/3] lg:aspect-[3/4] w-full overflow-hidden group">
+                  <img
+                    src="/Coverphoto.png"
+                    alt="Preventive Home Solutions team and van"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {/* Gradient only — no text overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-phsNavy/70 via-phsNavy/20 to-transparent" />
+                </div>
               </div>
             </Reveal>
           </div>
@@ -64,13 +69,13 @@ export default function Services() {
 
             {/* Service Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {servicesList.map(({ title, description, iconSrc }, i) => (
+              {servicesList.map(({ title, description, iconSrc, photo, photoAlt }, i) => (
                 <Reveal key={title} delay={i * 100} variant="up">
                   <a
                     href="#contact"
                     className="group flex flex-col items-center text-center p-6 rounded-2xl border border-[#e6ded4] bg-white/50 hover:bg-white hover:shadow-xl hover:shadow-phsCream/25 transition-all duration-300 hover:-translate-y-1 relative z-10"
                   >
-                    {/* Extra large icon */}
+                    {/* Icon */}
                     <img
                       src={iconSrc}
                       alt={title}
@@ -81,9 +86,21 @@ export default function Services() {
                     <h3 className="font-display font-bold text-phsNavy text-base sm:text-lg uppercase tracking-wider">
                       {title}
                     </h3>
-                    <p className="mt-2 text-xs sm:text-sm text-gray-500 font-sans leading-relaxed">
-                      {description}
-                    </p>
+
+                    {/* Real work photo with frame (only for plumbing + HVAC) */}
+                    {photo && (
+                      <div className="relative bg-white p-1.5 shadow-md mt-5 w-full border border-[#e6ded4]">
+                        <span className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-phsOrange z-10" />
+                        <span className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-phsOrange z-10" />
+                        <span className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-phsOrange z-10" />
+                        <span className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-phsOrange z-10" />
+                        <img
+                          src={photo}
+                          alt={photoAlt}
+                          className="w-full aspect-video object-cover rounded-sm"
+                        />
+                      </div>
+                    )}
                   </a>
                 </Reveal>
               ))}
@@ -95,3 +112,4 @@ export default function Services() {
     </section>
   )
 }
+

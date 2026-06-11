@@ -17,9 +17,22 @@ export default function ContactForm() {
       <div className="mx-auto max-w-[1150px]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Left Column: Option A Info Block */}
+          {/* Left Column: Team Photo + Info Block */}
           <div className="lg:col-span-6 w-full">
             <Reveal variant="left" className="w-full">
+              {/* Team photo with white frame + orange corners */}
+              <div className="relative bg-white p-3 shadow-xl mb-8">
+                <span className="absolute top-0 left-0 w-7 h-7 border-t-4 border-l-4 border-phsOrange z-10" />
+                <span className="absolute top-0 right-0 w-7 h-7 border-t-4 border-r-4 border-phsOrange z-10" />
+                <span className="absolute bottom-0 left-0 w-7 h-7 border-b-4 border-l-4 border-phsOrange z-10" />
+                <span className="absolute bottom-0 right-0 w-7 h-7 border-b-4 border-r-4 border-phsOrange z-10" />
+                <img
+                  src="/IMG_6272.jpeg"
+                  alt="Preventive Home Solutions team with company banner"
+                  className="w-full aspect-[16/9] object-cover object-top"
+                />
+              </div>
+
               <span className="text-xs sm:text-sm font-mono tracking-[0.25em] font-bold text-phsOrange uppercase mb-4 block">
                 READY TO BOOK?
               </span>

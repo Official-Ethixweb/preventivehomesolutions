@@ -12,32 +12,25 @@ export default function About() {
       <div className="relative mx-auto max-w-[1200px]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* Left Column: 35+ Years Card */}
+          {/* Left Column: Team Photo */}
           <div className="lg:col-span-5 flex justify-center">
-            <Reveal variant="left" className="relative w-full max-w-[400px] aspect-square rounded-[2rem] overflow-hidden border border-white/10 bg-[#0e223f]/50 backdrop-blur-sm p-12 flex flex-col items-center justify-center text-center shadow-lg group hover:bg-[#0e223f]/75 transition-all duration-300">
-              {/* Checkmark shield */}
-              <svg viewBox="0 0 24 24" fill="none" stroke="#f3741b" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-7 w-7 mb-6 transition-transform duration-300 group-hover:scale-110">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <path d="m9 11 2 2 4-4" />
-              </svg>
-              
-              {/* Massive years number */}
-              <h2 className="font-display font-black text-white text-7xl sm:text-8xl tracking-tighter leading-none mb-3">
-                35+
-              </h2>
-              
-              {/* Years tag */}
-              <p className="font-mono text-xs font-bold tracking-[0.25em] text-gray-400 uppercase mb-8">
-                YEARS OF SERVICE
-              </p>
-              
-              {/* Divider line */}
-              <div className="w-16 h-px bg-white/10 mb-8" />
-              
-              {/* Bottom text */}
-              <p className="font-mono text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-gray-400 uppercase">
-                AEGIS STANDARD - SINCE 1989
-              </p>
+            <Reveal variant="left" className="relative w-full max-w-[440px]">
+              {/* White frame with orange corner accents */}
+              <div className="relative bg-white p-4 shadow-2xl">
+                {/* Orange corner — top left */}
+                <span className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-phsOrange z-10" />
+                {/* Orange corner — top right */}
+                <span className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-phsOrange z-10" />
+                {/* Orange corner — bottom left */}
+                <span className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-phsOrange z-10" />
+                {/* Orange corner — bottom right */}
+                <span className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-phsOrange z-10" />
+                <img
+                  src="/IMG_6217.jpeg"
+                  alt="Preventive Home Solutions full team in red uniforms"
+                  className="w-full aspect-[4/5] object-cover object-top"
+                />
+              </div>
             </Reveal>
           </div>
 

@@ -3,6 +3,7 @@ import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
 import Services from './components/Services.jsx'
 import WhyChoose from './components/WhyChoose.jsx'
+import BeforeAfter from './components/BeforeAfter.jsx'
 import CtaBanner from './components/CtaBanner.jsx'
 import Process from './components/Process.jsx'
 import About from './components/About.jsx'
@@ -21,6 +22,7 @@ export default function App() {
       <Hero />
       <Services />
       <WhyChoose />
+      <BeforeAfter />
       <CtaBanner />
       <Process />
       <About />

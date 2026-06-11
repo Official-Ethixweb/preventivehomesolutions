@@ -71,13 +71,11 @@ export default function Services() {
                     className="group flex flex-col items-center text-center p-6 rounded-2xl border border-[#e6ded4] bg-white/50 hover:bg-white hover:shadow-xl hover:shadow-phsCream/25 transition-all duration-300 hover:-translate-y-1 relative z-10"
                   >
                     {/* Extra large icon */}
-                    <div className="h-20 w-20 sm:h-24 sm:w-24 flex items-center justify-center rounded-2xl bg-[#faf6f0] border border-[#e6ded4]/60 p-4 mb-4 transition-colors duration-300 group-hover:bg-phsOrange/10 group-hover:border-phsOrange/20">
-                      <img
-                        src={iconSrc}
-                        alt={title}
-                        className="h-12 w-12 sm:h-14 sm:w-14 object-contain group-hover:scale-110 transition-transform duration-300"
-                      />
-                    </div>
+                    <img
+                      src={iconSrc}
+                      alt={title}
+                      className="h-16 w-16 sm:h-20 sm:w-20 object-contain mb-4 group-hover:scale-110 transition-transform duration-300"
+                    />
                     
                     {/* Text block */}
                     <h3 className="font-display font-bold text-phsNavy text-base sm:text-lg uppercase tracking-wider">

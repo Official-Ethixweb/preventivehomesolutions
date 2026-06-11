@@ -29,6 +29,14 @@ export default function Faq() {
 
   return (
     <section className="relative overflow-hidden bg-[#fbf7f0] py-20 lg:py-28 px-6">
+      {/* Watermark logo */}
+      <img
+        src="/preventive-home-solutions-logo-1-1-1536x772.jpg"
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 h-full w-full object-contain"
+        style={{ opacity: 0.05 }}
+      />
       <div className="relative mx-auto max-w-[850px]">
         {/* Heading block */}
         <div className="text-center mb-12">

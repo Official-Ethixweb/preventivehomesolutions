@@ -3,9 +3,10 @@ import Reveal from './Reveal.jsx'
 export default function CtaBanner() {
   return (
     <section 
-      className="relative w-full overflow-hidden py-20 lg:py-24"
+      className="relative w-full overflow-hidden bg-[#0B1B30] py-20 lg:py-24"
       style={{
-        background: '#e8f3fc',
+        backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px)',
+        backgroundSize: '20px 20px',
       }}
     >
       {/* Content */}
@@ -20,7 +21,7 @@ export default function CtaBanner() {
         <Reveal
           as="h2"
           delay={100}
-          className="font-display font-black text-phsInk text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.0] uppercase mb-4"
+          className="font-display font-black text-white text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.0] uppercase mb-4"
         >
           CERTIFIED PROS.<br />HOMES BUILT TO LAST.
         </Reveal>
@@ -28,7 +29,7 @@ export default function CtaBanner() {
         {/* Paragraph */}
         <Reveal 
           delay={200}
-          className="text-[15px] sm:text-base text-gray-600 font-sans max-w-xl mx-auto leading-relaxed mb-8"
+          className="text-[15px] sm:text-base text-gray-300 font-sans max-w-xl mx-auto leading-relaxed mb-8"
         >
           Let our warrior-grade specialists enhance your home's efficiency and comfort.
         </Reveal>

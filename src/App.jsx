@@ -7,13 +7,11 @@ import CtaBanner from './components/CtaBanner.jsx'
 import Process from './components/Process.jsx'
 import About from './components/About.jsx'
 import Testimonials from './components/Testimonials.jsx'
-import Areas from './components/Areas.jsx'
+import AreasWeServe from './components/AreasWeServe.jsx'
 import Faq from './components/Faq.jsx'
 import Blog from './components/Blog.jsx'
 import ContactForm from './components/ContactForm.jsx'
-import MapSection from './components/MapSection.jsx'
 import Footer from './components/Footer.jsx'
-import ScrollButton from './components/ScrollButton.jsx'
 
 export default function App() {
   return (
@@ -23,20 +21,16 @@ export default function App() {
       <Hero />
       <Services />
       <WhyChoose />
-      {/* Shared fixed background image spanning the CtaBanner → Process → About sections */}
-      <div className="relative bg-[url('/bcg.jpg')] bg-cover bg-fixed bg-center">
-        <CtaBanner />
-        <Process />
-        <About />
-      </div>
+      <CtaBanner />
+      <Process />
+      <About />
       <Testimonials />
-      <Areas />
+      <div className="h-6 w-full bg-phsNavy" />
+      <AreasWeServe />
       <Faq />
       <Blog />
       <ContactForm />
-      <MapSection />
       <Footer />
-      <ScrollButton />
     </div>
   )
 }

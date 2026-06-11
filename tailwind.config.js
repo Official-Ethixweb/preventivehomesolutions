@@ -9,9 +9,13 @@ export default {
         phsOrangeDark: '#e35e0a',
         phsNavy: '#0a2540',
         phsLink: '#2f6fdb',
+        phsCream: '#f4ecdf',
+        phsInk: '#16263d',
       },
       fontFamily: {
         sans: ['Poppins', 'system-ui', 'Arial', 'sans-serif'],
+        display: ['Archivo', 'system-ui', 'Arial', 'sans-serif'],
+        mono: ['"Space Mono"', 'ui-monospace', 'monospace'],
       },
       keyframes: {
         marquee: {

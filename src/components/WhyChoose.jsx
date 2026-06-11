@@ -1,33 +1,51 @@
-import Placeholder from './Placeholder.jsx'
 import Reveal from './Reveal.jsx'
 
-function ShieldIcon() {
+function ShieldCheckIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
-      <path d="M12 2l8 3v6c0 5-3.4 8.5-8 11-4.6-2.5-8-6-8-11V5l8-3z" />
-      <path d="M10.5 13.2l-2-2-1.2 1.2 3.2 3.2 5-5L14.3 9.4z" fill="#fff" />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-6 w-6"
+    >
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <path d="m9 11 2 2 4-4" />
     </svg>
   )
 }
 
-function MedalIcon() {
+function BadgeCheckIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
-      <circle cx="12" cy="9" r="6" />
-      <path d="M9 13.8L7.5 22l4.5-2.6L16.5 22 15 13.8z" />
-      <path d="M12 5.2l1.2 2.4 2.6.4-1.9 1.8.4 2.6L12 11.2 9.7 12.4l.4-2.6-1.9-1.8 2.6-.4z" fill="#fff" />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-6 w-6"
+    >
+      <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76z" />
+      <path d="m9 12 2 2 4-4" />
     </svg>
   )
 }
 
-function PeopleIcon() {
+function AlarmSirenIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
-      <circle cx="12" cy="7" r="2.6" />
-      <circle cx="5.5" cy="9" r="2.2" />
-      <circle cx="18.5" cy="9" r="2.2" />
-      <path d="M12 11c-2.8 0-4.5 1.6-4.5 3.8V17h9v-2.2C16.5 12.6 14.8 11 12 11z" />
-      <path d="M5.5 12c-2 0-3.5 1.2-3.5 3v1.5h3.4v-1.7c0-1.1.4-2 1.1-2.6A4.7 4.7 0 005.5 12zM18.5 12c-.4 0-.8 0-1.1.2.7.6 1.1 1.5 1.1 2.6V17H22v-2c0-1.8-1.5-3-3.5-3z" />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-6 w-6"
+    >
+      <path d="M12 2v2M5 22h14M19 12a7 7 0 0 0-14 0v6h14v-6zM9 22h6v-4H9v4zM4 12h1M19 12h1M6.3 6.3l.7.7M17 7l.7-.7" />
     </svg>
   )
 }
@@ -35,76 +53,70 @@ function PeopleIcon() {
 const features = [
   {
     title: 'Proactive Maintenance Plans',
-    Icon: ShieldIcon,
-    text: 'Prevent costly repairs with customized maintenance services.',
+    Icon: ShieldCheckIcon,
+    description: 'Prevent costly repairs with customized maintenance services.',
   },
   {
     title: 'Certified Technicians',
-    Icon: MedalIcon,
-    text: 'Our Licensed Plumbers team consists of highly skilled professionals.',
+    Icon: BadgeCheckIcon,
+    description: 'Our licensed plumbers team consists of highly skilled professionals.',
   },
   {
     title: 'Emergency Services',
-    Icon: PeopleIcon,
-    text: "We're available after hours to same day emergency service ensure your home stays safe.",
+    Icon: AlarmSirenIcon,
+    description: "We're available after hours to same-day emergency service to keep your home safe.",
   },
 ]
 
 export default function WhyChoose() {
   return (
-    <section className="bg-white py-16 sm:py-20">
-      <div className="mx-auto max-w-[1100px] px-4">
-        {/* Trust badges (third-party logos -> placeholders) */}
-        <Reveal variant="scale" className="flex items-center justify-center gap-10">
-          <Placeholder
-            label="BBB Accredited"
-            className="h-16 w-36 transition-transform duration-300 hover:scale-105"
-            rounded="rounded-md"
-          />
-          <Placeholder
-            label="Angi Award 2024"
-            className="h-20 w-20 transition-transform duration-300 hover:scale-105"
-            rounded="rounded-md"
+    <section className="bg-[#FAF8F5] py-20 lg:py-28 relative border-t border-[#e6ded4]">
+      <div className="mx-auto max-w-[1200px] px-6">
+        
+        {/* Trust Badges Row */}
+        <Reveal variant="scale" className="flex items-center justify-center mb-16">
+          <img
+            src="/badges.png"
+            alt="Trust Badges"
+            className="h-32 sm:h-40 md:h-48 lg:h-56 w-auto object-contain transition-transform duration-300 hover:scale-[1.02]"
           />
         </Reveal>
 
-        {/* Heading block */}
-        <Reveal
-          as="p"
-          className="mt-12 text-center text-sm font-bold uppercase tracking-wide text-phsOrange"
-        >
-          Why Choose Preventive Home Solutions
-        </Reveal>
-        <Reveal
-          as="h2"
-          delay={100}
-          className="mt-3 text-center text-3xl font-bold text-phsBlue sm:text-4xl"
-        >
-          Benefits of Having the Best Plumbing and HVAC Contractor
-        </Reveal>
-        <Reveal
-          as="p"
-          delay={200}
-          className="mx-auto mt-4 max-w-3xl text-center text-[15px] leading-relaxed text-gray-600"
-        >
-          Choosing Preventive Home Solutions means you're partnering with a team dedicated to
-          delivering exceptional service and lasting solutions for your home.
-        </Reveal>
+        {/* Heading Block */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <Reveal as="p" className="text-xs sm:text-sm font-mono tracking-[0.25em] font-bold text-phsOrange uppercase mb-4">
+            WHY CHOOSE PREVENTIVE HOME SOLUTIONS
+          </Reveal>
+          <Reveal as="h2" delay={100} className="font-display font-black text-phsNavy text-3xl sm:text-4xl lg:text-[2.75rem] tracking-tight leading-[1.0] uppercase">
+            BENEFITS OF THE<br />BEST IN THE TRADE.
+          </Reveal>
+          <Reveal as="p" delay={200} className="mt-4 text-[15px] leading-relaxed text-gray-500 font-sans">
+            Choosing Preventive Home Solutions means partnering with a team dedicated to exceptional service and lasting solutions for your home.
+          </Reveal>
+        </div>
 
-        {/* Feature list */}
-        <div className="mt-12 grid grid-cols-1 gap-10 md:grid-cols-3">
-          {features.map(({ title, Icon, text }, i) => (
-            <Reveal key={title} variant="up" delay={i * 120} className="group flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-orange-100 text-phsOrange transition-all duration-300 group-hover:scale-110 group-hover:bg-phsOrange group-hover:text-white">
-                <Icon />
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-phsOrange">{title}</h3>
-                <p className="mt-1 text-[15px] leading-relaxed text-gray-600">{text}</p>
+        {/* Feature Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {features.map(({ title, Icon, description }, i) => (
+            <Reveal key={title} variant="up" delay={i * 100}>
+              <div className="group flex flex-col p-8 rounded-3xl border border-[#e6ded4] bg-white/50 hover:bg-white hover:shadow-xl hover:shadow-phsCream/25 transition-all duration-300 hover:-translate-y-1 h-full relative z-10">
+                {/* Icon Container */}
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-phsOrange/10 border border-phsOrange/20 text-phsOrange mb-6 transition-all duration-300 group-hover:scale-105 group-hover:bg-phsOrange group-hover:text-white group-hover:border-transparent">
+                  <Icon />
+                </div>
+                
+                {/* Content */}
+                <h3 className="font-display font-bold text-phsNavy text-lg uppercase tracking-wide">
+                  {title}
+                </h3>
+                <p className="mt-2 text-sm text-gray-500 font-sans leading-relaxed">
+                  {description}
+                </p>
               </div>
             </Reveal>
           ))}
         </div>
+
       </div>
     </section>
   )

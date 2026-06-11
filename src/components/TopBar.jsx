@@ -1,30 +1,41 @@
-const DEAL_TEXT = "Check Out These Unbeatable Deals Before They're Gone!"
+import { useEffect, useState } from 'react'
 
 /**
- * Thin blue announcement bar with a continuously sliding (marquee) message.
- * The text track is duplicated so the loop appears seamless.
+ * Fixed scroll-progress strip pinned to the top of the viewport: a dark ink
+ * track with an orange fill that grows from 0% to 100% as the user scrolls
+ * down the page.
  */
 export default function TopBar() {
-  // Repeat the phrase several times so the track is wider than the viewport.
-  const items = Array.from({ length: 6 })
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const el = document.documentElement
+      const scrollable = el.scrollHeight - el.clientHeight
+      setProgress(scrollable > 0 ? (el.scrollTop / scrollable) * 100 : 0)
+    }
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [])
 
   return (
-    <div className="w-full overflow-hidden bg-phsBlue py-2.5 text-white">
-      <div className="flex w-max animate-marquee whitespace-nowrap">
-        {/* Two identical halves => seamless -50% loop */}
-        {[0, 1].map((half) => (
-          <div key={half} className="flex shrink-0">
-            {items.map((_, i) => (
-              <span
-                key={i}
-                className="mx-10 text-sm font-bold tracking-wide sm:text-base"
-              >
-                {DEAL_TEXT}
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
+    <div className="fixed inset-x-0 top-0 z-50 h-1.5 bg-phsInk">
+      <div
+        className="h-full bg-phsOrange transition-[width] duration-150 ease-out"
+        style={{ width: `${progress}%` }}
+      />
     </div>
   )
 }

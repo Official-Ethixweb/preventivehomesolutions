@@ -2,28 +2,45 @@ import Reveal from './Reveal.jsx'
 
 export default function CtaBanner() {
   return (
-    <section className="relative w-full overflow-hidden">
-      {/* Dark overlay for legibility over the shared background image */}
-      <div className="pointer-events-none absolute inset-0 bg-black/55" />
-
+    <section 
+      className="relative w-full overflow-hidden py-20 lg:py-24"
+      style={{
+        background: '#e8f3fc',
+      }}
+    >
       {/* Content */}
-      <div className="relative mx-auto flex max-w-[900px] flex-col items-center px-4 py-16 text-center sm:py-20">
-        <Reveal as="p" className="text-sm font-bold uppercase tracking-wide text-phsOrange">
-          Get In Touch With Us
+      <div className="relative mx-auto flex max-w-[1000px] flex-col items-center px-6 text-center">
+        
+        {/* Tag */}
+        <Reveal as="p" className="text-xs sm:text-sm font-mono tracking-[0.25em] font-bold text-phsOrange uppercase mb-4">
+          GET IN TOUCH
         </Reveal>
+        
+        {/* Heading */}
         <Reveal
           as="h2"
-          delay={120}
-          className="mt-4 text-3xl font-bold leading-snug text-white sm:text-4xl"
+          delay={100}
+          className="font-display font-black text-phsInk text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.0] uppercase mb-4"
         >
-          Let Our Certified Professionals Enhance your Home's Efficiency and Comfort
+          CERTIFIED PROS.<br />HOMES BUILT TO LAST.
         </Reveal>
-        <Reveal delay={260}>
+        
+        {/* Paragraph */}
+        <Reveal 
+          delay={200}
+          className="text-[15px] sm:text-base text-gray-600 font-sans max-w-xl mx-auto leading-relaxed mb-8"
+        >
+          Let our warrior-grade specialists enhance your home's efficiency and comfort.
+        </Reveal>
+        
+        {/* CTA Button */}
+        <Reveal delay={300}>
           <a
-            href="#"
-            className="mt-8 inline-block rounded-full bg-phsOrange px-8 py-3.5 text-base font-bold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-phsOrangeDark hover:shadow-xl active:translate-y-0 active:scale-95"
+            href="#contact"
+            className="group inline-flex items-center justify-center gap-2 rounded-md bg-phsOrange px-7 py-4 font-display text-sm font-bold uppercase tracking-[0.12em] text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-phsOrangeDark hover:shadow-lg active:translate-y-0 relative z-10"
           >
-            Get Your Free Quote
+            <span>Get Your Free Quote</span>
+            <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
           </a>
         </Reveal>
       </div>

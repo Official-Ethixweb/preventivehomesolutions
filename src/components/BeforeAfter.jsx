@@ -212,9 +212,40 @@ export default function BeforeAfter() {
     const pointerEnterHandler = handlePointerEnter
     const pointerLeaveHandler = handlePointerLeave
 
+    // Attach local handlers for direct hover interactions
     shell.addEventListener('pointerenter', pointerEnterHandler)
     shell.addEventListener('pointermove', pointerMoveHandler)
     shell.addEventListener('pointerleave', pointerLeaveHandler)
+
+    // Also attach a global pointermove while the card is visible in the viewport
+    // so it responds to the mouse even when not hovered directly. Use
+    // IntersectionObserver to enable global tracking only when the element is
+    // onscreen and disable it when scrolled away to save resources.
+    let globalAttached = false
+    const onVisibility = (entries) => {
+      const e = entries[0]
+      if (e && e.isIntersecting) {
+        if (!globalAttached) {
+          document.addEventListener('pointermove', pointerMoveHandler)
+          globalAttached = true
+        }
+      } else {
+        if (globalAttached) {
+          document.removeEventListener('pointermove', pointerMoveHandler)
+          globalAttached = false
+          // Smoothly return the card to center when it leaves view
+          handlePointerLeave()
+        }
+      }
+    }
+
+    const observer = new IntersectionObserver(onVisibility, {
+      root: null,
+      threshold: 0.05
+    })
+    // Observe the outer wrapper if available, fallback to shell
+    const observed = wrapRef.current || shell
+    observer.observe(observed)
 
     const initialX = (shell.clientWidth || 0) - ANIMATION_CONFIG.INITIAL_X_OFFSET
     const initialY = ANIMATION_CONFIG.INITIAL_Y_OFFSET
@@ -226,6 +257,8 @@ export default function BeforeAfter() {
       shell.removeEventListener('pointerenter', pointerEnterHandler)
       shell.removeEventListener('pointermove', pointerMoveHandler)
       shell.removeEventListener('pointerleave', pointerLeaveHandler)
+      if (globalAttached) document.removeEventListener('pointermove', pointerMoveHandler)
+      observer.disconnect()
       if (enterTimerRef.current) window.clearTimeout(enterTimerRef.current)
       if (leaveRafRef.current) cancelAnimationFrame(leaveRafRef.current)
       tiltEngine.cancel()

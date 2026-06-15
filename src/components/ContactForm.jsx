@@ -6,6 +6,8 @@ const inputClass =
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false)
+  const [service, setService] = useState('')
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -13,7 +15,7 @@ export default function ContactForm() {
   }
 
   return (
-    <section id="scheduling" className="scroll-mt-24 bg-phsCream py-[clamp(3rem,10vw,4rem)] lg:py-28 px-[clamp(16px,5vw,24px)] sm:px-6">
+    <section id="scheduling" className="relative z-50 scroll-mt-24 bg-phsCream py-[clamp(3rem,10vw,4rem)] lg:py-28 px-[clamp(16px,5vw,24px)] sm:px-6">
       {/* Anchor so "Contact" nav / CTAs that point to #contact land here too */}
       <span id="contact" aria-hidden="true" className="block scroll-mt-28" />
       <div className="mx-auto max-w-[1200px]">
@@ -54,9 +56,6 @@ export default function ContactForm() {
 
               {/* Details */}
               <div className="space-y-2 font-sans text-[11px] sm:text-xs text-gray-500 leading-relaxed">
-                <p>
-                  <span className="font-bold text-phsInk">Hours:</span> <span className="text-phsOrange">Mon - Fri 7AM - 8PM | Sat 7AM - 7PM | Sun 7AM - 6PM</span>
-                </p>
                 <p>
                   <span className="font-bold text-phsInk">Areas:</span> <span className="text-phsOrange">Ogden, Syracuse, Layton, Clearfield, Farmington, Clinton &amp; more</span>
                 </p>
@@ -105,24 +104,37 @@ export default function ContactForm() {
 
                     {/* Service Dropdown */}
                     <div className="relative">
-                      <select
-                        className={`${inputClass} appearance-none`}
-                        defaultValue=""
-                        required
+                      <button
+                        type="button"
+                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                        className={`${inputClass} flex items-center justify-between text-left`}
                       >
-                        <option value="" disabled>Choose a service</option>
-                        <option>Plumbing Services</option>
-                        <option>Heating Services</option>
-                        <option>Cooling Services</option>
-                        <option>Water Heater Services</option>
-                        <option>Drain Clearing &amp; Cleaning</option>
-                        <option>Maintenance</option>
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-5 flex items-center text-gray-400">
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                        <span className={`block truncate ${service ? 'text-phsInk' : 'text-gray-400'}`}>
+                          {service || 'Choose a service'}
+                        </span>
+                        <svg className={`h-4 w-4 shrink-0 text-gray-400 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
-                      </div>
+                      </button>
+                      <input type="text" name="service" value={service} required className="absolute bottom-0 left-1/2 w-0 h-0 opacity-0 pointer-events-none" readOnly />
+
+                      {dropdownOpen && (
+                        <>
+                          <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
+                          <div className="absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-md border border-gray-200 bg-white shadow-xl">
+                            {['Plumbing Services', 'Heating Services', 'Cooling Services', 'Water Heater Services', 'Drain Clearing & Cleaning', 'Maintenance'].map((s) => (
+                              <button
+                                key={s}
+                                type="button"
+                                onClick={() => { setService(s); setDropdownOpen(false) }}
+                                className="block w-full px-5 py-3.5 text-left text-[14.5px] font-medium text-phsInk hover:bg-phsOrange/10 hover:text-phsOrange focus:bg-phsOrange/10 focus:text-phsOrange outline-none transition-colors border-b border-gray-50 last:border-0"
+                              >
+                                {s}
+                              </button>
+                            ))}
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     {/* Submit Button */}

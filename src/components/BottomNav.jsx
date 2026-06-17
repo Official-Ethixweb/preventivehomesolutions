@@ -232,7 +232,7 @@ export default function BottomNav() {
                   <Shield active={isActive} center={item.center}>
                     <item.Icon className={`${item.center ? 'h-6 w-6' : 'h-5 w-5'} ${iconColor}`} />
                   </Shield>
-                  <span className={`font-display text-[10.5px] font-bold tracking-wide ${labelColor}`}>
+                  <span className={`font-sans text-[10.5px] font-bold tracking-wide ${labelColor}`}>
                     {item.label}
                   </span>
                 </>

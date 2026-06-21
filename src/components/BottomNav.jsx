@@ -86,9 +86,9 @@ function Shield({ active, center, children }) {
 }
 
 const ITEMS = [
-  { key: 'home', label: 'Home', href: '#hero', Icon: HomeIcon },
+  { key: 'home', label: 'Home', href: '/#hero', Icon: HomeIcon },
   { key: 'services', label: 'Services', sheet: 'services', Icon: WrenchIcon },
-  { key: 'quote', label: 'Get Quote', href: '#quote-form', Icon: QuoteIcon, center: true },
+  { key: 'quote', label: 'Get Quote', href: '/#quote-form', Icon: QuoteIcon, center: true },
   { key: 'areas', label: 'Areas', sheet: 'areas', Icon: PinIcon },
   { key: 'emergency', label: 'Emergency', href: `tel:${PHONE_TEL}`, Icon: EmergencyIcon },
 ]
@@ -131,7 +131,7 @@ function NavSheet({ kind, onClose }) {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {group.items.map((item) => (
-                    <a key={item} href="#services" onClick={onClose} className={chipClass}>
+                    <a key={item} href="/#services" onClick={onClose} className={chipClass}>
                       {item}
                     </a>
                   ))}
@@ -142,7 +142,7 @@ function NavSheet({ kind, onClose }) {
         ) : (
           <div className="flex flex-wrap gap-2">
             {SERVICE_AREAS.map((area) => (
-              <a key={area} href="#areas-we-serve" onClick={onClose} className={chipClass}>
+              <a key={area} href="/#areas-we-serve" onClick={onClose} className={chipClass}>
                 {area}
               </a>
             ))}
@@ -150,7 +150,7 @@ function NavSheet({ kind, onClose }) {
         )}
 
         <a
-          href="#scheduling"
+          href="/#scheduling"
           onClick={onClose}
           className="cta-diag cta-diag-orange mt-7 flex w-full items-center justify-center rounded-md bg-phsOrange px-5 py-3.5 font-sans text-sm font-bold tracking-wide text-white shadow-sm"
         >

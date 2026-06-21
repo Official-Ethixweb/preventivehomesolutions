@@ -13,9 +13,15 @@ export default function ContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    // The service field is a custom dropdown backed by a readonly input, which
+    // browsers skip during native validation, so enforce the choice here.
+    if (!service) {
+      setError('Please choose a service.')
+      return
+    }
     setSubmitting(true)
     setError(null)
-    
+
     const formData = new FormData(e.target)
     formData.append('access_key', import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'YOUR_WEB3FORMS_ACCESS_KEY_HERE')
     formData.append('section', 'Received from Contact/Scheduling section')

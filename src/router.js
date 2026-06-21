@@ -22,10 +22,19 @@ export function navigate(to) {
   }
 
   if (hash) {
-    // Let the destination render before scrolling to the anchor.
-    setTimeout(() => {
-      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' })
-    }, 60)
+    // The destination page may still be rendering (and its images loading)
+    // when we arrive from another route, so poll briefly for the anchor before
+    // scrolling instead of assuming it already exists.
+    let tries = 0
+    const tryScroll = () => {
+      const el = document.getElementById(hash)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+      } else if (tries++ < 40) {
+        setTimeout(tryScroll, 50)
+      }
+    }
+    setTimeout(tryScroll, 60)
   } else {
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' })
   }

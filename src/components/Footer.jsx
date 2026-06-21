@@ -1,10 +1,10 @@
 const quickLinks = [
-  { label: 'Home', href: '#hero' },
+  { label: 'Home', href: '/#hero' },
   { label: 'About Us', href: '/about-us' },
   { label: 'Blogs', href: '/blog' },
   { label: 'Preventive Tips', href: '/blog' },
-  { label: 'Maintenance', href: '#services' },
-  { label: 'Contact Us', href: '#contact' },
+  { label: 'Maintenance', href: '/#services' },
+  { label: 'Contact Us', href: '/#contact' },
 ]
 const services = [
   'AC Installation and Replacement',
@@ -13,7 +13,7 @@ const services = [
   'Boiler Service and Maintenance',
   'Drain Cleaning',
   'Leak Detection & Repair',
-].map((label) => ({ label, href: '#scheduling' }))
+].map((label) => ({ label, href: '/#scheduling' }))
 
 function ChevronRight() {
   return (

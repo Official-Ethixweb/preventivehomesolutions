@@ -174,7 +174,7 @@ export default function Header() {
                         )}
 
                         <a
-                          href="#services"
+                          href="/#services"
                           onClick={closeMenu}
                           className="block text-[13px] font-bold text-phsInk/85 hover:text-phsOrange leading-snug transition-colors duration-200"
                         >
@@ -195,7 +195,7 @@ export default function Header() {
               {filteredAreas.map((item) => (
                 <a
                   key={item}
-                  href="#areas-we-serve"
+                  href="/#areas-we-serve"
                   onClick={closeMenu}
                   className="block rounded-xl border border-phsSky/10 bg-white/60 px-4 py-3 shadow-sm flex flex-col justify-center min-h-[58px] text-[13px] font-bold text-phsInk/85 hover:border-phsOrange/30 hover:bg-white hover:text-phsOrange transition-all duration-300"
                 >
@@ -241,7 +241,7 @@ export default function Header() {
                 {PHONE_DISPLAY}
               </a>
               <a
-                href="#scheduling"
+                href="/#scheduling"
                 onMouseEnter={closeMenu}
                 className="cta-diag cta-diag-orange rounded-md bg-phsOrange px-3 sm:px-5 py-1.5 sm:py-2.5 font-sans text-[11px] sm:text-sm font-bold text-white shadow-sm whitespace-nowrap hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
               >
@@ -293,7 +293,7 @@ export default function Header() {
 
           {/* Highlighted CTA */}
           <a
-            href="#scheduling"
+            href="/#scheduling"
             onMouseEnter={closeMenu}
             className="cta-diag cta-diag-orange rounded-md bg-phsOrange px-6 py-3 font-sans text-sm font-bold text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
           >

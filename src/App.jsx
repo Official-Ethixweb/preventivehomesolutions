@@ -15,6 +15,7 @@ import Blog from './components/Blog.jsx'
 import ContactForm from './components/ContactForm.jsx'
 import Footer from './components/Footer.jsx'
 import Loader from './components/Loader.jsx'
+import ChatBot from './components/ChatBot.jsx'
 import { SERVICE_PAGES } from './data/services.js'
 import { BLOG_POSTS } from './data/blog.js'
 import { usePath, useLinkInterceptor } from './router.js'
@@ -98,6 +99,7 @@ export default function App() {
   return (
     <>
       <Suspense fallback={null}>{page}</Suspense>
+      <ChatBot />
       <Loader />
     </>
   )

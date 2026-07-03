@@ -649,7 +649,7 @@ export default function ChatBot() {
       {!open && teaser && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-[8.5rem] right-4 z-[65] max-w-[220px] rounded-2xl rounded-br-sm bg-white px-4 py-3 text-left text-sm font-medium text-phsInk shadow-xl ring-1 ring-black/10 animate-fade-in lg:bottom-[6.5rem] lg:right-6"
+          className="fixed bottom-[11.5rem] right-4 z-[65] max-w-[220px] rounded-2xl rounded-br-sm bg-white px-4 py-3 text-left text-sm font-medium text-phsInk shadow-xl ring-1 ring-black/10 animate-fade-in lg:bottom-[7rem] lg:right-6"
         >
           Need help choosing a service? Tap to chat with us.
         </button>
@@ -659,23 +659,23 @@ export default function ChatBot() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Close chat' : 'Open chat assistant'}
-        className={`fixed bottom-24 right-4 z-[70] h-[4.8rem] w-[4.8rem] overflow-hidden rounded-full bg-phsNavy shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:right-6 ${
+        className={`fixed bottom-24 right-4 z-[70] h-[4.8rem] w-[4.8rem] rounded-full bg-phsNavy shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:right-6 ${
           open ? 'hidden lg:block' : 'block'
         }`}
       >
         {open ? (
-          <span className="flex h-full w-full items-center justify-center bg-phsNavy text-white">
+          <span className="flex h-full w-full items-center justify-center rounded-full bg-phsNavy text-white">
             <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6 6 18M6 6l12 12" />
             </svg>
           </span>
         ) : (
           <>
-            <img src={AVATAR} alt="" className="h-full w-full object-cover object-top" />
+            <img src={AVATAR} alt="" className="h-full w-full rounded-full object-cover object-top" />
             {hasUnread && (
               <>
-                <span className="absolute -right-1 -top-1 h-6 w-6 animate-ping rounded-full bg-red-500/60" />
-                <span className="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full border-2 border-white bg-red-500 text-[12px] font-bold leading-none text-white shadow-md">
+                <span className="absolute right-0 top-0 h-6 w-6 animate-ping rounded-full bg-red-500/60" />
+                <span className="absolute right-0 top-0 grid h-6 w-6 place-items-center rounded-full border-2 border-white bg-red-500 text-[12px] font-bold leading-none text-white shadow-md">
                   1
                 </span>
               </>

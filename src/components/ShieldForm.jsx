@@ -159,7 +159,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
-                      <input type="text" name="service_field" value={service} required readOnly className="pointer-events-none absolute bottom-0 left-1/2 h-0 w-0 opacity-0" />
+                      <input type="text" name="service_field" value={service} required readOnly aria-label="Service" aria-hidden="true" tabIndex={-1} className="pointer-events-none absolute bottom-0 left-1/2 h-0 w-0 opacity-0" />
                       {dropdownOpen && (
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />

@@ -109,6 +109,7 @@ export default function BlogPage() {
     <div className="min-h-screen bg-white">
       <TopBar />
       <Header />
+      <main>
 
       {/* ------------------------------ Hero ----------------------------- */}
       <section className="relative overflow-hidden bg-phsSky text-white">
@@ -257,7 +258,10 @@ export default function BlogPage() {
                       READ MORE
                       <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
-                    <span className="font-display text-xs font-black text-phsNavy/10">PHS</span>
+                    {/* Decorative corner watermark. Rendered via a pseudo-element
+                        so it's purely presentational (not evaluated as real text
+                        for contrast, and hidden from assistive tech). */}
+                    <span aria-hidden="true" className="font-display text-xs font-black text-phsNavy/10 before:content-['PHS']" />
                   </div>
                 </div>
                 </a>
@@ -306,6 +310,7 @@ export default function BlogPage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   )

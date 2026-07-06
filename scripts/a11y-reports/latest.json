@@ -15,6 +15,42 @@
       },
       {
         "target": [
+          ".gap-3.items-center.flex:nth-child(1) > .text-xl.tracking-widest.font-display"
+        ],
+        "html": "<span class=\"font-display text-xl font-bold tracking-widest\">Heating</span>"
+      },
+      {
+        "target": [
+          ".gap-3.items-center.flex:nth-child(2) > .text-xl.tracking-widest.font-display"
+        ],
+        "html": "<span class=\"font-display text-xl font-bold tracking-widest\">Cooling</span>"
+      },
+      {
+        "target": [
+          ".gap-3.items-center.flex:nth-child(3) > .text-xl.tracking-widest.font-display"
+        ],
+        "html": "<span class=\"font-display text-xl font-bold tracking-widest\">Plumbing</span>"
+      },
+      {
+        "target": [
+          ".gap-3.items-center.flex:nth-child(4) > .text-xl.tracking-widest.font-display"
+        ],
+        "html": "<span class=\"font-display text-xl font-bold tracking-widest\">Drain &amp; Sewer</span>"
+      },
+      {
+        "target": [
+          ".gap-3.items-center.flex:nth-child(5) > .text-xl.tracking-widest.font-display"
+        ],
+        "html": "<span class=\"font-display text-xl font-bold tracking-widest\">Water Heaters</span>"
+      },
+      {
+        "target": [
+          ".gap-3.items-center.flex:nth-child(6) > .text-xl.tracking-widest.font-display"
+        ],
+        "html": "<span class=\"font-display text-xl font-bold tracking-widest\">Heating</span>"
+      },
+      {
+        "target": [
           ".mb-10.translate-x-0.translate-y-0 > .tracking-\\[0\\.25em\\].mb-4.sm\\:text-sm"
         ],
         "html": "<p class=\"text-xs sm:text-sm font-mono tracking-[0.25em] font-bold text-phsOrange mb-4\">Our Services</p>"
@@ -87,6 +123,12 @@
       },
       {
         "target": [
+          ".lowercase"
+        ],
+        "html": "<span class=\"text-phsOrange lowercase\">days</span>"
+      },
+      {
+        "target": [
           "p > .text-phsOrange"
         ],
         "html": "<span class=\"text-phsOrange\">Ogden, Syracuse, Layton, Clearfield, Farmington, Clinton &amp; more</span>"
@@ -118,6 +160,18 @@
           ".tracking-\\[0\\.28em\\]"
         ],
         "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 font-mono text-xs font-bold tracking-[0.28em] text-phsOrange\" style=\"transition-delay: 100ms;\">TRUSTED HOME CARE · NORTHERN UTAH</p>"
+      },
+      {
+        "target": [
+          ".gap-3.items-center.flex:nth-child(1) > .text-xl.tracking-widest.font-display"
+        ],
+        "html": "<span class=\"font-display text-xl font-bold tracking-widest\">Heating</span>"
+      },
+      {
+        "target": [
+          ".gap-3.items-center.flex:nth-child(2) > .text-xl.tracking-widest.font-display"
+        ],
+        "html": "<span class=\"font-display text-xl font-bold tracking-widest\">Cooling</span>"
       },
       {
         "target": [
@@ -184,6 +238,12 @@
           ".text-\\[clamp\\(11px\\,3vw\\,12px\\)\\]"
         ],
         "html": "<span class=\"text-[clamp(11px,3vw,12px)] sm:text-sm font-mono tracking-[0.25em] font-bold text-phsOrange mb-4 block uppercase\">Ready to Book?</span>"
+      },
+      {
+        "target": [
+          ".lowercase"
+        ],
+        "html": "<span class=\"text-phsOrange lowercase\">days</span>"
       },
       {
         "target": [

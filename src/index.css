@@ -342,6 +342,12 @@ body {
   overflow-x: auto;
   border: 1px solid #e6ded4;
 }
+/* The wrap is keyboard-focusable (tabindex=0) so keyboard users can scroll it;
+   give it a clear focus ring. */
+.blog-prose .table-wrap:focus-visible {
+  outline: 3px solid #1b6e9e;
+  outline-offset: 2px;
+}
 .blog-prose table {
   width: 100%;
   border-collapse: collapse;

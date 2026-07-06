@@ -71,6 +71,7 @@ export default function ServicePage({ slug }) {
     <div className="min-h-screen bg-white">
       <TopBar />
       <Header />
+      <main>
 
       {/* ---------------------------- Hero ---------------------------- */}
       {/* Light-blue background with the animated Strands effect (same look as
@@ -226,6 +227,7 @@ export default function ServicePage({ slug }) {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   )

@@ -189,6 +189,7 @@ export default function ServicePageTemplate({ content }) {
     <div className="min-h-screen bg-white">
       <TopBar />
       <Header />
+      <main>
 
       {/* ------------------------------ Hero ------------------------------ */}
       <section className="relative overflow-hidden text-white">
@@ -366,6 +367,7 @@ export default function ServicePageTemplate({ content }) {
         </section>
       )}
 
+      </main>
       <Footer />
     </div>
   )

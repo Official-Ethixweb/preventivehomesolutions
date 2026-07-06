@@ -145,6 +145,7 @@ function Home() {
     <div className="min-h-screen bg-white">
       <TopBar />
       <Header />
+      <main>
       <Hero />
       <div className="relative z-10 lg:-mt-[147px]">
         <MarqueeBanner />
@@ -186,6 +187,7 @@ function Home() {
       <Faq />
       <Blog />
       <ContactForm />
+      </main>
       <Footer />
     </div>
   )

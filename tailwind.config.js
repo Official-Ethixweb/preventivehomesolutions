@@ -5,9 +5,11 @@ export default {
     extend: {
       colors: {
         phsBlue: '#1a9bf0',
-        // Darkened for WCAG AA text contrast (was #f3741b / #228CC8, which failed
-        // 4.5:1 as text on light backgrounds and under white text on fills).
-        phsOrange: '#d75612',
+        // Brand orange (client-chosen). Note: this bright orange does NOT meet
+        // WCAG AA contrast as text on light backgrounds or under white text —
+        // those instances are accepted as a brand decision. phsSky/phsOrangeDark
+        // remain darkened so all NON-orange text still passes AA.
+        phsOrange: '#f3751b',
         phsOrangeDark: '#b8480d',
         phsNavy: '#0a2540',
         phsSky: '#1b6e9e',

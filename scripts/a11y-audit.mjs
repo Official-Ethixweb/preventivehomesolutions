@@ -58,9 +58,11 @@ async function scanPage(browser, route, viewport) {
   });
   const page = await context.newPage();
   try {
-    await page.goto(BASE + route, { waitUntil: 'networkidle', timeout: 45000 });
+    // `domcontentloaded` (not `networkidle`): pages with continuous WebGL /
+    // animation / polling never reach network idle and would time out.
+    await page.goto(BASE + route, { waitUntil: 'domcontentloaded', timeout: 45000 });
     // Let the route loader clear and lazy sections settle before measuring.
-    await page.waitForTimeout(2800);
+    await page.waitForTimeout(3200);
 
     let builder = new AxeBuilder({ page }).withTags(WCAG_TAGS);
     for (const sel of EXCLUDE_SELECTORS) builder = builder.exclude(sel);
@@ -88,7 +90,14 @@ async function main() {
   for (const route of routes) {
     let pageHadViolations = false;
     for (const vp of VIEWPORTS) {
-      const violations = await scanPage(browser, route, vp);
+      let violations;
+      try {
+        violations = await scanPage(browser, route, vp);
+      } catch (err) {
+        // One page failing to load must not abort the whole audit.
+        console.log(`  ⚠ ERROR ${vp.name.padEnd(7)} ${route} — ${err.message.split('\n')[0]}`);
+        continue;
+      }
       for (const v of violations) {
         totalViolations += v.nodes.length;
         const entry = ruleCounts.get(v.id) || {

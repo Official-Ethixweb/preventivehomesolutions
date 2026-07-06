@@ -182,6 +182,7 @@ export default function AreaPageTemplate({ area }) {
     <div className="min-h-screen bg-white">
       <TopBar />
       <Header />
+      <main>
 
       {/* ------------------------------ Hero ------------------------------ */}
       <section className="relative overflow-hidden text-white">
@@ -354,6 +355,7 @@ export default function AreaPageTemplate({ area }) {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   )

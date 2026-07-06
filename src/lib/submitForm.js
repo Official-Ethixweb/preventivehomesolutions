@@ -4,7 +4,7 @@
 // The reCAPTCHA v2 token comes from the visible checkbox widget (passed in via
 // opts.recaptchaToken). We POST the lead as JSON to the Vercel serverless
 // function at /api/contact, which verifies the token and sends the email
-// through Resend. Secrets never touch the client.
+// through SMTP2GO. Secrets never touch the client.
 
 const ENDPOINT = '/api/contact'
 

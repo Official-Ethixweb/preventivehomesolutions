@@ -425,8 +425,10 @@ export default function Hero() {
         {/* Right column knight holding the shield, with the booking form on the shield face */}
         <Reveal variant="scale" delay={300} className="relative w-full max-w-[625px] lg:-translate-y-[90px] lg:-translate-x-[70px] lg:justify-self-end lg:-mt-8 lg:-ml-12 mt-4 lg:mt-0">
 
-          {/* Desktop-only Knight with Form overlaid */}
-          <div className="hidden lg:block relative lg:scale-[0.8] lg:origin-top">
+          {/* Desktop-only Knight with Form overlaid. The whole block is uniformly
+              scaled, so the shield form (positioned/scaled off the knight's
+              rendered width) grows proportionally with the knight. */}
+          <div className="hidden lg:block relative lg:scale-[0.96] lg:origin-top">
             {/* Elemental aura behind the knight: fire-orange up top, water-blue below */}
             <div className="phs-fire-glow pointer-events-none absolute left-1/2 top-[16%] z-0 h-[60%] w-[72%] -translate-x-1/2 rounded-full bg-[#f3741b] blur-[70px]" />
             <div className="phs-water-glow pointer-events-none absolute left-1/2 top-[48%] z-0 h-[40%] w-[82%] -translate-x-1/2 rounded-full bg-[#38bdf8] blur-[70px]" />

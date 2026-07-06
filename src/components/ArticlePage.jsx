@@ -123,7 +123,7 @@ export default function ArticlePage({ post }) {
       <article>
         <header className="bg-phsSky text-white">
           <div className="mx-auto max-w-[820px] px-6 py-14 lg:py-20">
-            <Reveal as="nav" className="mb-6 flex flex-wrap items-center gap-2 font-mono text-[11px] font-bold tracking-[0.18em] text-white/60">
+            <Reveal as="nav" className="mb-6 flex flex-wrap items-center gap-2 font-mono text-[11px] font-bold tracking-[0.18em] text-white/90">
               <a href="/" className="transition-colors hover:text-phsOrange">HOME</a>
               <span>/</span>
               <a href="/blog" className="transition-colors hover:text-phsOrange">BLOG</a>

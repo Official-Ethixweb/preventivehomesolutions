@@ -5,10 +5,12 @@ export default {
     extend: {
       colors: {
         phsBlue: '#1a9bf0',
-        phsOrange: '#f3741b',
-        phsOrangeDark: '#e35e0a',
+        // Darkened for WCAG AA text contrast (was #f3741b / #228CC8, which failed
+        // 4.5:1 as text on light backgrounds and under white text on fills).
+        phsOrange: '#d75612',
+        phsOrangeDark: '#b8480d',
         phsNavy: '#0a2540',
-        phsSky: '#228CC8',
+        phsSky: '#1b6e9e',
         phsLink: '#2f6fdb',
         phsCream: '#f4ecdf',
         phsInk: '#16263d',

@@ -183,7 +183,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                   {/* SMS consent */}
                   <label className="flex items-start gap-2 px-1 text-left">
                     <input type="checkbox" name="sms_consent" required className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-phsOrange" />
-                    <span className="text-[10.5px] leading-snug text-phsInk/55">
+                    <span className="text-[10.5px] leading-snug text-phsInk/70">
                       I agree to receive text messages from Preventive Home Solutions about my request. Msg &amp; data rates may apply.
                     </span>
                   </label>

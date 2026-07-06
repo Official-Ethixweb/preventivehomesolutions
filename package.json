@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "optimize:images": "node scripts/optimize-images.mjs"
+    "optimize:images": "node scripts/optimize-images.mjs",
+    "a11y": "node scripts/a11y-audit.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",
@@ -22,6 +23,8 @@
     "vite": "^6.0.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "playwright": "^1.61.1",
     "sharp": "^0.35.2",
     "svgo": "^4.0.1"
   }

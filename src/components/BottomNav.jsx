@@ -225,7 +225,7 @@ export default function BottomNav() {
                   ? 'text-phsOrange'
                   : 'text-phsInk/45'
 
-              const labelColor = item.center || isActive ? 'text-phsOrange' : 'text-phsInk/55'
+              const labelColor = item.center || isActive ? 'text-phsOrange' : 'text-phsInk/70'
 
               const inner = (
                 <>

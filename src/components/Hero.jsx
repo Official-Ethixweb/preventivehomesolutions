@@ -179,7 +179,7 @@ function BookingForm({ mobile = false }) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <input type="text" name="service" value={service} required className="absolute bottom-0 left-1/2 w-0 h-0 opacity-0 pointer-events-none" readOnly />
+            <input type="text" name="service" value={service} required aria-label="Service" aria-hidden="true" tabIndex={-1} className="absolute bottom-0 left-1/2 w-0 h-0 opacity-0 pointer-events-none" readOnly />
             
             {dropdownOpen && (
               <>

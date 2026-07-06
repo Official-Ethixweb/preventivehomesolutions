@@ -194,14 +194,14 @@ export default function ContactForm() {
                         onClick={() => setDropdownOpen(!dropdownOpen)}
                         className={`${inputClass} flex items-center justify-between text-left`}
                       >
-                        <span className={`block truncate ${service ? 'text-phsInk' : 'text-gray-400'}`}>
+                        <span className={`block truncate ${service ? 'text-phsInk' : 'text-gray-600'}`}>
                           {service || 'Choose a service'}
                         </span>
-                        <svg className={`h-4 w-4 shrink-0 text-gray-400 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                        <svg className={`h-4 w-4 shrink-0 text-gray-500 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
-                      <input type="text" name="service" value={service} required className="absolute bottom-0 left-1/2 w-0 h-0 opacity-0 pointer-events-none" readOnly />
+                      <input type="text" name="service" value={service} required aria-label="Service" aria-hidden="true" tabIndex={-1} className="absolute bottom-0 left-1/2 w-0 h-0 opacity-0 pointer-events-none" readOnly />
 
                       {dropdownOpen && (
                         <>

@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Honor the OS "reduce motion" setting: neutralize animations and transitions
+   for motion-sensitive users. Also lets accessibility scanners evaluate content
+   in its final rendered state instead of catching it mid-animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @font-face {
   font-family: 'Strong';
   src: url('/fonts/Strong.ttf') format('truetype');

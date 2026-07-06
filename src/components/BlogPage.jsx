@@ -48,7 +48,7 @@ function CornerBrackets() {
 
 function PostMeta({ post, className = '' }) {
   return (
-    <div className={`flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] font-bold tracking-widest text-gray-400 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] font-bold tracking-widest text-gray-500 ${className}`}>
       <span className="text-phsOrange">{BLOG_AUTHOR.toUpperCase()}</span>
       <span className="text-gray-300">/</span>
       <span>{post.date}</span>
@@ -283,7 +283,7 @@ export default function BlogPage() {
             <h2 className="max-w-xl font-display text-2xl font-black leading-tight tracking-tight sm:text-3xl">
               Spotted a problem in one of these articles at your place?
             </h2>
-            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/75">
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/90">
               Our licensed techs are a phone call away same-week service across Northern Utah.
             </p>
           </div>

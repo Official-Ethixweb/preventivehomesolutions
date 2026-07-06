@@ -540,7 +540,7 @@ export default function ChatBot() {
             </div>
             <div className="min-w-0 flex-1">
               <p className="font-display text-sm font-bold leading-tight text-white">PHS Assistant</p>
-              <p className="text-xs leading-tight text-white/60">Online · replies instantly</p>
+              <p className="text-xs leading-tight text-white/90">Online · replies instantly</p>
             </div>
             <button
               onClick={restart}

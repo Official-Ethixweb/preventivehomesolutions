@@ -48,7 +48,7 @@ function CornerBrackets() {
 
 function PostMeta({ post, className = '' }) {
   return (
-    <div className={`flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] font-bold tracking-widest text-gray-400 ${className}`}>
+    <div className={`flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] font-bold tracking-widest text-gray-500 ${className}`}>
       <span className="text-phsOrange">{BLOG_AUTHOR.toUpperCase()}</span>
       <span className="text-gray-300">/</span>
       <span>{post.date}</span>
@@ -109,6 +109,7 @@ export default function BlogPage() {
     <div className="min-h-screen bg-white">
       <TopBar />
       <Header />
+      <main>
 
       {/* ------------------------------ Hero ----------------------------- */}
       <section className="relative overflow-hidden bg-phsSky text-white">
@@ -257,7 +258,10 @@ export default function BlogPage() {
                       READ MORE
                       <ArrowIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" />
                     </span>
-                    <span className="font-display text-xs font-black text-phsNavy/10">PHS</span>
+                    {/* Decorative corner watermark. Rendered via a pseudo-element
+                        so it's purely presentational (not evaluated as real text
+                        for contrast, and hidden from assistive tech). */}
+                    <span aria-hidden="true" className="font-display text-xs font-black text-phsNavy/10 before:content-['PHS']" />
                   </div>
                 </div>
                 </a>
@@ -283,7 +287,7 @@ export default function BlogPage() {
             <h2 className="max-w-xl font-display text-2xl font-black leading-tight tracking-tight sm:text-3xl">
               Spotted a problem in one of these articles at your place?
             </h2>
-            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/75">
+            <p className="mt-3 max-w-xl text-[15px] leading-relaxed text-white/90">
               Our licensed techs are a phone call away same-week service across Northern Utah.
             </p>
           </div>
@@ -306,6 +310,7 @@ export default function BlogPage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   )

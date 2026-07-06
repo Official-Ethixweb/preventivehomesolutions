@@ -104,6 +104,7 @@ export default function AboutPage() {
       <div className="relative z-10">
         <TopBar />
         <Header />
+        <main>
 
         {/* ============================== HERO ============================== */}
         <section className="relative overflow-hidden bg-[#FAF8F5]">
@@ -324,6 +325,7 @@ export default function AboutPage() {
           </div>
         </section>
 
+        </main>
         <Footer />
       </div>
     </div>

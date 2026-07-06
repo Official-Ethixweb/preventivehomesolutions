@@ -121,7 +121,7 @@ function ReviewCard({ author, avatar, rating, text, time, url }) {
         “{text}”
       </p>
 
-      {time && <p className="mt-3 text-xs font-medium text-gray-400">{time}</p>}
+      {time && <p className="mt-3 text-xs font-medium text-gray-500">{time}</p>}
     </a>
   )
 }

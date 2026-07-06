@@ -55,7 +55,7 @@ export default function About() {
           {/* Right Column: Copywriting list */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             <Reveal variant="right" delay={100}>
-              <p className="text-[clamp(11px,3.5vw,12px)] sm:text-sm font-mono tracking-[0.25em] font-bold text-white/60 mb-4">
+              <p className="text-[clamp(11px,3.5vw,12px)] sm:text-sm font-mono tracking-[0.25em] font-bold text-white/90 mb-4">
                 About Preventive
               </p>
               <h2 className="font-display font-black text-white text-[clamp(1.75rem,7vw,2.25rem)] sm:text-4xl lg:text-[2.75rem] tracking-tight leading-[1.0] mb-6">
@@ -63,7 +63,7 @@ export default function About() {
               </h2>
             </Reveal>
             
-            <Reveal variant="right" delay={200} className="space-y-4 sm:space-y-6 text-[clamp(14px,4vw,15px)] sm:text-base leading-relaxed text-white/75 font-sans">
+            <Reveal variant="right" delay={200} className="space-y-4 sm:space-y-6 text-[clamp(14px,4vw,15px)] sm:text-base leading-relaxed text-white/90 font-sans">
               <p>
                 We are your go-to garrison for reliable plumbing, heating, and cooling defense in Northern Utah. We specialize in stopping failures before they breach. Expert maintenance, repair, and installation for the systems your home depends on.
               </p>

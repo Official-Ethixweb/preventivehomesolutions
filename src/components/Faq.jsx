@@ -91,7 +91,7 @@ export default function Faq() {
                       {/* Chevron icon */}
                       <svg
                         className={`h-4 w-4 text-gray-500 transition-transform duration-300 ${
-                          open ? 'rotate-180 text-phsOrange' : 'rotate-0 text-gray-400 group-hover:text-gray-600'
+                          open ? 'rotate-180 text-phsOrange' : 'rotate-0 text-gray-500 group-hover:text-gray-600'
                         }`}
                         fill="none"
                         viewBox="0 0 24 24"

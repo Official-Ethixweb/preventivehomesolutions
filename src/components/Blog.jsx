@@ -75,7 +75,7 @@ export default function Blog() {
 
                 {/* Card Footer */}
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                  <span className="font-mono text-[9px] sm:text-[10px] font-bold tracking-widest text-gray-400 ">
+                  <span className="font-mono text-[9px] sm:text-[10px] font-bold tracking-widest text-gray-500 ">
                     {post.date}
                   </span>
                   <a

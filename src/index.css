@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Honor the OS "reduce motion" setting: neutralize animations and transitions
+   for motion-sensitive users. Also lets accessibility scanners evaluate content
+   in its final rendered state instead of catching it mid-animation. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 @font-face {
   font-family: 'Strong';
   src: url('/fonts/Strong.ttf') format('truetype');
@@ -327,6 +341,12 @@ body {
 .blog-prose .table-wrap {
   overflow-x: auto;
   border: 1px solid #e6ded4;
+}
+/* The wrap is keyboard-focusable (tabindex=0) so keyboard users can scroll it;
+   give it a clear focus ring. */
+.blog-prose .table-wrap:focus-visible {
+  outline: 3px solid #1b6e9e;
+  outline-offset: 2px;
 }
 .blog-prose table {
   width: 100%;

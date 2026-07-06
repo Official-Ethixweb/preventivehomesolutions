@@ -118,12 +118,13 @@ export default function ArticlePage({ post }) {
     <div className="min-h-screen bg-white">
       <TopBar />
       <Header />
+      <main>
 
       {/* ------------------------------ Hero ----------------------------- */}
       <article>
         <header className="bg-phsSky text-white">
           <div className="mx-auto max-w-[820px] px-6 py-14 lg:py-20">
-            <Reveal as="nav" className="mb-6 flex flex-wrap items-center gap-2 font-mono text-[11px] font-bold tracking-[0.18em] text-white/60">
+            <Reveal as="nav" className="mb-6 flex flex-wrap items-center gap-2 font-mono text-[11px] font-bold tracking-[0.18em] text-white/90">
               <a href="/" className="transition-colors hover:text-phsOrange">HOME</a>
               <span>/</span>
               <a href="/blog" className="transition-colors hover:text-phsOrange">BLOG</a>
@@ -139,13 +140,13 @@ export default function ArticlePage({ post }) {
               {post.title}
             </Reveal>
 
-            <Reveal delay={200} className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] font-bold tracking-widest text-white/55">
+            <Reveal delay={200} className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] font-bold tracking-widest text-white/90">
               <span className="text-phsOrange">{BLOG_AUTHOR.toUpperCase()}</span>
-              <span className="text-white/25">/</span>
+              <span className="text-white/60" aria-hidden="true">/</span>
               <span>{post.date}</span>
               {post.readTime && (
                 <>
-                  <span className="text-white/25">/</span>
+                  <span className="text-white/60" aria-hidden="true">/</span>
                   <span className="inline-flex items-center gap-1">
                     <ClockIcon className="h-3.5 w-3.5" />
                     {post.readTime.toUpperCase()}
@@ -277,6 +278,7 @@ export default function ArticlePage({ post }) {
         </section>
       )}
 
+      </main>
       <Footer />
     </div>
   )

@@ -52,13 +52,13 @@ export default function Process() {
         
         {/* Heading block */}
         <div className="text-center max-w-3xl mx-auto mb-20 mt-0 md:-mt-[40px] md:-translate-y-[110px]">
-          <Reveal as="p" className="text-[clamp(12px,3.5vw,14px)] sm:text-base font-mono tracking-[0.25em] font-bold text-white/60 mb-4">
+          <Reveal as="p" className="text-[clamp(12px,3.5vw,14px)] sm:text-base font-mono tracking-[0.25em] font-bold text-white/90 mb-4">
             How We Work
           </Reveal>
           <Reveal as="h2" delay={100} className="font-display font-black text-white text-[clamp(1.5rem,7vw,2.25rem)] sm:text-4xl lg:text-[2.75rem] tracking-tight leading-[1.0] ">
             Our Process
           </Reveal>
-          <Reveal as="p" delay={200} className="mt-[6px] text-[clamp(14px,4vw,15px)] sm:text-base text-white/75 font-sans leading-relaxed">
+          <Reveal as="p" delay={200} className="mt-[6px] text-[clamp(14px,4vw,15px)] sm:text-base text-white/90 font-sans leading-relaxed">
             A hassle-free experience from start to finish.
           </Reveal>
         </div>

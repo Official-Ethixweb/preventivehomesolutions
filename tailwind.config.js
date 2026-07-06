@@ -5,10 +5,14 @@ export default {
     extend: {
       colors: {
         phsBlue: '#1a9bf0',
-        phsOrange: '#f3741b',
-        phsOrangeDark: '#e35e0a',
+        // Brand orange (client-chosen). Note: this bright orange does NOT meet
+        // WCAG AA contrast as text on light backgrounds or under white text —
+        // those instances are accepted as a brand decision. phsSky/phsOrangeDark
+        // remain darkened so all NON-orange text still passes AA.
+        phsOrange: '#f3751b',
+        phsOrangeDark: '#b8480d',
         phsNavy: '#0a2540',
-        phsSky: '#228CC8',
+        phsSky: '#1b6e9e',
         phsLink: '#2f6fdb',
         phsCream: '#f4ecdf',
         phsInk: '#16263d',

@@ -61,7 +61,7 @@ export const POST_CONTENT = {
 
 <h2>Quick triage: match the emergency to the right response</h2>
 <p>Once the water is off and the area is safe, focus on containment and damage control. The table below covers the most common scenarios and what typically helps while you wait for a technician.</p>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Emergency type</th><th>First actions that help most</th><th>What to use while waiting</th></tr>
@@ -172,7 +172,7 @@ export const POST_CONTENT = {
 
 <h2>The three levers that actually move indoor air quality</h2>
 <p>It is easy to spend money on the wrong fix. These are the three areas that make the biggest difference, in order of impact for most Northern Utah homes.</p>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Lever</th><th>What it does</th><th>Best for</th></tr>
@@ -264,7 +264,7 @@ export const POST_CONTENT = {
 
 <h2>Why the numbers look lower now</h2>
 <p>Because SEER2 testing is tougher, the same physical equipment earns a slightly lower number than it did under the old SEER scale. A unit that was &ldquo;15 SEER&rdquo; might be roughly &ldquo;14.3 SEER2.&rdquo; Nothing about the hardware got worse the ruler changed. This trips up a lot of homeowners comparing old listings to new ones.</p>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Term</th><th>What it tells you</th><th>Note for shoppers</th></tr>
@@ -359,7 +359,7 @@ export const POST_CONTENT = {
 <p>The result: a tankless heater that feels generous in July can feel undersized in January if it was not sized for winter conditions. The fix is straightforward size for the coldest incoming water, not the average but it has to be done up front. A tank heater is less sensitive here because it stores a reservoir that has already been heated.</p>
 
 <h2>Side-by-side comparison</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Factor</th><th>Traditional tank</th><th>Tankless (on-demand)</th></tr>
@@ -447,7 +447,7 @@ export const POST_CONTENT = {
 <p>You can measure your water&rsquo;s hardness in grains per gallon (gpg) with a simple test kit or a professional water test. Knowing your number helps you choose the right solution and set a softener correctly.</p>
 
 <h2>Where hard water does the most damage</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Area of the home</th><th>What hard water does</th><th>What you notice</th></tr>
@@ -536,7 +536,7 @@ export const POST_CONTENT = {
 <p>It is a simple system, which is exactly why people assume it will always work. But it has moving parts, a switch, and a power source all of which can fail at the worst time.</p>
 
 <h2>The pros and cons of regular maintenance</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Pros of staying on top of it</th><th>Cons / what it asks of you</th></tr>
@@ -627,7 +627,7 @@ export const POST_CONTENT = {
 <p>That thoroughness makes hydro jetting the stronger choice for grease buildup, heavy scale, and recurring clogs. Because it cleans the entire pipe wall, the results last much longer.</p>
 
 <h2>Side-by-side comparison</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Factor</th><th>Drain snaking</th><th>Hydro jetting</th></tr>
@@ -736,7 +736,7 @@ export const POST_CONTENT = {
 <p>When a plunger cannot clear it, a toilet auger is the next step. This is a specialized snake with a protective sleeve that will not scratch the bowl. Feed it into the drain, crank to work the head through the clog, then retrieve it. It can reach and break up obstructions a plunger cannot move.</p>
 
 <h2>Quick method guide</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Situation</th><th>Try this first</th><th>Avoid</th></tr>
@@ -810,7 +810,7 @@ export const POST_CONTENT = {
 <p>A cone-shaped bursting head is pulled through the old pipe, breaking it outward while simultaneously pulling a new pipe into the same path. This is used when the existing pipe is too damaged or collapsed to line it effectively replaces the pipe without trenching its full length.</p>
 
 <h2>The pros and cons at a glance</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Pros</th><th>Cons</th></tr>
@@ -896,7 +896,7 @@ export const POST_CONTENT = {
 <p>Our climate is hard on plumbing. Cold winters threaten exposed pipes, hard water leaves scale in everything it touches, and big temperature swings stress fittings and seals. Most plumbing emergencies start as small, fixable problems a slow drip, a sweating valve, a water heater that is overdue for a flush. Catching them early is the difference between a quick fix and a midnight shut-off.</p>
 
 <h2>Season-by-season checklist</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Season</th><th>Key plumbing tasks</th></tr>
@@ -993,7 +993,7 @@ export const POST_CONTENT = {
 <p>Three forces do most of the damage here. <strong>UV exposure</strong> from our high-altitude sun breaks down wood fibers and fades finishes. <strong>Moisture</strong> from snow and rain soaks into unsealed boards. And the <strong>freeze-thaw cycle</strong> water seeping into the wood, freezing, expanding, and thawing over and over pries boards apart and accelerates rot. Sealing and regular care are what stand between your deck and that cycle.</p>
 
 <h2>The seasonal deck routine</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Season</th><th>What to do</th></tr>
@@ -1079,7 +1079,7 @@ export const POST_CONTENT = {
 <p>Keep your home in top condition year-round with a simple seasonal rhythm. A house is a collection of systems plumbing, heating, cooling, and the exterior shell and each one has a season when it works hardest. Maintenance is just the habit of getting each system ready before its tough season arrives. Do that, and you trade expensive surprises for predictable, low-cost upkeep. Here is the year laid out for Northern Utah homes.</p>
 
 <h2>The whole year at a glance</h2>
-<div class="table-wrap">
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scroll horizontally to see more">
 <table>
   <thead>
     <tr><th>Season</th><th>Focus</th><th>Key tasks</th></tr>

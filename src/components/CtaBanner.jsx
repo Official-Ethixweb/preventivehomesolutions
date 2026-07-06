@@ -7,7 +7,7 @@ export default function CtaBanner() {
       <div className="relative z-10 mx-auto flex max-w-[1000px] flex-col items-center px-6 text-center">
 
         {/* Tag */}
-        <Reveal as="p" className="text-xs sm:text-sm font-mono tracking-[0.25em] font-bold text-white/60 mb-4">
+        <Reveal as="p" className="text-xs sm:text-sm font-mono tracking-[0.25em] font-bold text-white/90 mb-4">
           Get in Touch
         </Reveal>
 
@@ -23,7 +23,7 @@ export default function CtaBanner() {
         {/* Paragraph */}
         <Reveal
           delay={200}
-          className="text-[15px] sm:text-base text-white/75 font-sans max-w-xl mx-auto leading-relaxed mb-8"
+          className="text-[15px] sm:text-base text-white/90 font-sans max-w-xl mx-auto leading-relaxed mb-8"
         >
           Let our warrior-grade specialists enhance your home's efficiency and comfort.
         </Reveal>

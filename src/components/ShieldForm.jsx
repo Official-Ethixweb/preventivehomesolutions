@@ -159,7 +159,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
-                      <input type="text" name="service_field" value={service} required readOnly className="pointer-events-none absolute bottom-0 left-1/2 h-0 w-0 opacity-0" />
+                      <input type="text" name="service_field" value={service} required readOnly aria-label="Service" aria-hidden="true" tabIndex={-1} className="pointer-events-none absolute bottom-0 left-1/2 h-0 w-0 opacity-0" />
                       {dropdownOpen && (
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
@@ -183,7 +183,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                   {/* SMS consent */}
                   <label className="flex items-start gap-2 px-1 text-left">
                     <input type="checkbox" name="sms_consent" required className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-phsOrange" />
-                    <span className="text-[10.5px] leading-snug text-phsInk/55">
+                    <span className="text-[10.5px] leading-snug text-phsInk/70">
                       I agree to receive text messages from Preventive Home Solutions about my request. Msg &amp; data rates may apply.
                     </span>
                   </label>

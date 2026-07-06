@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'motion/react'
 import Reveal from './Reveal.jsx'
 import RotatingText from './RotatingText.jsx'
 import Recaptcha from './Recaptcha.jsx'
@@ -291,10 +290,9 @@ export default function Hero() {
             {/* Two static lines */}
             <span className="block font-display text-[clamp(1.75rem,8vw,2.25rem)] sm:text-5xl lg:text-6xl">Welcome to Your</span>
             <span className="block font-display text-[clamp(1.75rem,8vw,2.25rem)] sm:text-5xl lg:text-6xl mt-1.5">Comfort Sanctuary</span>
-            {/* Third line: animated box, single line */}
-            <motion.span
-              layout
-              transition={{ type: 'spring', damping: 30, stiffness: 200 }}
+            {/* Third line: animated box, single line. Fixed width, so no layout
+                animation is needed — a plain span keeps `motion` off this page. */}
+            <span
               className="rotate-oneline mt-5 flex w-[320px] sm:w-[450px] lg:w-[480px] max-w-full items-center justify-center sm:justify-start overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm"
             >
               <RotatingText
@@ -307,7 +305,7 @@ export default function Hero() {
                 mainClassName="font-sans text-[clamp(11px,3.2vw,14px)] whitespace-nowrap font-bold normal-case tracking-normal text-white sm:text-lg lg:text-xl"
                 elementLevelClassName="will-change-transform"
               />
-            </motion.span>
+            </span>
           </Reveal>
 
           <Reveal

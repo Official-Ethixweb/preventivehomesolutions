@@ -25,6 +25,15 @@ export default function BandStrands(props) {
     const band = anchorRef.current?.parentElement
     if (!band) return
 
+    // The WebGL glow is decorative and costs a continuous main-thread render
+    // loop (plus the ogl + Strands chunk download). Skip it entirely on small
+    // screens and for reduced-motion users, where that cost hurts most and the
+    // effect is least visible.
+    const skip =
+      window.matchMedia('(max-width: 1023px)').matches ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (skip) return
+
     const io = new IntersectionObserver(
       ([entry]) => {
         setActive(entry.isIntersecting)

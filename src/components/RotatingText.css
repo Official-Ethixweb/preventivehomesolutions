@@ -31,6 +31,24 @@
   display: inline-block;
 }
 
+/* GPU-composited "slide up + fade in" per character, replacing the old
+   JS-driven Framer Motion spring. Only transform/opacity animate, so this
+   runs off the main thread. `both` keeps the start state before the delay. */
+@keyframes textRotateIn {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.text-rotate-anim {
+  animation: textRotateIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .text-rotate-space {
   white-space: pre;
 }

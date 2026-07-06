@@ -299,6 +299,8 @@ export default function BeforeAfter() {
                         <img
                           src="/beforeandafterwaterheater.webp"
                           alt="Water heater replacement before and after"
+                          width="940"
+                          height="788"
                           loading="lazy"
                           decoding="async"
                           className="absolute top-0 left-0 w-full h-[115%] object-cover object-top"

@@ -83,6 +83,8 @@ export default function Process() {
                       src="/process-mascot.webp"
                       alt=""
                       aria-hidden="true"
+                      width="580"
+                      height="501"
                       loading="lazy"
                       decoding="async"
                       className="pointer-events-none absolute left-1/2 -top-[46px] z-20 hidden md:block w-[222px] lg:w-[276px] h-auto -translate-x-1/2 -translate-y-[62%] drop-shadow-xl"

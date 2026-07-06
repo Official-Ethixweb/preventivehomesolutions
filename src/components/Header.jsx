@@ -221,6 +221,8 @@ export default function Header() {
             <img
               src={LOGO_SRC}
               alt="Preventive Home Solutions"
+              width="420"
+              height="420"
               decoding="async"
               fetchpriority="high"
               className="h-[61.6px] lg:h-14 w-auto rounded-lg transition-transform duration-300 group-hover:scale-105"
@@ -270,6 +272,8 @@ export default function Header() {
           <img
             src={LOGO_SRC}
             alt="Preventive Home Solutions"
+            width="420"
+            height="420"
             decoding="async"
             fetchpriority="high"
             className="h-[clamp(9.8438rem,41.5625vw,13.125rem)] w-auto rounded-lg transition-transform duration-300 group-hover:scale-[1.05] lg:h-[clamp(5.0781rem,9.0625vw,8.75rem)] lg:translate-y-[5px]"

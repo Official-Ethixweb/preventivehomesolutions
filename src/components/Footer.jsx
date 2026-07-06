@@ -97,6 +97,8 @@ export default function Footer() {
               <img
                 src="/main logo.webp"
                 alt="Preventive Home Solutions"
+                width="420"
+                height="420"
                 loading="lazy"
                 decoding="async"
                 className="h-28 w-auto shrink-0"

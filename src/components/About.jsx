@@ -40,6 +40,8 @@ export default function About() {
                       key={src}
                       src={src}
                       alt="Preventive Home Solutions crew"
+                      width="800"
+                      height="1000"
                       loading="lazy"
                       decoding="async"
                       className={`absolute inset-0 h-full w-full object-cover object-top transition-opacity duration-1000 ease-in-out ${

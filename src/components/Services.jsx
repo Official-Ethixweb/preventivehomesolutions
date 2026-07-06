@@ -64,6 +64,8 @@ export default function Services() {
                       key={src}
                       src={src}
                       alt="Preventive Home Solutions work"
+                      width="800"
+                      height="1000"
                       loading="lazy"
                       decoding="async"
                       className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-in-out group-hover:scale-105 ${
@@ -112,6 +114,8 @@ export default function Services() {
                     <img
                       src={iconSrc}
                       alt={title}
+                      width="80"
+                      height="80"
                       loading="lazy"
                       decoding="async"
                       className="h-10 w-10 sm:h-20 sm:w-20 object-contain mb-2 sm:mb-4 transition-transform duration-500 ease-out group-hover:scale-125 group-hover:-translate-y-1"
@@ -137,6 +141,8 @@ export default function Services() {
                         <img
                           src={photo}
                           alt={photoAlt}
+                          width="640"
+                          height="360"
                           loading="lazy"
                           decoding="async"
                           className="w-full aspect-video object-cover rounded-sm transition-transform duration-500 ease-out group-hover:scale-110"

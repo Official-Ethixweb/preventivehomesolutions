@@ -96,6 +96,8 @@ function ReviewCard({ author, avatar, rating, text, time, url }) {
             <img
               src={avatar}
               alt=""
+              width="40"
+              height="40"
               loading="lazy"
               referrerPolicy="no-referrer"
               className="h-10 w-10 rounded-full object-cover"

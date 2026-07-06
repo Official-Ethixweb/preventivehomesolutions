@@ -67,7 +67,7 @@ function LinkColumn({ title, items }) {
           <li key={item.label}>
             <a
               href={item.href}
-              className="group/link inline-flex items-center gap-2 text-[14px] text-gray-300 hover:text-white hover:font-bold transition-all duration-300"
+              className="group/link inline-flex items-center gap-2 text-[15px] font-bold text-white hover:opacity-80 transition-all duration-300"
             >
               <ChevronRight />
               <span>{item.label}</span>
@@ -107,7 +107,7 @@ export default function Footer() {
                 Solutions
               </span>
             </div>
-            <p className="mt-6 text-[14px] leading-relaxed text-gray-300 font-sans">
+            <p className="mt-6 text-[15px] font-bold leading-relaxed text-white font-sans">
               Fix It. Prevent It. Protect It. Expert plumbing, heating, and cooling services built on trust and standard.
             </p>
 
@@ -160,14 +160,14 @@ export default function Footer() {
             </h3>
             <ul className="space-y-4">
               {contactInfo.map((info, i) => (
-                <li key={i} className="flex items-start gap-3.5 text-[14px] text-gray-300">
+                <li key={i} className="flex items-start gap-3.5 text-[15px] font-bold text-white">
                   <info.Icon />
                   {info.href ? (
-                    <a href={info.href} className="min-w-0 break-words hover:text-white hover:font-bold transition-all duration-200">
+                    <a href={info.href} className="min-w-0 break-words hover:opacity-80 transition-all duration-200">
                       {info.text}
                     </a>
                   ) : (
-                    <span className="min-w-0 break-words hover:text-white hover:font-bold transition-all duration-200">{info.text}</span>
+                    <span className="min-w-0 break-words">{info.text}</span>
                   )}
                 </li>
               ))}

@@ -1,14 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import BottomNav from './BottomNav.jsx'
-import { SERVICE_GROUPS, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
+import { SERVICE_GROUPS, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, areaHref } from '../data/nav.js'
 
 const LOGO_SRC = '/main logo.webp'
 
-const SERVICES = Array.from(new Set(SERVICE_GROUPS.flatMap(g => g.items)))
-
 const MENUS = {
-  services: { label: 'Services', items: SERVICES },
-  areas: { label: 'Areas We Serve', items: SERVICE_AREAS },
+  services: { label: 'Services' },
+  areas: { label: 'Areas We Serve' },
 }
 
 function CaretIcon({ className = '' }) {
@@ -74,7 +72,7 @@ export default function Header() {
   const filteredGroups = isServices
     ? SERVICE_GROUPS.map((group) => {
         const filteredItems = group.items.filter((item) =>
-          item.toLowerCase().includes(query.trim().toLowerCase())
+          item.label.toLowerCase().includes(query.trim().toLowerCase())
         )
         return { ...group, filteredItems }
       }).filter((group) => group.filteredItems.length > 0)
@@ -162,7 +160,7 @@ export default function Header() {
                     const isTopItem = idx === 0
                     return (
                       <div
-                        key={item}
+                        key={item.label}
                         className={`rounded-xl border border-phsSky/10 bg-white/60 px-4 py-3 shadow-sm relative flex flex-col justify-center min-h-[58px] hover:border-phsOrange/30 hover:bg-white transition-all duration-300 ${
                           isTopItem ? 'pt-6' : ''
                         }`}
@@ -174,11 +172,11 @@ export default function Header() {
                         )}
 
                         <a
-                          href="/#services"
+                          href={item.href}
                           onClick={closeMenu}
                           className="block text-[13px] font-bold text-phsInk/85 hover:text-phsOrange leading-snug transition-colors duration-200"
                         >
-                          {item}
+                          {item.label}
                         </a>
                       </div>
                     )
@@ -195,7 +193,7 @@ export default function Header() {
               {filteredAreas.map((item) => (
                 <a
                   key={item}
-                  href="/#areas-we-serve"
+                  href={areaHref(item)}
                   onClick={closeMenu}
                   className="block rounded-xl border border-phsSky/10 bg-white/60 px-4 py-3 shadow-sm flex flex-col justify-center min-h-[58px] text-[13px] font-bold text-phsInk/85 hover:border-phsOrange/30 hover:bg-white hover:text-phsOrange transition-all duration-300"
                 >

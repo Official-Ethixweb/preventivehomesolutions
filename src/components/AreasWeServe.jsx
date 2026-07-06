@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import Reveal from './Reveal.jsx'
+import { navigate } from '../router.js'
+import { areaHref } from '../data/nav.js'
 
 const citiesList = [
   'Ogden',
@@ -54,7 +56,16 @@ export default function AreasWeServe() {
                   return (
                     <div
                       key={city}
-                      onClick={() => setActiveCity(isActive ? '' : city)}
+                      onClick={() => {
+                        // On mobile the map sits below the grid where a zoom
+                        // update goes unseen, so tapping a city opens that
+                        // city's dedicated service-area page instead.
+                        if (window.matchMedia('(max-width: 1023px)').matches) {
+                          navigate(areaHref(city))
+                          return
+                        }
+                        setActiveCity(isActive ? '' : city)
+                      }}
                       className={`group flex items-center gap-3 p-4 rounded-xl border cursor-pointer select-none shadow-md shadow-phsNavy/10 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.04] hover:border-phsOrange hover:bg-phsOrange hover:shadow-lg hover:shadow-phsOrange/40 ${
                         isActive
                           ? 'border-phsOrange bg-phsOrange/5 shadow-sm ring-1 ring-phsOrange/20'
@@ -67,6 +78,15 @@ export default function AreasWeServe() {
                       <span className={`font-mono text-xs sm:text-[11px] font-bold tracking-[0.15em] transition-colors duration-300 group-hover:text-white ${isActive ? 'text-phsOrange' : 'text-phsInk'}`}>
                         {city}
                       </span>
+                      {isActive && (
+                        <a
+                          href={areaHref(city)}
+                          onClick={(e) => e.stopPropagation()}
+                          className="ml-auto font-mono text-[10px] font-bold tracking-[0.1em] text-phsOrange transition-colors group-hover:text-white hover:underline"
+                        >
+                          VIEW →
+                        </a>
+                      )}
                     </div>
                   )
                 })}
@@ -75,7 +95,7 @@ export default function AreasWeServe() {
           </div>
 
           {/* Right Column: Styled Shield Map Card (Google Maps Iframe inside) */}
-          <div className="lg:col-span-6 relative flex justify-center lg:justify-end pt-0">
+          <div id="areas-map" className="lg:col-span-6 relative flex justify-center lg:justify-end scroll-mt-24 pt-0">
             <Reveal 
               variant="right" 
               delay={150} 

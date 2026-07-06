@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import { motion } from 'motion/react'
 import Reveal from './Reveal.jsx'
 import RotatingText from './RotatingText.jsx'
+import Recaptcha from './Recaptcha.jsx'
+import { submitLead } from '../lib/submitForm.js'
+import { recaptchaConfigured } from '../lib/recaptcha.js'
 
 // The static heading reads "Heavy Duty Home Service"; the box rotates the specifics.
 const BOX_PHRASES = [
@@ -73,6 +76,8 @@ function BookingForm({ mobile = false }) {
   const [error, setError] = useState(null)
   const [service, setService] = useState('')
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [recaptchaToken, setRecaptchaToken] = useState('')
+  const recaptchaRef = useRef(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -82,30 +87,31 @@ function BookingForm({ mobile = false }) {
       setError('Please choose a service.')
       return
     }
+    if (recaptchaConfigured && !recaptchaToken) {
+      setError('Please confirm you’re not a robot.')
+      return
+    }
     setSubmitting(true)
     setError(null)
 
     const formData = new FormData(e.target)
-    formData.append('access_key', import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'YOUR_WEB3FORMS_ACCESS_KEY_HERE')
-    formData.append('section', 'Received from Bookings section (Hero)')
-    formData.append('business_address', '688 S Main St, Layton, UT 84041, United States')
-    formData.append('subject', 'New Booking Request from Preventive Home Solutions')
-
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
-      })
-      const data = await res.json()
-      if (data.success) {
-        setSubmitted(true)
-      } else {
-        setError(data.message || 'Something went wrong')
-      }
+      await submitLead(
+        {
+          name: formData.get('name'),
+          phone: formData.get('phone'),
+          email: formData.get('email') || '',
+          service,
+          message: formData.get('message') || '',
+        },
+        { section: 'Hero — Book Your Inspection', recaptchaToken }
+      )
+      setSubmitted(true)
     } catch (err) {
-      setError('Network error, please try again.')
+      setError(err.message)
     } finally {
       setSubmitting(false)
+      recaptchaRef.current?.reset()
     }
   }
 
@@ -208,14 +214,23 @@ function BookingForm({ mobile = false }) {
           <textarea id="bf-message" name="message" rows={3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)]`} />
         </div>
 
+        {/* Captcha scaled down so it tucks into the shield's tapering lower
+            half. The scaled box keeps its full 78px layout height, so pull the
+            following content up to close the visual gap. */}
+        <Recaptcha
+          ref={recaptchaRef}
+          onChange={setRecaptchaToken}
+          className="-mb-6 flex origin-top justify-center [transform:scale(0.68)]"
+        />
+
         {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
-          className="cta-diag cta-diag-orange group mx-auto mt-1 flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-[38.4px] py-[14.4px] max-lg:px-[28.14px] max-lg:py-[9.29px] font-sans text-[16.8px] max-lg:text-[15.91px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
+          className="cta-diag cta-diag-orange group mx-auto flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-6 py-2.5 font-sans text-[14px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {submitting ? 'Sending...' : 'Book Now'}
-          {!submitting && <ArrowIcon className="h-[19.2px] w-[19.2px] transition-transform duration-300 group-hover:translate-x-1" />}
+          {!submitting && <ArrowIcon className="h-[17px] w-[17px] transition-transform duration-300 group-hover:translate-x-1" />}
         </button>
       </div>
     </form>
@@ -338,7 +353,7 @@ export default function Hero() {
                 backgroundRepeat: 'no-repeat',
               }}
             />
-            <div className="relative z-10 inline-flex items-center gap-2 sm:gap-2.5 py-12 pl-6 pr-16 -translate-x-[33px] lg:-translate-x-[65px] lg:py-14 lg:pl-10">
+            <div className="relative z-10 inline-flex items-center gap-2 sm:gap-2.5 py-7 pl-6 pr-16 -translate-x-[33px] lg:-translate-x-[65px] lg:py-14 lg:pl-10">
               <GoogleLogo className="h-6 sm:h-7 w-auto shrink-0" />
               <div className="flex text-lg sm:text-xl text-yellow-400 drop-shadow-sm">
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -352,7 +367,7 @@ export default function Hero() {
           </div>
 
           {/* Why-choose highlights, directly under the Google rating */}
-          <Reveal delay={650} className="mt-9">
+          <Reveal delay={650} className="mt-5 lg:mt-9">
             <ul className="flex flex-col gap-3.5">
               {WHY_CHOOSE_POINTS.map((point) => (
                 <li

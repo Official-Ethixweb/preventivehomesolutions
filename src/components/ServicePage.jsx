@@ -5,7 +5,7 @@ import MarqueeBanner from './MarqueeBanner.jsx'
 import Strands from './Strands.jsx'
 import Footer from './Footer.jsx'
 import Reveal from './Reveal.jsx'
-import { SERVICE_PAGES } from '../data/services.js'
+import { SERVICE_PAGES, subServiceHref } from '../data/services.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 
 /* ----------------------------- Inline icons ----------------------------- */
@@ -188,7 +188,7 @@ export default function ServicePage({ slug }) {
                   <p className="mt-2.5 flex-1 text-sm leading-relaxed text-gray-500">
                     {svc.description}
                   </p>
-                  <a href="/#scheduling" className="mt-5 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange transition-colors hover:text-phsOrangeDark">
+                  <a href={svc.slug ? subServiceHref(slug, svc.slug) : '/#scheduling'} className="mt-5 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange transition-colors hover:text-phsOrangeDark">
                     Read More
                     <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </a>

@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Reveal from './Reveal.jsx'
+import Recaptcha from './Recaptcha.jsx'
+import { submitLead } from '../lib/submitForm.js'
+import { recaptchaConfigured } from '../lib/recaptcha.js'
 
 const inputClass =
   'w-full rounded-lg bg-gray-100 border border-gray-200 px-5 py-4 text-[15px] text-phsInk placeholder-gray-400 outline-none transition-all duration-200 focus:border-phsOrange focus:ring-2 focus:ring-phsOrange/20 focus:bg-white'
@@ -10,6 +13,8 @@ export default function ContactForm() {
   const [error, setError] = useState(null)
   const [service, setService] = useState('')
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [recaptchaToken, setRecaptchaToken] = useState('')
+  const recaptchaRef = useRef(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -19,30 +24,30 @@ export default function ContactForm() {
       setError('Please choose a service.')
       return
     }
+    if (recaptchaConfigured && !recaptchaToken) {
+      setError('Please confirm you’re not a robot.')
+      return
+    }
     setSubmitting(true)
     setError(null)
 
     const formData = new FormData(e.target)
-    formData.append('access_key', import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || 'YOUR_WEB3FORMS_ACCESS_KEY_HERE')
-    formData.append('section', 'Received from Contact/Scheduling section')
-    formData.append('business_address', '688 S Main St, Layton, UT 84041, United States')
-    formData.append('subject', 'New Quote Request from Preventive Home Solutions')
-
     try {
-      const res = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
-      })
-      const data = await res.json()
-      if (data.success) {
-        setSubmitted(true)
-      } else {
-        setError(data.message || 'Something went wrong')
-      }
+      await submitLead(
+        {
+          name: formData.get('name'),
+          phone: formData.get('phone'),
+          service,
+        },
+        { section: 'Contact / Get a Free Quote', recaptchaToken }
+      )
+      setSubmitted(true)
     } catch (err) {
-      setError('Network error, please try again.')
+      setError(err.message)
     } finally {
       setSubmitting(false)
+      // v2 tokens are single-use — reset so a retry gets a fresh one.
+      recaptchaRef.current?.reset()
     }
   }
 
@@ -211,6 +216,8 @@ export default function ContactForm() {
                       )}
                     </div>
 
+                    <Recaptcha ref={recaptchaRef} onChange={setRecaptchaToken} className="flex justify-center" />
+
                     {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}
                     {/* Submit Button */}
                     <button
@@ -220,7 +227,6 @@ export default function ContactForm() {
                     >
                       {submitting ? 'Sending Request...' : 'Request Free Quote'}
                     </button>
-
                   </form>
                 )}
 

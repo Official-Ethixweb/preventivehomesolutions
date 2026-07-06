@@ -53,7 +53,7 @@ export default function Services() {
           <div className="lg:col-span-5 relative lg:order-last">
             <Reveal variant="right" className="relative w-full">
               {/* White frame with orange corner accents */}
-              <div className="relative bg-white p-3 shadow-2xl mx-auto w-1/2 lg:w-full">
+              <div className="relative bg-white p-3 shadow-2xl mx-auto w-2/3 sm:w-3/5 lg:w-full">
                 <span className="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-phsOrange z-10" />
                 <span className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-phsOrange z-10" />
                 <span className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-phsOrange z-10" />

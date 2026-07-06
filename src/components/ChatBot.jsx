@@ -257,6 +257,7 @@ export default function ChatBot() {
   const [options, setOptions] = useState([])
   const [typing, setTyping] = useState(false)
   const [teaser, setTeaser] = useState(false)
+  const [teaserClosed, setTeaserClosed] = useState(false)
   const [mode, setMode] = useState('menu') // 'menu' | 'form' | 'done'
   const [inputActive, setInputActive] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -509,10 +510,10 @@ export default function ChatBot() {
   }, [open])
 
   useEffect(() => {
-    if (open) return
+    if (open || teaserClosed) return
     const t = setTimeout(() => setTeaser(true), 4000)
     return () => clearTimeout(t)
-  }, [open])
+  }, [open, teaserClosed])
 
   useEffect(() => {
     scrollEnd.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
@@ -645,14 +646,29 @@ export default function ChatBot() {
         </div>
       )}
 
-      {/* Teaser bubble */}
-      {!open && teaser && (
-        <button
-          onClick={() => setOpen(true)}
-          className="fixed bottom-[11.5rem] right-4 z-[65] max-w-[220px] rounded-2xl rounded-br-sm bg-white px-4 py-3 text-left text-sm font-medium text-phsInk shadow-xl ring-1 ring-black/10 animate-fade-in lg:bottom-[7rem] lg:right-6"
-        >
-          Need help choosing a service? Tap to chat with us.
-        </button>
+      {/* Teaser bubble — dismissible so it never blocks page content */}
+      {!open && teaser && !teaserClosed && (
+        <div className="fixed bottom-[11.5rem] right-4 z-[65] max-w-[220px] animate-fade-in lg:bottom-[7rem] lg:right-6">
+          <button
+            onClick={() => setOpen(true)}
+            className="block w-full rounded-2xl rounded-br-sm bg-white py-3 pl-4 pr-6 text-left text-sm font-medium text-phsInk shadow-xl ring-1 ring-black/10"
+          >
+            Need help choosing a service? Tap to chat with us.
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              setTeaser(false)
+              setTeaserClosed(true)
+            }}
+            aria-label="Dismiss message"
+            className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full bg-phsNavy text-white shadow-md ring-2 ring-white transition hover:bg-black"
+          >
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
       )}
 
       {/* Launcher button */}

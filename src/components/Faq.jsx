@@ -41,7 +41,7 @@ export default function Faq() {
       />
       <div className="relative mx-auto max-w-[850px]">
         {/* Heading block */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8 lg:mb-12">
           <Reveal
             as="p"
             className="text-xs sm:text-sm font-mono tracking-[0.25em] font-bold text-phsOrange mb-4"
@@ -51,7 +51,7 @@ export default function Faq() {
           <Reveal
             as="h2"
             delay={100}
-            className="font-display font-black text-phsInk text-3xl sm:text-4xl lg:text-[2.75rem] tracking-tight leading-[1.1] mb-4"
+            className="font-display font-black text-phsInk text-3xl sm:text-4xl lg:text-[2.75rem] tracking-tight leading-[1.1]"
           >
             Frequently Asked Questions.
           </Reveal>

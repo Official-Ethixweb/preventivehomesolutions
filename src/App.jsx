@@ -16,7 +16,7 @@ import ContactForm from './components/ContactForm.jsx'
 import Footer from './components/Footer.jsx'
 import Loader from './components/Loader.jsx'
 import ChatBot from './components/ChatBot.jsx'
-import { SERVICE_PAGES } from './data/services.js'
+import { SERVICE_PAGES, getSubService } from './data/services.js'
 import { BLOG_POSTS } from './data/blog.js'
 import { usePath, useLinkInterceptor } from './router.js'
 import { setLoading } from './loading.js'
@@ -25,6 +25,9 @@ import { useEffect, lazy, Suspense } from 'react'
 // Secondary routes are code-split so the home page bundle stays lean and never
 // ships the service/blog/about page code (or their gsap/ogl dependencies).
 const ServicePage = lazy(() => import('./components/ServicePage.jsx'))
+const SubServicePage = lazy(() => import('./components/SubServicePage.jsx'))
+const WaterHeaterPage = lazy(() => import('./components/WaterHeaterPage.jsx'))
+const AreaPage = lazy(() => import('./components/AreaPage.jsx'))
 const BlogPage = lazy(() => import('./components/BlogPage.jsx'))
 const ArticlePage = lazy(() => import('./components/ArticlePage.jsx'))
 const AboutPage = lazy(() => import('./components/AboutPage.jsx'))
@@ -81,8 +84,18 @@ export default function App() {
   }, [path])
 
   const slug = ROUTES[path]
+  // Nested sub-service route, e.g. /plumbing/drain-cleaning
+  const segments = path.replace(/\/$/, '').split('/').filter(Boolean)
+  const subService =
+    segments.length === 2 ? getSubService(segments[0], segments[1]) : null
+
   let page
-  if (path === '/about-us') {
+  if (path === '/water-heater-repair') {
+    page = <WaterHeaterPage />
+  } else if (path.startsWith('/service-areas/')) {
+    const citySlug = path.slice('/service-areas/'.length).replace(/\/$/, '')
+    page = <AreaPage slug={citySlug} />
+  } else if (path === '/about-us') {
     page = <AboutPage />
   } else if (path === '/blog') {
     page = <BlogPage />
@@ -90,6 +103,8 @@ export default function App() {
     const postSlug = path.slice('/blog/'.length).replace(/\/$/, '')
     const post = BLOG_POSTS.find((p) => p.slug === postSlug)
     page = post ? <ArticlePage post={post} /> : <BlogPage />
+  } else if (subService) {
+    page = <SubServicePage parentSlug={segments[0]} childSlug={segments[1]} />
   } else if (slug && SERVICE_PAGES[slug]) {
     page = <ServicePage slug={slug} />
   } else {

@@ -77,7 +77,7 @@ export default function WhyChoose() {
         {/* Trust Badges Row Angi · 35+ Years (center, larger) · BBB.
             Breaks out wider than the 1200px column (capped at the viewport)
             so the three badges can grow and spread across the space. */}
-        <div className="relative left-1/2 mb-16 w-[min(100vw,1500px)] -translate-x-1/2 -translate-y-[25px]">
+        <div className="relative left-1/2 mb-6 lg:mb-16 w-[min(100vw,1500px)] -translate-x-1/2 -translate-y-[25px]">
           <Reveal
             variant="scale"
             className="flex items-end justify-center gap-[36px] sm:gap-[68px] lg:gap-[84px] px-6 lg:px-10 flex-wrap sm:flex-nowrap"

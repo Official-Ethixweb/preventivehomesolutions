@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { SERVICE_GROUPS, SERVICE_AREAS, PHONE_TEL } from '../data/nav.js'
+import { SERVICE_GROUPS, SERVICE_AREAS, PHONE_TEL, areaHref } from '../data/nav.js'
 
 /* Icons stroke based, inherit color via currentColor. */
 function HomeIcon({ className = '' }) {
@@ -131,8 +131,8 @@ function NavSheet({ kind, onClose }) {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {group.items.map((item) => (
-                    <a key={item} href="/#services" onClick={onClose} className={chipClass}>
-                      {item}
+                    <a key={item.label} href={item.href} onClick={onClose} className={chipClass}>
+                      {item.label}
                     </a>
                   ))}
                 </div>
@@ -142,7 +142,7 @@ function NavSheet({ kind, onClose }) {
         ) : (
           <div className="flex flex-wrap gap-2">
             {SERVICE_AREAS.map((area) => (
-              <a key={area} href="/#areas-we-serve" onClick={onClose} className={chipClass}>
+              <a key={area} href={areaHref(area)} onClick={onClose} className={chipClass}>
                 {area}
               </a>
             ))}

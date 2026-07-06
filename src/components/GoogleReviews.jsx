@@ -166,7 +166,7 @@ export default function GoogleReviews() {
   return (
     <div className="mt-16 lg:mt-20">
       {/* Heading */}
-      <div className="mb-8 flex flex-col items-center gap-2.5 text-center scale-110">
+      <div className="mb-8 flex flex-col items-center gap-2.5 px-4 text-center lg:scale-110">
         <div className="flex items-center gap-2.5">
           <GoogleG className="h-6 w-6" />
           <span className="font-display text-base font-bold tracking-[0.18em] text-phsNavy">
@@ -182,7 +182,7 @@ export default function GoogleReviews() {
             </span>
           )}
         </div>
-        <p className="text-base sm:text-lg font-mono font-bold tracking-[0.2em] text-phsNavy">
+        <p className="text-[13px] sm:text-lg font-mono font-bold tracking-[0.12em] sm:tracking-[0.2em] text-phsNavy">
           REAL HOMEOWNERS · REAL RESULTS
         </p>
       </div>

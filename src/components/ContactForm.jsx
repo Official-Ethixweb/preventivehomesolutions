@@ -80,6 +80,8 @@ export default function ContactForm() {
                         src="/Shield tagline.webp"
                         alt=""
                         aria-hidden="true"
+                        loading="lazy"
+                        decoding="async"
                         className="absolute inset-0 w-full h-auto object-contain"
                         style={{ transform: `translateZ(${z}px)`, filter: `brightness(${shade}) saturate(0.55)` }}
                       />
@@ -89,6 +91,8 @@ export default function ContactForm() {
                   <img
                     src="/Shield tagline.webp"
                     alt="Ready to Book"
+                    loading="lazy"
+                    decoding="async"
                     className="relative w-full h-auto object-contain drop-shadow-2xl [backface-visibility:hidden]"
                     style={{ transform: 'translateZ(8px)' }}
                   />
@@ -97,6 +101,8 @@ export default function ContactForm() {
                     src="/Shield tagline.webp"
                     alt=""
                     aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 w-full h-auto object-contain drop-shadow-2xl [backface-visibility:hidden]"
                     style={{ transform: 'translateZ(-8px) rotateY(180deg)' }}
                   />

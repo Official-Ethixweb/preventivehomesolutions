@@ -221,6 +221,8 @@ export default function Header() {
             <img
               src={LOGO_SRC}
               alt="Preventive Home Solutions"
+              decoding="async"
+              fetchpriority="high"
               className="h-[61.6px] lg:h-14 w-auto rounded-lg transition-transform duration-300 group-hover:scale-105"
             />
             <span className="hidden sm:block font-display text-base lg:text-lg font-extrabold leading-tight text-phsInk">
@@ -268,6 +270,8 @@ export default function Header() {
           <img
             src={LOGO_SRC}
             alt="Preventive Home Solutions"
+            decoding="async"
+            fetchpriority="high"
             className="h-[clamp(9.8438rem,41.5625vw,13.125rem)] w-auto rounded-lg transition-transform duration-300 group-hover:scale-[1.05] lg:h-[clamp(5.0781rem,9.0625vw,8.75rem)] lg:translate-y-[5px]"
           />
           <span className="font-display text-[clamp(16px,5vw,20px)] sm:text-xl font-extrabold leading-tight text-phsInk lg:max-w-none">

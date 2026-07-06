@@ -15,12 +15,28 @@ import Blog from './components/Blog.jsx'
 import ContactForm from './components/ContactForm.jsx'
 import Footer from './components/Footer.jsx'
 import Loader from './components/Loader.jsx'
-import ChatBot from './components/ChatBot.jsx'
 import { SERVICE_PAGES, getSubService } from './data/services.js'
 import { BLOG_POSTS } from './data/blog.js'
 import { usePath, useLinkInterceptor } from './router.js'
 import { setLoading } from './loading.js'
-import { useEffect, lazy, Suspense } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
+
+// The ChatBot (700+ lines) isn't needed for first paint or interaction, so it
+// ships in its own chunk and only mounts once the browser is idle — keeping it
+// off the critical path for FCP/LCP and out of the main bundle.
+const ChatBot = lazy(() => import('./components/ChatBot.jsx'))
+
+/** Mounts its children only after the browser goes idle (or a short timeout). */
+function DeferUntilIdle({ children }) {
+  const [ready, setReady] = useState(false)
+  useEffect(() => {
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 1500))
+    const cic = window.cancelIdleCallback || clearTimeout
+    const id = ric(() => setReady(true), { timeout: 3000 })
+    return () => cic(id)
+  }, [])
+  return ready ? children : null
+}
 
 // Secondary routes are code-split so the home page bundle stays lean and never
 // ships the service/blog/about page code (or their gsap/ogl dependencies).
@@ -114,7 +130,11 @@ export default function App() {
   return (
     <>
       <Suspense fallback={null}>{page}</Suspense>
-      <ChatBot />
+      <DeferUntilIdle>
+        <Suspense fallback={null}>
+          <ChatBot />
+        </Suspense>
+      </DeferUntilIdle>
       <Loader />
     </>
   )
@@ -126,7 +146,7 @@ function Home() {
       <TopBar />
       <Header />
       <Hero />
-      <div className="relative z-10 lg:-mt-[230px]">
+      <div className="relative z-10 lg:-mt-[147px]">
         <MarqueeBanner />
       </div>
       <Services />

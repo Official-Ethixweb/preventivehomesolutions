@@ -33,8 +33,10 @@
         rel="stylesheet"
       />
     </noscript>
-    <!-- Hero visual is the LCP element on desktop — fetch it early. -->
-    <link rel="preload" as="image" href="/soldier-form.svg" fetchpriority="high" />
+    <!-- Hero knight is the LCP element on DESKTOP only (hidden on mobile via
+         `hidden lg:block`), so scope the preload to ≥1024px. This saves mobile
+         visitors a 156 KB high-priority download for an image they never see. -->
+    <link rel="preload" as="image" href="/soldier-form.svg" fetchpriority="high" media="(min-width:1024px)" />
     <style>
       /* Instant loading screen — visible before the JS bundle parses. React
          replaces #root (and this loader) on mount, handing off to the matching

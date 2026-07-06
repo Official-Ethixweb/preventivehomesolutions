@@ -1,13 +1,13 @@
 // Vercel serverless function: /api/contact
 //
-// Receives a lead from any site form, verifies the Google reCAPTCHA v3 token,
-// then emails the submission via the Resend API. All secrets live in Vercel
+// Receives a lead from any site form, verifies the Google reCAPTCHA token,
+// then emails the submission via the SMTP2GO API. All secrets live in Vercel
 // environment variables and never reach the browser:
 //
-//   RESEND_API_KEY         Resend API key (secret)
-//   RESEND_FROM            Verified sender, e.g. "Preventive Home Solutions <noreply@yourdomain.com>"
-//   RESEND_TO              Recipient (default: Preventivehomeservices@gmail.com)
-//   RECAPTCHA_SECRET_KEY   Google reCAPTCHA v3 secret key
+//   SMTP2GO_API_KEY        SMTP2GO API key (secret, format "api-...")
+//   MAIL_FROM              Verified sender in SMTP2GO (single sender or verified domain)
+//   MAIL_TO                Recipient (default: Preventivehomeservices@gmail.com)
+//   RECAPTCHA_SECRET_KEY   Google reCAPTCHA secret key
 //   RECAPTCHA_MIN_SCORE    Optional score threshold (default 0.5)
 
 const DEFAULT_TO = 'Preventivehomeservices@gmail.com'
@@ -93,12 +93,12 @@ export default async function handler(req, res) {
     })
   }
 
-  // 2) Send the email via Resend.
-  const apiKey = process.env.RESEND_API_KEY
-  const from = process.env.RESEND_FROM
-  const to = process.env.RESEND_TO || DEFAULT_TO
+  // 2) Send the email via SMTP2GO.
+  const apiKey = process.env.SMTP2GO_API_KEY
+  const from = process.env.MAIL_FROM
+  const to = process.env.MAIL_TO || DEFAULT_TO
   if (!apiKey || !from) {
-    console.error('[api/contact] Missing RESEND_API_KEY or RESEND_FROM env var.')
+    console.error('[api/contact] Missing SMTP2GO_API_KEY or MAIL_FROM env var.')
     return res.status(500).json({
       success: false,
       message: 'Email delivery isn’t configured yet. Please call us at (385) 453-9428.',
@@ -134,25 +134,29 @@ export default async function handler(req, res) {
   const text = rows.map(([k, v]) => `${k}: ${v}`).join('\n')
 
   try {
-    const resp = await fetch('https://api.resend.com/emails', {
+    const resp = await fetch('https://api.smtp2go.com/v3/email/send', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        'X-Smtp2go-Api-Key': apiKey,
         'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify({
-        from,
+        sender: from,
         to: [to],
         subject: `New ${service} request — ${fullName}`,
-        html,
-        text,
-        ...(email ? { reply_to: email } : {}),
+        html_body: html,
+        text_body: text,
+        ...(email ? { custom_headers: [{ header: 'Reply-To', value: email }] } : {}),
       }),
     })
 
-    if (!resp.ok) {
-      const detail = await resp.text().catch(() => '')
-      console.error('[api/contact] Resend error', resp.status, detail)
+    // SMTP2GO returns HTTP 200 even for some failures; the real result is in
+    // data.data.succeeded / data.data.error.
+    const data = await resp.json().catch(() => ({}))
+    const succeeded = data?.data?.succeeded
+    if (!resp.ok || !succeeded) {
+      console.error('[api/contact] SMTP2GO error', resp.status, JSON.stringify(data))
       return res.status(502).json({
         success: false,
         message: 'We couldn’t send your request. Please call us at (385) 453-9428.',
@@ -160,7 +164,7 @@ export default async function handler(req, res) {
     }
     return res.status(200).json({ success: true })
   } catch (err) {
-    console.error('[api/contact] Resend request failed', err)
+    console.error('[api/contact] SMTP2GO request failed', err)
     return res.status(502).json({
       success: false,
       message: 'We couldn’t send your request. Please call us at (385) 453-9428.',

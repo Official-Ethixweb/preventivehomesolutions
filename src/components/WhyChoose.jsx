@@ -85,16 +85,22 @@ export default function WhyChoose() {
             <img
               src="/Group 12.webp"
               alt="Angi Super Service Award 2024"
+              loading="lazy"
+              decoding="async"
               className="h-[clamp(100px,35vw,208px)] sm:h-[320px] lg:h-[440px] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5"
             />
             <img
               src="/Group 13.webp"
               alt="35+ Years of Experience"
+              loading="lazy"
+              decoding="async"
               className="h-[clamp(120px,42vw,250px)] sm:h-[384px] lg:h-[528px] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5"
             />
             <img
               src="/Group 14.webp"
               alt="BBB Accredited Business"
+              loading="lazy"
+              decoding="async"
               className="h-[clamp(100px,35vw,208px)] sm:h-[320px] lg:h-[440px] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5"
             />
           </Reveal>

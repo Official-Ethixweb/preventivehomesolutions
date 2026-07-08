@@ -14,7 +14,26 @@ import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
  * intake questions live in LEAD_STEPS, so both are easy to extend.
  */
 
-const AVATAR = '/chatbot-phs.jpg'
+const AVATAR = '/process-mascot.webp'
+
+/**
+ * Round avatar for the knight mascot. The source art is a full bust (helmet
+ * down to gauntlets), so we sit it on a soft light background and scale/anchor
+ * to the top so only the head, shoulders, and a little chest show in the circle.
+ */
+function Avatar({ className = '', ring = '', alt = '' }) {
+  return (
+    <span
+      className={`relative block shrink-0 overflow-hidden rounded-full bg-[radial-gradient(circle_at_50%_28%,#f6f9fd,#d7e0ea)] ${ring} ${className}`}
+    >
+      <img
+        src={AVATAR}
+        alt={alt}
+        className="absolute inset-0 h-full w-full origin-top scale-[1.6] object-cover object-top"
+      />
+    </span>
+  )
+}
 
 /* ------------------------------------------------------------------ */
 /*  Served ZIP codes -> city. Derived from the SERVICE_AREAS listed on  */
@@ -531,10 +550,10 @@ export default function ChatBot() {
           {/* Header */}
           <div className="flex items-center gap-3 bg-phsNavy px-4 py-3">
             <div className="relative">
-              <img
-                src={AVATAR}
+              <Avatar
                 alt="Preventive Home Solutions assistant"
-                className="h-11 w-11 rounded-full object-cover object-top ring-2 ring-phsOrange"
+                className="h-11 w-11"
+                ring="ring-2 ring-phsOrange"
               />
               <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-phsNavy bg-green-400" />
             </div>
@@ -569,7 +588,7 @@ export default function ChatBot() {
             {messages.map((m) =>
               m.from === 'bot' ? (
                 <div key={m.id} className="flex items-end gap-2">
-                  <img src={AVATAR} alt="" className="h-7 w-7 shrink-0 rounded-full object-cover object-top ring-1 ring-black/10" />
+                  <Avatar alt="" className="h-7 w-7" ring="ring-1 ring-black/10" />
                   <div className="max-w-[80%] whitespace-pre-line rounded-2xl rounded-bl-sm bg-white px-3.5 py-2.5 text-sm leading-relaxed text-phsInk shadow-sm">
                     {m.text}
                   </div>
@@ -585,7 +604,7 @@ export default function ChatBot() {
 
             {typing && (
               <div className="flex items-end gap-2">
-                <img src={AVATAR} alt="" className="h-7 w-7 shrink-0 rounded-full object-cover object-top ring-1 ring-black/10" />
+                <Avatar alt="" className="h-7 w-7" ring="ring-1 ring-black/10" />
                 <div className="flex items-center gap-1 rounded-2xl rounded-bl-sm bg-white px-4 py-3 shadow-sm">
                   <span className="h-2 w-2 animate-bounce rounded-full bg-phsInk/40 [animation-delay:-0.3s]" />
                   <span className="h-2 w-2 animate-bounce rounded-full bg-phsInk/40 [animation-delay:-0.15s]" />
@@ -687,7 +706,7 @@ export default function ChatBot() {
           </span>
         ) : (
           <>
-            <img src={AVATAR} alt="" className="h-full w-full rounded-full object-cover object-top" />
+            <Avatar alt="" className="h-full w-full" />
             {hasUnread && (
               <>
                 <span className="absolute right-0 top-0 h-6 w-6 animate-ping rounded-full bg-red-500/60" />

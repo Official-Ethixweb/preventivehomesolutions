@@ -94,9 +94,11 @@ export default async function handler(req, res) {
   }
 
   // 2) Send the email via SMTP2GO.
-  const apiKey = process.env.SMTP2GO_API_KEY
-  const from = process.env.MAIL_FROM
-  const to = process.env.MAIL_TO || DEFAULT_TO
+  // Trim to defend against stray whitespace/newlines pasted into the env var,
+  // which SMTP2GO rejects with a 403 "api_key ... wasn't in the correct format".
+  const apiKey = (process.env.SMTP2GO_API_KEY || '').trim()
+  const from = (process.env.MAIL_FROM || '').trim()
+  const to = (process.env.MAIL_TO || DEFAULT_TO).trim()
   if (!apiKey || !from) {
     console.error('[api/contact] Missing SMTP2GO_API_KEY or MAIL_FROM env var.')
     return res.status(500).json({

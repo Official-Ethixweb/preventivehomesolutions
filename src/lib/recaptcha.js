@@ -12,6 +12,36 @@ export const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || ''
 export const recaptchaConfigured = Boolean(RECAPTCHA_SITE_KEY)
 
 let readyPromise = null
+let engagedPromise = null
+
+/**
+ * Resolves on the first genuine user engagement (pointer/touch/key/focus), or
+ * once the browser goes idle — whichever comes first. The reCAPTCHA API is
+ * ~380 KB of JS; gating its download behind this keeps it entirely off the
+ * initial-load / LCP critical path, since most visitors never submit a form.
+ */
+export function whenUserEngaged() {
+  if (engagedPromise) return engagedPromise
+  engagedPromise = new Promise((resolve) => {
+    if (typeof window === 'undefined') return resolve()
+
+    // focusin covers keyboard / assistive-tech users the moment they land on
+    // any form field, so no idle fallback is needed — the widget always primes
+    // before a real visitor could reach the checkbox.
+    const events = ['pointerdown', 'touchstart', 'keydown', 'focusin']
+    let done = false
+    const fire = () => {
+      if (done) return
+      done = true
+      events.forEach((e) => window.removeEventListener(e, fire))
+      resolve()
+    }
+    events.forEach((e) =>
+      window.addEventListener(e, fire, { once: true, passive: true })
+    )
+  })
+  return engagedPromise
+}
 
 /** Resolves with window.grecaptcha once its explicit-render API is ready. */
 export function loadRecaptcha() {

@@ -107,6 +107,55 @@ body {
   }
 }
 
+/* ==================================================================== */
+/*  Accessibility widget (src/components/AccessibilityWidget.jsx).       */
+/*  All effects are scoped to the #a11y-root page wrapper so the widget  */
+/*  panel/button itself is never zoomed, recolored, or re-fonted.        */
+/* ==================================================================== */
+
+/* Text size: page-content zoom driven by the widget (default 1 = no-op). */
+#a11y-root {
+  zoom: var(--a11y-zoom, 1);
+}
+
+/* High contrast */
+html.a11y-contrast #a11y-root {
+  filter: contrast(1.35) saturate(1.2);
+}
+
+/* Readable / dyslexia-friendly font + generous spacing */
+html.a11y-readable #a11y-root,
+html.a11y-readable #a11y-root *:not(svg):not(path):not(i) {
+  font-family: Verdana, Tahoma, 'Segoe UI', Arial, sans-serif !important;
+  letter-spacing: 0.03em !important;
+  word-spacing: 0.08em !important;
+  line-height: 1.7 !important;
+}
+
+/* Highlight links */
+html.a11y-links #a11y-root a {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
+  outline: 2px solid #1b6e9e;
+  outline-offset: 2px;
+  background: rgba(27, 110, 158, 0.08);
+}
+
+/* Bigger cursor */
+html.a11y-cursor,
+html.a11y-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24'%3E%3Cpath d='M4 2l0 18 4.5-4.5 2.8 6 3-1.2-2.7-5.9 6.4 0z' fill='white' stroke='black' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 3 2, auto !important;
+}
+
+/* Pause animations */
+html.a11y-nomotion #a11y-root *,
+html.a11y-nomotion #a11y-root *::before,
+html.a11y-nomotion #a11y-root *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
 /* Loading-screen shield: continuous 3D flip on the Y axis. */
 @keyframes phs-shield-flip {
   to {

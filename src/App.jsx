@@ -15,6 +15,7 @@ import Blog from './components/Blog.jsx'
 import ContactForm from './components/ContactForm.jsx'
 import Footer from './components/Footer.jsx'
 import Loader from './components/Loader.jsx'
+import AccessibilityWidget from './components/AccessibilityWidget.jsx'
 import { SERVICE_PAGES, getSubService } from './data/services.js'
 import { BLOG_POSTS } from './data/blog.js'
 import { usePath, useLinkInterceptor } from './router.js'
@@ -129,12 +130,17 @@ export default function App() {
 
   return (
     <>
-      <Suspense fallback={null}>{page}</Suspense>
+      {/* Everything visual lives inside #a11y-root so the accessibility widget
+          can zoom/recolor the page without affecting its own controls. */}
+      <div id="a11y-root">
+        <Suspense fallback={null}>{page}</Suspense>
+      </div>
       <DeferUntilIdle>
         <Suspense fallback={null}>
           <ChatBot />
         </Suspense>
       </DeferUntilIdle>
+      <AccessibilityWidget />
       <Loader />
     </>
   )

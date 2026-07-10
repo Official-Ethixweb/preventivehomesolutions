@@ -1,3 +1,5 @@
+import { LICENSE_NUMBER } from '../data/nav.js'
+
 const quickLinks = [
   { label: 'Home', href: '/#hero' },
   { label: 'About Us', href: '/about-us' },
@@ -113,6 +115,12 @@ export default function Footer() {
               Fix It. Prevent It. Protect It. Expert plumbing, heating, and cooling services built on trust and standard.
             </p>
 
+            {/* State license */}
+            <p className="mt-5 inline-flex items-center gap-2 rounded-md border border-white/20 px-3 py-1.5 font-sans text-[13px] font-bold text-white">
+              <span className="font-mono uppercase tracking-[0.12em] text-white/70">Lic.</span>
+              #{LICENSE_NUMBER}
+            </p>
+
             {/* Social Icons */}
             <div className="flex items-center gap-4 mt-6">
               <a
@@ -188,7 +196,7 @@ export default function Footer() {
       <div className="border-t border-white/10 bg-black/10">
         <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-6 pt-6 pb-28 lg:pb-6 text-[13px] text-white md:flex-row font-mono font-medium">
           <p className="text-center md:text-left">
-            Copyright © {new Date().getFullYear()}, Preventive Home Solutions. All Rights Reserved.
+            Copyright © {new Date().getFullYear()}, Preventive Home Solutions. All Rights Reserved. · License #{LICENSE_NUMBER}
           </p>
           <nav className="flex items-center gap-6">
             <a href="#">Privacy Policy</a>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import BottomNav from './BottomNav.jsx'
-import { SERVICE_GROUPS, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, areaHref } from '../data/nav.js'
+import { SERVICE_GROUPS, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, LICENSE_NUMBER, areaHref } from '../data/nav.js'
 
 const LOGO_SRC = '/main logo.webp'
 
@@ -286,6 +286,16 @@ export default function Header() {
         {/* Right cluster: nav + phone + CTA grouped together */}
         <div className="hidden items-center gap-5 lg:flex">
           {renderNavLinks('gap-7')}
+
+          {/* State license number */}
+          <div className="hidden flex-col items-end leading-tight whitespace-nowrap xl:flex">
+            <span className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-phsInk/45">
+              Licensed &amp; Insured
+            </span>
+            <span className="font-sans text-[12px] font-bold text-phsInk/70">
+              Lic. #{LICENSE_NUMBER}
+            </span>
+          </div>
 
           {/* Phone as a button */}
           <a

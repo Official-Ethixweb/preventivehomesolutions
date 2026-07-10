@@ -202,7 +202,7 @@ export default function AccessibilityWidget() {
         aria-label="Accessibility options"
         aria-expanded={open}
         title="Accessibility"
-        className="fixed bottom-24 left-4 z-[70] grid h-[3.6rem] w-[3.6rem] place-items-center rounded-full bg-phsNavy text-white shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:left-6"
+        className="fixed bottom-24 left-4 z-[70] grid h-[3.6rem] w-[3.6rem] place-items-center rounded-xl bg-phsNavy text-white shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:left-6"
       >
         {open ? (
           <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

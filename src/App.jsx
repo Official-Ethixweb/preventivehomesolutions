@@ -17,8 +17,10 @@ import Footer from './components/Footer.jsx'
 import Loader from './components/Loader.jsx'
 import AccessibilityWidget from './components/AccessibilityWidget.jsx'
 import { SERVICE_PAGES, getSubService } from './data/services.js'
+import { LANDING_PAGES } from './data/landingPages.js'
 import { BLOG_POSTS } from './data/blog.js'
 import { usePath, useLinkInterceptor } from './router.js'
+import { useAnalytics } from './lib/analytics.js'
 import { setLoading } from './loading.js'
 import { useEffect, useState, lazy, Suspense } from 'react'
 
@@ -48,6 +50,7 @@ const AreaPage = lazy(() => import('./components/AreaPage.jsx'))
 const BlogPage = lazy(() => import('./components/BlogPage.jsx'))
 const ArticlePage = lazy(() => import('./components/ArticlePage.jsx'))
 const AboutPage = lazy(() => import('./components/AboutPage.jsx'))
+const LandingPage = lazy(() => import('./components/LandingPage.jsx'))
 
 
 // Map URL paths to the service-page slugs that drive ServicePage.
@@ -59,6 +62,7 @@ const ROUTES = {
 
 export default function App() {
   useLinkInterceptor()
+  useAnalytics()
   const path = usePath()
 
   // Loading screen: shown on first load and on every route change, hidden once
@@ -106,8 +110,13 @@ export default function App() {
   const subService =
     segments.length === 2 ? getSubService(segments[0], segments[1]) : null
 
+  // Conversion landing pages, e.g. /plumbing-services, /hvac-services.
+  const landingKey = path.replace(/^\//, '').replace(/\/$/, '')
+
   let page
-  if (path === '/water-heater-repair') {
+  if (LANDING_PAGES[landingKey]) {
+    page = <LandingPage slug={landingKey} data={LANDING_PAGES[landingKey]} />
+  } else if (path === '/water-heater-repair') {
     page = <WaterHeaterPage />
   } else if (path.startsWith('/service-areas/')) {
     const citySlug = path.slice('/service-areas/'.length).replace(/\/$/, '')

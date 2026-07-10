@@ -6,6 +6,8 @@
 // function at /api/contact, which verifies the token and sends the email
 // through SMTP2GO. Secrets never touch the client.
 
+import { trackEvent } from './analytics.js'
+
 const ENDPOINT = '/api/contact'
 
 /**
@@ -41,5 +43,15 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
   if (!res.ok || !data.success) {
     throw new Error(data.message || 'Something went wrong. Please try again or call us.')
   }
+
+  // GA4 conversion: a lead form was submitted successfully. `section` tells us
+  // which form/page it came from (Hero, Contact, Landing CTA, etc.).
+  trackEvent('generate_lead', {
+    form_section: section || 'Unknown',
+    service: fields.service || '',
+    property_type: fields.propertyType || '',
+    page_path: typeof window !== 'undefined' ? window.location.pathname : '',
+  })
+
   return data
 }

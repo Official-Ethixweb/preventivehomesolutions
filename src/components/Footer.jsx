@@ -53,7 +53,7 @@ function MailIcon() {
 const contactInfo = [
   { Icon: PinIcon, text: 'Clinton 84015, United States' },
   { Icon: PhoneIcon, text: '(385) 453-9428', href: 'tel:3854539428' },
-  { Icon: MailIcon, text: 'preventivehomesolutions@outlook.com', href: 'mailto:preventivehomesolutions@outlook.com' },
+  { Icon: MailIcon, text: 'Preventivehomeservices@gmail.com', href: 'mailto:Preventivehomeservices@gmail.com' },
 ]
 
 function LinkColumn({ title, items }) {

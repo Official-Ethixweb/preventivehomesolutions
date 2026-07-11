@@ -213,7 +213,7 @@ function BookingForm({ mobile = false }) {
         <button
           type="submit"
           disabled={submitting}
-          className="cta-diag cta-diag-orange group mx-auto flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-6 py-2.5 font-sans text-[14px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
+          className="cta-diag cta-diag-orange group mx-auto flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-6 py-2.5 font-sans text-[14px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed -mt-[10px]"
         >
           {submitting ? 'Sending...' : 'Book Now'}
           {!submitting && <ArrowIcon className="h-[17px] w-[17px] transition-transform duration-300 group-hover:translate-x-1" />}

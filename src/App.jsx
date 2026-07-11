@@ -51,6 +51,7 @@ const BlogPage = lazy(() => import('./components/BlogPage.jsx'))
 const ArticlePage = lazy(() => import('./components/ArticlePage.jsx'))
 const AboutPage = lazy(() => import('./components/AboutPage.jsx'))
 const LandingPage = lazy(() => import('./components/LandingPage.jsx'))
+const AccessibilityPage = lazy(() => import('./components/AccessibilityPage.jsx'))
 
 
 // Map URL paths to the service-page slugs that drive ServicePage.
@@ -123,6 +124,8 @@ export default function App() {
     page = <AreaPage slug={citySlug} />
   } else if (path === '/about-us') {
     page = <AboutPage />
+  } else if (path === '/accessibility') {
+    page = <AccessibilityPage />
   } else if (path === '/blog') {
     page = <BlogPage />
   } else if (path.startsWith('/blog/')) {

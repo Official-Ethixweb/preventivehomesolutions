@@ -1,4 +1,5 @@
 import { LICENSE_NUMBER } from '../data/nav.js'
+import { FULL_ADDRESS } from '../data/business.js'
 
 const quickLinks = [
   { label: 'Home', href: '/#hero' },
@@ -53,7 +54,7 @@ function MailIcon() {
 
 
 const contactInfo = [
-  { Icon: PinIcon, text: 'Clinton 84015, United States' },
+  { Icon: PinIcon, text: FULL_ADDRESS },
   { Icon: PhoneIcon, text: '(385) 453-9428', href: 'tel:3854539428' },
   { Icon: MailIcon, text: 'Preventivehomeservices@gmail.com', href: 'mailto:Preventivehomeservices@gmail.com' },
 ]
@@ -188,7 +189,8 @@ export default function Footer() {
 
         {/* Accessibility Note */}
         <p className="mt-16 text-center text-[12px] text-white max-w-2xl mx-auto leading-relaxed border-t border-white/5 pt-8 font-sans">
-          Preventive Home Solutions is committed to keeping our site accessible to everyone. We welcome feedback on ways to improve this site's accessibility.
+          Preventive Home Solutions is committed to keeping our site accessible to everyone. We welcome feedback on ways to improve this site's accessibility.{' '}
+          <a href="/accessibility" className="font-bold underline underline-offset-2 hover:opacity-80">Learn about our accessibility features</a>.
         </p>
       </div>
 
@@ -199,6 +201,7 @@ export default function Footer() {
             Copyright © {new Date().getFullYear()}, Preventive Home Solutions. All Rights Reserved. · License #{LICENSE_NUMBER}
           </p>
           <nav className="flex items-center gap-6">
+            <a href="/accessibility">Accessibility</a>
             <a href="#">Privacy Policy</a>
             <a href="#">Terms &amp; Conditions</a>
             <a href="#">Sitemap</a>

@@ -5,7 +5,6 @@ import MarqueeBanner from './MarqueeBanner.jsx'
 import Strands from './Strands.jsx'
 import Footer from './Footer.jsx'
 import Reveal from './Reveal.jsx'
-import Process from './Process.jsx'
 import GoogleReviews from './GoogleReviews.jsx'
 import RotatingText from './RotatingText.jsx'
 import Recaptcha from './Recaptcha.jsx'
@@ -82,39 +81,38 @@ function StrandsBg({ opacity = 0.5 }) {
   )
 }
 
-/* ------------------------------ Lead form ------------------------------- */
-/**
- * Conversion lead-capture form used twice per page.
- * variant "hero" → Residential/Commercial tabs + ZIP + SMS consent + terms.
- * variant "cta"  → compact contact card (name/email/phone/service).
- */
-function LandingLeadForm({ serviceNoun, serviceOptions, section, variant = 'hero' }) {
-  const isHero = variant === 'hero'
-  const [propertyType, setPropertyType] = useState('Residential')
-  const [service, setService] = useState('')
-  const [dropdownOpen, setDropdownOpen] = useState(false)
+/* -------------------------- Booking Form (Homepage variant) ----------------------- */
+function BookingForm({ serviceOptions, section, mobile = false }) {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
+  const [service, setService] = useState('')
+  const [dropdownOpen, setDropdownOpen] = useState(false)
   const [recaptchaToken, setRecaptchaToken] = useState('')
   const recaptchaRef = useRef(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!service) { setError('Please choose a service.'); return }
-    if (recaptchaConfigured && !recaptchaToken) { setError('Please confirm you’re not a robot.'); return }
+    if (!service) {
+      setError('Please choose a service.')
+      return
+    }
+    if (recaptchaConfigured && !recaptchaToken) {
+      setError('Please confirm you’re not a robot.')
+      return
+    }
     setSubmitting(true)
     setError(null)
-    const fd = new FormData(e.target)
+
+    const formData = new FormData(e.target)
     try {
       await submitLead(
         {
-          name: fd.get('name'),
-          phone: fd.get('phone'),
-          email: fd.get('email') || '',
-          zip: fd.get('zip') || '',
-          propertyType: isHero ? propertyType : undefined,
+          name: formData.get('name'),
+          phone: formData.get('phone'),
+          email: formData.get('email') || '',
           service,
+          message: formData.get('message') || '',
         },
         { section, recaptchaToken }
       )
@@ -127,80 +125,83 @@ function LandingLeadForm({ serviceNoun, serviceOptions, section, variant = 'hero
     }
   }
 
-  const field =
-    'w-full rounded-lg bg-gray-100 border border-gray-200 px-4 py-3 text-[15px] text-phsInk placeholder-gray-400 outline-none transition-all duration-200 focus:border-phsOrange focus:ring-2 focus:ring-phsOrange/20 focus:bg-white'
+  const fieldClass =
+    'w-full rounded-md border border-phsSky/15 bg-white/70 px-4 py-3 text-center text-sm text-phsInk placeholder:text-phsInk/40 outline-none transition-colors focus:border-phsSky focus:bg-white'
+  const labelClass =
+    'mb-1.5 block text-center font-mono text-[11.5px] lg:text-[11px] font-bold tracking-[0.18em] text-phsInk'
 
   if (submitted) {
     return (
-      <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl bg-white p-8 text-center shadow-xl">
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-phsOrange/10 text-phsOrange [&_svg]:h-7 [&_svg]:w-7">
-          <CheckIcon />
+      <div className="flex min-h-[420px] flex-col items-center justify-center text-center">
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-phsOrange/15 text-phsOrange">
+          <svg className="h-7 w-7" viewBox="0 0 24 24" fill="none">
+            <path
+              d="m5 12.5 4.5 4.5L19 7"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
-        <h3 className="mt-4 font-display text-xl font-extrabold tracking-tight text-phsInk">Request Received</h3>
-        <p className="mt-2 max-w-xs text-sm text-gray-500">
-          Our team will reach out shortly. For urgent needs, call{' '}
-          <a href={`tel:${PHONE_TEL}`} className="font-bold text-phsOrange">{PHONE_DISPLAY}</a>.
+        <h3 className="mt-5 font-display text-2xl font-extrabold tracking-tight text-phsInk">
+          Request Received
+        </h3>
+        <p className="mt-2 max-w-xs text-sm text-phsInk/60">
+          Our team will reach out shortly. For urgent needs, call {PHONE_DISPLAY}.
         </p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl bg-white p-6 shadow-xl sm:p-7">
-      <div className="mb-5">
-        <p className="font-mono text-[11px] font-bold uppercase tracking-[0.24em] text-phsOrange">
-          {isHero ? 'Free Estimate' : 'Contact Us'}
-        </p>
-        <h3 className="mt-1 font-display text-xl font-black tracking-tight text-phsInk sm:text-2xl">
-          {isHero ? 'Send Your Request' : 'Get In Touch Today'}
-        </h3>
-      </div>
+    <form onSubmit={handleSubmit}>
+      <p className="text-center font-mono max-lg:mt-[30px] max-lg:text-[12.6px] text-xs font-bold tracking-[0.24em] text-phsOrange">
+        Request Service
+      </p>
+      <h2 className="mt-2 text-center font-sans max-lg:text-[25.2px] text-2xl font-extrabold leading-tight tracking-tight text-phsInk">
+        Book Your Inspection
+      </h2>
 
-      {/* Residential / Commercial tabs (hero only) */}
-      {isHero && (
-        <div className="mb-4 grid grid-cols-2 gap-2 rounded-xl bg-gray-100 p-1">
-          {['Residential', 'Commercial'].map((t) => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setPropertyType(t)}
-              className={`rounded-lg py-2.5 font-sans text-sm font-bold tracking-wide transition-all ${
-                propertyType === t ? 'bg-phsOrange text-white shadow-sm' : 'text-phsInk/60 hover:text-phsInk'
-              }`}
-              aria-pressed={propertyType === t}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-      )}
-
-      <div className="space-y-3.5">
-        <input className={field} type="text" name="name" placeholder="Your name" required />
-        <div className={isHero ? 'grid grid-cols-1 gap-3.5 sm:grid-cols-2' : 'space-y-3.5'}>
-          <input className={field} type="tel" name="phone" placeholder="Phone number" required />
-          <input className={field} type="email" name="email" placeholder="Email address" required />
+      <div className={mobile ? 'mt-4 space-y-2.5' : 'mt-6 space-y-4'}>
+        <div>
+          <label htmlFor="bf-name" className={labelClass}>Full Name</label>
+          <input id="bf-name" name="name" type="text" required placeholder="Jane Doe" className={fieldClass} />
         </div>
 
-        <div className={isHero ? 'grid grid-cols-1 gap-3.5 sm:grid-cols-2' : ''}>
-          {isHero && <input className={field} type="text" name="zip" placeholder="ZIP code" inputMode="numeric" required />}
-
-          {/* Service dropdown (custom, backed by a readonly input for validation) */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="bf-phone" className={labelClass}>Phone</label>
+            <input id="bf-phone" name="phone" type="tel" required placeholder="(385) 000-0000" className={fieldClass} />
+          </div>
           <div className="relative">
-            <button type="button" onClick={() => setDropdownOpen((v) => !v)} className={`${field} flex items-center justify-between text-left`}>
-              <span className={`block truncate ${service ? 'text-phsInk' : 'text-gray-400'}`}>{service || 'Service needed'}</span>
-              <svg className={`h-4 w-4 shrink-0 text-gray-500 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+            <label htmlFor="bf-service" className={labelClass}>Service</label>
+            
+            <button
+              type="button"
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className={`${fieldClass} flex items-center justify-between !px-3`}
+            >
+              <span className={`block truncate ${service ? 'text-phsInk' : 'text-phsInk/40'}`}>
+                {service || 'Select…'}
+              </span>
+              <svg className={`h-4 w-4 shrink-0 text-phsInk/40 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <input type="text" name="service" value={service} required readOnly aria-hidden="true" tabIndex={-1} className="pointer-events-none absolute bottom-0 left-1/2 h-0 w-0 opacity-0" />
+            <input type="text" name="service" value={service} required aria-label="Service" aria-hidden="true" tabIndex={-1} className="absolute bottom-0 left-1/2 w-0 h-0 opacity-0 pointer-events-none" readOnly />
+            
             {dropdownOpen && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
-                <div className="absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-lg border border-gray-200 bg-white shadow-xl">
+                <div className="absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-md border border-phsSky/15 bg-white shadow-xl">
                   {serviceOptions.map((s) => (
-                    <button key={s} type="button" onClick={() => { setService(s); setDropdownOpen(false) }}
-                      className="block w-full border-b border-gray-50 px-4 py-3 text-left text-[14px] font-medium text-phsInk outline-none transition-colors last:border-0 hover:bg-phsOrange/10 hover:text-phsOrange">
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => { setService(s); setDropdownOpen(false) }}
+                      className="block w-full px-4 py-3 text-center text-[13.5px] font-bold text-phsInk hover:bg-phsOrange/10 hover:text-phsOrange focus:bg-phsOrange/10 focus:text-phsOrange outline-none transition-colors border-b border-gray-50 last:border-0"
+                    >
                       {s}
                     </button>
                   ))}
@@ -210,35 +211,41 @@ function LandingLeadForm({ serviceNoun, serviceOptions, section, variant = 'hero
           </div>
         </div>
 
-        {/* SMS opt-in (hero only) */}
-        {isHero && (
-          <label className="flex items-start gap-2.5 px-0.5 text-left">
-            <input type="checkbox" name="sms_consent" required className="mt-0.5 h-4 w-4 shrink-0 accent-phsOrange" />
-            <span className="text-[11.5px] leading-snug text-gray-500">
-              I agree to receive text messages from {BUSINESS.name} about my request. Msg &amp; data rates may apply.
-            </span>
-          </label>
+        {!mobile && (
+          <div>
+            <label htmlFor="bf-email" className={labelClass}>Email</label>
+            <input id="bf-email" name="email" type="email" placeholder="jane@email.com" className={fieldClass} />
+          </div>
         )}
 
-        <Recaptcha ref={recaptchaRef} onChange={setRecaptchaToken} className="flex justify-center pt-1" />
+        <div>
+          <label htmlFor="bf-message" className={labelClass}>How can we help?</label>
+          <textarea id="bf-message" name="message" rows={mobile ? 2 : 3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)]`} />
+        </div>
 
-        {error && <p className="text-center text-sm font-bold text-red-500">{error}</p>}
+        <Recaptcha
+          ref={recaptchaRef}
+          onChange={setRecaptchaToken}
+          className={`${mobile ? '-mb-3' : '-mb-6'} flex origin-top justify-center [transform:scale(0.68)]`}
+        />
 
-        <button type="submit" disabled={submitting}
-          className="cta-diag cta-diag-orange w-full rounded-xl bg-phsOrange px-6 py-4 font-bold tracking-wider text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70">
-          {submitting ? 'Sending…' : isHero ? 'Send Request' : 'Contact Us Today'}
+        {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}
+        <button
+          type="submit"
+          disabled={submitting}
+          className="cta-diag cta-diag-orange group mx-auto flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-6 py-2.5 font-sans text-[14px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed -mt-[10px]"
+        >
+          {submitting ? 'Sending...' : 'Book Now'}
+          {!submitting && <ArrowIcon className="h-[17px] w-[17px] transition-transform duration-300 group-hover:translate-x-1" />}
         </button>
-
-        {isHero && (
-          <p className="text-center text-[11px] leading-snug text-gray-400">
-            By submitting you agree to our <a href="#" className="underline hover:text-phsOrange">Terms</a> &amp;{' '}
-            <a href="#" className="underline hover:text-phsOrange">Privacy Policy</a>.
-          </p>
-        )}
       </div>
     </form>
   )
 }
+
+const FORM_DESIGN_WIDTH = 360
+
+
 
 /* ----------------------------- ZIP checker ------------------------------ */
 // ZIP codes we service across Davis, Weber & Box Elder counties.
@@ -317,6 +324,32 @@ export default function LandingPage({ slug, data }) {
 
   const [openFaq, setOpenFaq] = useState(0)
 
+  const shieldFormRef = useRef(null)
+  const [formScale, setFormScale] = useState(1)
+
+  const mobileShieldFormRef = useRef(null)
+  const [mobileFormScale, setMobileFormScale] = useState(1)
+
+  useEffect(() => {
+    const el = shieldFormRef.current
+    if (!el) return
+    const ro = new ResizeObserver(() => {
+      if (el.clientWidth) setFormScale(el.clientWidth / FORM_DESIGN_WIDTH)
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = mobileShieldFormRef.current
+    if (!el) return
+    const ro = new ResizeObserver(() => {
+      if (el.clientWidth) setMobileFormScale(el.clientWidth / FORM_DESIGN_WIDTH)
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
   // Three most-relevant blog teasers: prefer posts matching this trade.
   const trade = data.serviceType.toLowerCase()
   const blogPosts = (() => {
@@ -329,32 +362,32 @@ export default function LandingPage({ slug, data }) {
   })()
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-[#FAF8F5]">
       <TopBar />
-      <Header />
+      <Header isLanding={true} />
       <main>
 
       {/* ============================== Hero ============================== */}
-      <section className="relative overflow-hidden bg-phsNavy text-white">
-        <img src={data.heroImage} alt={data.heroImageAlt} className="absolute inset-0 z-0 h-full w-full object-cover" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-phsNavy/95 via-phsNavy/88 to-phsNavy/70" />
-        <div className="pointer-events-none absolute -top-24 -right-24 z-0 h-72 w-72 rounded-full bg-phsOrange/25 blur-3xl" />
+      <section className="relative overflow-hidden bg-[#FAF8F5] text-phsInk">
+        <img src={data.heroImage} alt={data.heroImageAlt} className="absolute inset-0 z-0 h-full w-full object-cover opacity-10" />
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FAF8F5]/95 via-[#FAF8F5]/90 to-[#FAF8F5]/80" />
+        <div className="pointer-events-none absolute -top-24 -right-24 z-0 h-72 w-72 rounded-full bg-phsOrange/10 blur-3xl" />
 
-        <div className="relative z-10 mx-auto max-w-[1200px] px-6 pt-10 lg:pt-14">
+        <div className="relative z-10 mx-auto max-w-[1200px] px-6 pt-10 pb-12 lg:pt-14 lg:pb-24">
           {/* Breadcrumb */}
-          <Reveal as="nav" className="mb-6 flex items-center gap-2 font-mono text-[11px] font-bold tracking-[0.2em] text-white/70 sm:text-xs">
+          <Reveal as="nav" className="mb-6 flex items-center gap-2 font-mono text-[11px] font-bold tracking-[0.2em] text-phsInk/50 sm:text-xs">
             <a href="/" className="transition-colors hover:text-phsOrange">HOME</a>
             <span>/</span>
             <span className="text-phsOrange">{data.breadcrumbLabel.toUpperCase()}</span>
           </Reveal>
 
-          <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
             {/* Left copy */}
             <div>
               <Reveal as="p" className="font-mono text-xs font-bold tracking-[0.28em] text-phsOrange drop-shadow">
                 {data.eyebrow.toUpperCase()}
               </Reveal>
-              <Reveal as="h1" delay={100} className="mt-5 font-display text-4xl font-black leading-[1.05] tracking-tight drop-shadow-sm sm:text-5xl lg:text-6xl">
+              <Reveal as="h1" delay={100} className="mt-5 font-display text-4xl font-black leading-[1.05] tracking-tight text-phsNavy sm:text-5xl lg:text-6xl">
                 {data.heroStatic}
               </Reveal>
               <Reveal delay={150} className="mt-4 inline-flex max-w-full items-center overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm">
@@ -369,7 +402,7 @@ export default function LandingPage({ slug, data }) {
                   elementLevelClassName="will-change-transform"
                 />
               </Reveal>
-              <Reveal as="p" delay={250} className="mt-6 max-w-xl text-[15px] leading-relaxed text-white/90 sm:text-base">
+              <Reveal as="p" delay={250} className="mt-6 max-w-xl text-[15px] leading-relaxed text-phsInk/70 sm:text-base">
                 {data.heroSubtitle}
               </Reveal>
 
@@ -384,45 +417,82 @@ export default function LandingPage({ slug, data }) {
 
               <Reveal delay={450} className="mt-7 flex flex-wrap gap-2.5">
                 {data.trustChips.map((chip) => (
-                  <span key={chip} className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3.5 py-2 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+                  <span key={chip} className="inline-flex items-center gap-2 rounded-none border border-phsInk/15 bg-white px-3.5 py-2 font-mono text-[10.5px] font-bold uppercase tracking-[0.14em] text-phsInk/80 shadow-sm">
                     <span className="text-phsOrange [&_svg]:h-3.5 [&_svg]:w-3.5">{ICONS.shield}</span>{chip}
                   </span>
                 ))}
               </Reveal>
+
+              {/* Mobile-only Form Container */}
+              <div id="quote-form" className="block lg:hidden scroll-mt-24 mx-auto mt-12 mb-10 w-[90%] max-w-[445px] relative drop-shadow-2xl text-phsInk">
+                {/* Background Shield */}
+                <img 
+                  src="/shield.svg" 
+                  alt="Shield Background" 
+                  className="w-full h-auto relative z-0" 
+                />
+                {/* Shield Border Overlay */}
+                <img 
+                  src="/shield border.svg" 
+                  alt="" 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[127.7%] max-w-none pointer-events-none z-20" 
+                />
+                {/* Form Content */}
+                <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-[6%] pt-[14%]">
+                  <div ref={mobileShieldFormRef} className="w-full flex justify-center">
+                    <div
+                      className="origin-top"
+                      style={{
+                        width: `${FORM_DESIGN_WIDTH}px`,
+                        transform: `scale(${mobileFormScale})`,
+                      }}
+                    >
+                      <BookingForm
+                        serviceOptions={data.serviceOptions}
+                        section={`Landing Hero (Mobile) — ${data.serviceName}`}
+                        mobile
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Right mascot / technician */}
-            <Reveal variant="scale" delay={250} className="relative hidden justify-center lg:flex">
-              <img src={data.mascotImage} alt="" aria-hidden="true" className="w-full max-w-[420px] object-contain drop-shadow-2xl" />
+            {/* Right column knight holding the shield with form overlaid (Desktop only) */}
+            <Reveal variant="scale" delay={300} className="relative w-full max-w-[625px] lg:-translate-y-[90px] lg:-translate-x-[30px] lg:justify-self-end lg:-mt-8 lg:-ml-12 mt-4 lg:mt-0 hidden lg:block">
+              <div className="relative lg:scale-[0.96] lg:origin-top">
+                {/* Elemental aura behind the knight */}
+                <div className="phs-fire-glow pointer-events-none absolute left-1/2 top-[16%] z-0 h-[60%] w-[72%] -translate-x-1/2 rounded-full bg-[#f3741b] blur-[70px]" />
+                <div className="phs-water-glow pointer-events-none absolute left-1/2 top-[48%] z-0 h-[40%] w-[82%] -translate-x-1/2 rounded-full bg-[#38bdf8] blur-[70px]" />
+
+                <img
+                  src="/soldier-form.svg"
+                  alt="Armored knight holding a shield"
+                  width="637"
+                  height="987"
+                  className="w-full h-auto select-none pointer-events-none relative z-10"
+                />
+                {/* Form overlaid on the shield face */}
+                <div
+                  ref={shieldFormRef}
+                  className="absolute z-20 text-phsInk"
+                  style={{ top: '25%', left: 'calc(34% + 14px)', width: '53%' }}
+                >
+                  <div
+                    style={{
+                      width: `${FORM_DESIGN_WIDTH}px`,
+                      transform: `scale(${formScale})`,
+                      transformOrigin: 'top left',
+                    }}
+                  >
+                    <BookingForm
+                      serviceOptions={data.serviceOptions}
+                      section={`Landing Hero (Desktop) — ${data.serviceName}`}
+                    />
+                  </div>
+                </div>
+              </div>
             </Reveal>
-          </div>
-
-          {/* Lead-capture form band, flush at the bottom of the hero */}
-          <div className="relative z-10 mt-10 grid gap-6 pb-12 lg:mt-14 lg:grid-cols-[1fr_320px] lg:pb-16">
-            <LandingLeadForm
-              serviceNoun={data.serviceNoun}
-              serviceOptions={data.serviceOptions}
-              section={`Landing Hero — ${data.serviceName}`}
-              variant="hero"
-            />
-            {/* Promo column */}
-            <div className="flex flex-col justify-center gap-5 rounded-2xl border border-white/15 bg-white/5 p-6 backdrop-blur-sm">
-              <ul className="space-y-3.5">
-                {data.trustChips.map((chip) => (
-                  <li key={chip} className="flex items-center gap-3 font-sans text-[15px] font-semibold text-white">
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-phsOrange/15 text-phsOrange [&_svg]:h-4 [&_svg]:w-4">{ICONS.shield}</span>
-                    {chip}
-                  </li>
-                ))}
-              </ul>
-              <a href={`tel:${PHONE_TEL}`}
-                className="cta-diag cta-diag-orange inline-flex items-center justify-center gap-2.5 rounded-md bg-phsOrange px-5 py-3.5 font-bold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg">
-                <PhoneIcon className="h-5 w-5" /> {PHONE_DISPLAY}
-              </a>
-              <p className="text-center font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-white/70">
-                Family-Owned · Since {BUSINESS.since}
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -459,7 +529,7 @@ export default function LandingPage({ slug, data }) {
       </section>
 
       {/* ============================= Why Us =========================== */}
-      <section className="relative overflow-hidden bg-phsNavy py-14 text-white lg:py-24">
+      <section className="relative overflow-hidden bg-[#29ABE2] py-14 text-white lg:py-24">
         <StrandsBg opacity={0.35} />
         <div className="pointer-events-none absolute -bottom-24 -left-24 z-0 h-72 w-72 rounded-full bg-phsOrange/20 blur-3xl" />
         <div className="relative z-10 mx-auto max-w-[1200px] px-6">
@@ -488,9 +558,9 @@ export default function LandingPage({ slug, data }) {
       {/* ============================ Badges ============================ */}
       <section className="relative overflow-hidden bg-white py-12 lg:py-16">
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-end justify-center gap-8 px-6 sm:gap-16">
-          <img src="/Group 12.webp" alt="Angi Super Service Award" width="520" height="965" loading="lazy" decoding="async" className="h-[clamp(90px,22vw,150px)] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
-          <img src="/Group 13.webp" alt="35+ Years of Experience" width="520" height="973" loading="lazy" decoding="async" className="h-[clamp(110px,26vw,180px)] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
-          <img src="/Group 14.webp" alt="BBB Accredited Business" width="520" height="963" loading="lazy" decoding="async" className="h-[clamp(90px,22vw,150px)] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
+          <img src="/Group 12.webp" alt="Angi Super Service Award" width="520" height="965" loading="lazy" decoding="async" className="h-[clamp(117px,28.6vw,195px)] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
+          <img src="/Group 13.webp" alt="35+ Years of Experience" width="520" height="973" loading="lazy" decoding="async" className="h-[clamp(143px,33.8vw,234px)] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
+          <img src="/Group 14.webp" alt="BBB Accredited Business" width="520" height="963" loading="lazy" decoding="async" className="h-[clamp(117px,28.6vw,195px)] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
         </div>
       </section>
 
@@ -524,7 +594,7 @@ export default function LandingPage({ slug, data }) {
                 <img src={data.team.image} alt={data.team.imageAlt} loading="lazy" className="h-full w-full object-cover" />
               </div>
             </div>
-            <div className="absolute -bottom-5 -left-3 rounded-xl border border-phsOrange/20 bg-white px-5 py-3 shadow-xl">
+            <div className="absolute -bottom-5 -left-3 z-20 rounded-xl border border-phsOrange/20 bg-white px-5 py-3 shadow-xl">
               <p className="font-display text-2xl font-black leading-none text-phsOrange">35+ Yrs</p>
               <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-phsNavy">Trusted in Northern Utah</p>
             </div>
@@ -543,42 +613,10 @@ export default function LandingPage({ slug, data }) {
         <GoogleReviews />
       </section>
 
-      {/* ========================== CTA banner ========================= */}
-      <section className="relative overflow-hidden bg-phsNavy py-14 text-white lg:py-24">
-        <img src={data.heroImage} alt="" aria-hidden="true" className="absolute inset-0 z-0 h-full w-full object-cover opacity-20" />
-        <div className="absolute inset-0 z-0 bg-gradient-to-r from-phsNavy via-phsNavy/90 to-phsNavy/70" />
-        <div className="pointer-events-none absolute -top-24 -left-24 z-0 h-72 w-72 rounded-full bg-phsOrange/20 blur-3xl" />
-        <div className="relative z-10 mx-auto grid max-w-[1200px] items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
-          <Reveal variant="left">
-            <p className="mb-4 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange sm:text-sm">Ready When You Are</p>
-            <h2 className="font-display text-3xl font-black leading-[1.05] tracking-tight sm:text-4xl lg:text-5xl">
-              Book Your {data.serviceNoun} Service Today
-            </h2>
-            <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-white/80 sm:text-base">
-              Same-day appointments, upfront pricing, and 24/7 emergency response across Northern Utah. Call now or send a request and we’ll get right back to you.
-            </p>
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-              <a href={`tel:${PHONE_TEL}`} className="cta-diag cta-diag-orange inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-7 py-4 font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg">
-                <PhoneIcon className="h-5 w-5" /> Call {PHONE_DISPLAY}
-              </a>
-              <a href={`mailto:${BUSINESS.email}`} className="inline-flex items-center justify-center gap-3 rounded-md border border-white/30 bg-white/10 px-7 py-4 font-semibold text-white backdrop-blur-sm transition-all hover:border-white/60 hover:bg-white/20">
-                Email Us
-              </a>
-            </div>
-          </Reveal>
-          <Reveal variant="right" delay={150}>
-            <LandingLeadForm
-              serviceNoun={data.serviceNoun}
-              serviceOptions={data.serviceOptions}
-              section={`Landing CTA — ${data.serviceName}`}
-              variant="cta"
-            />
-          </Reveal>
-        </div>
-      </section>
+
 
       {/* ========================= Service area ======================== */}
-      <section className="relative overflow-hidden bg-phsNavy py-14 text-white lg:py-24">
+      <section className="relative overflow-hidden bg-[#29ABE2] py-14 text-white lg:py-24">
         <StrandsBg opacity={0.3} />
         <div className="relative z-10 mx-auto grid max-w-[1200px] items-start gap-12 px-6 lg:grid-cols-2 lg:gap-16">
           <div>
@@ -626,12 +664,7 @@ export default function LandingPage({ slug, data }) {
         </div>
       </section>
 
-      {/* ============= How it works (shared Process on sky band) ======= */}
-      <div className="relative overflow-hidden bg-phsSky">
-        <StrandsBg opacity={0.5} />
-        <div className="pointer-events-none absolute -top-24 -right-24 z-0 h-72 w-72 rounded-full bg-phsOrange/20 blur-3xl" />
-        <div className="relative z-10 pt-12 lg:pt-24"><Process /></div>
-      </div>
+
 
       {/* ============================ Blog ============================= */}
       <section className="bg-[#fbf7f0] py-14 lg:py-24">

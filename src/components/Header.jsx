@@ -39,7 +39,76 @@ function PhoneIcon({ className = '' }) {
   )
 }
 
-export default function Header() {
+export default function Header({ isLanding = false }) {
+  if (isLanding) {
+    return (
+      <header className="relative z-40 w-full bg-[#FAF8F5] border-b border-gray-200/50 py-3 lg:py-4">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-[clamp(12px,4vw,20px)] sm:px-5 lg:px-10">
+          {/* Logo */}
+          <a href="/" className="group flex items-center gap-2.5">
+            <img
+              src={LOGO_SRC}
+              alt="Preventive Home Solutions"
+              width="420"
+              height="420"
+              decoding="async"
+              fetchpriority="high"
+              className="h-14 lg:h-16 w-auto rounded-lg transition-transform duration-300 group-hover:scale-105"
+            />
+            <span className="font-display text-[15px] sm:text-lg font-black leading-tight text-phsInk">
+              Preventive<br className="sm:hidden" /> Home Solutions
+            </span>
+          </a>
+
+          {/* Middle Content - Desktop Only */}
+          <div className="hidden lg:flex items-center gap-8 text-phsInk/85">
+            {/* Google Rating */}
+            <div className="flex items-center gap-2 font-sans text-[13px] font-bold">
+              <svg className="h-5 w-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <span>4.9 Stars on Google</span>
+            </div>
+
+            <div className="h-8 w-px bg-gray-200" />
+
+            {/* Licensed & Insured */}
+            <div className="flex items-start gap-2.5 font-sans text-[13px] font-bold">
+              <svg className="h-5 w-5 text-[#29ABE2]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                <path d="m9 11 2 2 4-4" />
+              </svg>
+              <div className="flex flex-col leading-tight">
+                <span>Licensed & Insured</span>
+                <span className="text-[11px] font-semibold text-gray-400">Lic. #{LICENSE_NUMBER}</span>
+              </div>
+            </div>
+
+            <div className="h-8 w-px bg-gray-200" />
+
+            {/* 24/7 Emergency Service */}
+            <div className="flex items-center gap-2 font-sans text-[13px] font-bold">
+              <svg className="h-5 w-5 text-[#29ABE2]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+              <span>24/7 Emergency Service</span>
+            </div>
+          </div>
+
+          {/* Phone Number (Orange CTA matching homepage style) */}
+          <a
+            href={`tel:${PHONE_TEL}`}
+            className="cta-diag cta-diag-orange group flex items-center gap-2 rounded-md bg-phsOrange border border-phsOrange px-4 py-2.5 font-sans text-sm sm:text-base font-bold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
+          >
+            <PhoneIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white transition-colors duration-300 group-hover:text-phsOrange" />
+            <span>{PHONE_DISPLAY}</span>
+          </a>
+        </div>
+      </header>
+    )
+  }
+
   const [openMenu, setOpenMenu] = useState(null) // 'services' | 'areas' | null
   const [query, setQuery] = useState('')
 

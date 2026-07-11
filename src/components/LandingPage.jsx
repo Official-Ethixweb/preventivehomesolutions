@@ -13,7 +13,6 @@ import { recaptchaConfigured } from '../lib/recaptcha.js'
 import { useSeo } from '../lib/seo.js'
 import { BUSINESS, FULL_ADDRESS, buildLandingSchema } from '../data/business.js'
 import { PHONE_DISPLAY, PHONE_TEL, SERVICE_AREAS, areaHref } from '../data/nav.js'
-import { BLOG_POSTS } from '../data/blog.js'
 
 /* ------------------------------ Inline icons ---------------------------- */
 const iconBase = {
@@ -247,6 +246,27 @@ const FORM_DESIGN_WIDTH = 360
 
 
 
+/* ----------------------------- Coupon strip ----------------------------- */
+// Replaces the service marquee with rotating offers, using the same staggered
+// pop-slide character animation as the hero tagline box.
+function CouponStrip({ coupons }) {
+  return (
+    <div className="flex w-full items-center justify-center overflow-hidden border-y border-phsOrangeDark bg-phsOrange px-4 py-4 text-white shadow-sm">
+      <span className="mr-3 shrink-0 text-white/80 [&_svg]:h-5 [&_svg]:w-5 sm:[&_svg]:h-6 sm:[&_svg]:w-6">{ICONS.tag}</span>
+      <RotatingText
+        texts={coupons}
+        rotationInterval={3000}
+        staggerDuration={0.01}
+        staggerFrom="last"
+        splitBy="characters"
+        animatePresenceMode="popLayout"
+        mainClassName="font-display text-[clamp(11px,3vw,20px)] whitespace-nowrap font-bold tracking-wide sm:tracking-widest"
+        elementLevelClassName="will-change-transform"
+      />
+    </div>
+  )
+}
+
 /* ----------------------------- ZIP checker ------------------------------ */
 // ZIP codes we service across Davis, Weber & Box Elder counties.
 const SERVICE_ZIPS = new Set([
@@ -349,17 +369,6 @@ export default function LandingPage({ slug, data }) {
     ro.observe(el)
     return () => ro.disconnect()
   }, [])
-
-  // Three most-relevant blog teasers: prefer posts matching this trade.
-  const trade = data.serviceType.toLowerCase()
-  const blogPosts = (() => {
-    const match = BLOG_POSTS.filter((p) =>
-      trade.includes('plumb') ? p.category === 'PLUMBING' || p.category === 'DRAIN & SEWER'
-        : trade.includes('heat') ? p.category === 'HVAC'
-        : p.category === 'HVAC' || p.category === 'AIR QUALITY'
-    )
-    return (match.length >= 3 ? match : [...match, ...BLOG_POSTS]).slice(0, 3)
-  })()
 
   return (
     <div className="min-h-screen bg-[#FAF8F5]">
@@ -497,7 +506,7 @@ export default function LandingPage({ slug, data }) {
         </div>
       </section>
 
-      <MarqueeBanner />
+      {data.coupons ? <CouponStrip coupons={data.coupons} /> : <MarqueeBanner />}
 
       {/* ============================ Services =========================== */}
       <section className="relative bg-[#FAF8F5] py-14 lg:py-24">
@@ -556,11 +565,14 @@ export default function LandingPage({ slug, data }) {
       </section>
 
       {/* ============================ Badges ============================ */}
+      {/* Same badge sizes and breakout layout as the homepage (WhyChoose.jsx). */}
       <section className="relative overflow-hidden bg-white py-12 lg:py-16">
-        <div className="mx-auto flex max-w-[1200px] flex-wrap items-end justify-center gap-8 px-6 sm:gap-16">
-          <img src="/Group 12.webp" alt="Angi Super Service Award" width="520" height="965" loading="lazy" decoding="async" className="h-[clamp(117px,28.6vw,195px)] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
-          <img src="/Group 13.webp" alt="35+ Years of Experience" width="520" height="973" loading="lazy" decoding="async" className="h-[clamp(143px,33.8vw,234px)] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
-          <img src="/Group 14.webp" alt="BBB Accredited Business" width="520" height="963" loading="lazy" decoding="async" className="h-[clamp(117px,28.6vw,195px)] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
+        <div className="relative left-1/2 w-[min(100vw,1500px)] -translate-x-1/2">
+          <Reveal variant="scale" className="flex items-end justify-center gap-[36px] sm:gap-[68px] lg:gap-[84px] px-6 lg:px-10 flex-wrap sm:flex-nowrap">
+            <img src="/Group 12.webp" alt="Angi Super Service Award" width="520" height="965" loading="lazy" decoding="async" className="h-[clamp(100px,35vw,208px)] sm:h-[320px] lg:h-[440px] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
+            <img src="/Group 13.webp" alt="35+ Years of Experience" width="520" height="973" loading="lazy" decoding="async" className="h-[clamp(120px,42vw,250px)] sm:h-[384px] lg:h-[528px] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
+            <img src="/Group 14.webp" alt="BBB Accredited Business" width="520" height="963" loading="lazy" decoding="async" className="h-[clamp(100px,35vw,208px)] sm:h-[320px] lg:h-[440px] w-auto object-contain transition-transform duration-300 hover:-translate-y-1.5" />
+          </Reveal>
         </div>
       </section>
 
@@ -603,17 +615,13 @@ export default function LandingPage({ slug, data }) {
       </section>
 
       {/* =========================== Reviews =========================== */}
-      <section className="bg-[#fbf7f0] py-14 lg:py-20">
-        <div className="mx-auto max-w-[1200px] px-6 text-center">
-          <Reveal as="p" className="mb-3 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange sm:text-sm">Reviews</Reveal>
-          <Reveal as="h2" delay={100} className="font-display text-3xl font-black leading-[1.05] tracking-tight text-phsNavy sm:text-4xl">
-            What Our Customers Are Saying
-          </Reveal>
+      {/* Same live Google reviews block as the home page — the component
+          renders its own "REVIEWS · REAL HOMEOWNERS" heading. */}
+      <section className="bg-[#fbf7f0] pb-14 pt-2 lg:pb-20">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <GoogleReviews />
         </div>
-        <GoogleReviews />
       </section>
-
-
 
       {/* ========================= Service area ======================== */}
       <section className="relative overflow-hidden bg-[#29ABE2] py-14 text-white lg:py-24">
@@ -665,44 +673,6 @@ export default function LandingPage({ slug, data }) {
       </section>
 
 
-
-      {/* ============================ Blog ============================= */}
-      <section className="bg-[#fbf7f0] py-14 lg:py-24">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <div className="mb-10 text-center">
-            <Reveal as="p" className="mb-3 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange sm:text-sm">Field Notes</Reveal>
-            <Reveal as="h2" delay={100} className="font-display text-3xl font-black leading-[1.05] tracking-tight text-phsInk sm:text-4xl">
-              {data.serviceNoun} Know-How
-            </Reveal>
-          </div>
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {blogPosts.map((post, i) => (
-              <Reveal key={post.slug} as="article" variant="up" delay={i * 130}
-                className="group flex flex-col overflow-hidden rounded-2xl border border-gray-200/70 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-md">
-                <a href={`/blog/${post.slug}`} className="relative block aspect-[16/10] w-full overflow-hidden bg-gray-100">
-                  <img src={post.image} alt={post.title} width="800" height="500" loading="lazy" decoding="async"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                  <span className="absolute top-4 left-4 z-10 rounded bg-phsOrange px-2.5 py-1 font-mono text-[9px] font-bold tracking-widest text-white shadow-sm">{post.category}</span>
-                </a>
-                <div className="flex flex-1 flex-col p-6">
-                  <a href={`/blog/${post.slug}`}>
-                    <h3 className="mb-3 font-display text-[16px] font-bold leading-snug text-phsInk transition-colors group-hover:text-phsOrange sm:text-[17px]">{post.title}</h3>
-                  </a>
-                  <p className="mb-6 flex-1 text-[13px] leading-relaxed text-gray-500 sm:text-[14px]">{post.excerpt}</p>
-                  <a href={`/blog/${post.slug}`} className="inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange hover:text-phsOrangeDark">
-                    Read <ArrowIcon className="h-3.5 w-3.5" />
-                  </a>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <div className="mt-12 flex justify-center">
-            <a href="/blog" className="cta-diag cta-diag-orange group inline-flex items-center gap-2 rounded-md bg-phsOrange px-7 py-4 font-sans text-sm font-bold tracking-[0.12em] text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg">
-              View Blogs <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
-          </div>
-        </div>
-      </section>
 
       {/* =========================== FAQ =============================== */}
       <section className="bg-white py-14 lg:py-24">

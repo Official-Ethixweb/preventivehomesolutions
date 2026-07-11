@@ -205,6 +205,13 @@ export const LANDING_PAGES = {
       'Utah summers get hot fast. Whether your AC needs a tune-up, a repair, or a full replacement, our certified technicians deliver reliable cooling and keep your energy costs down.',
     heroImage: '/AC installed 01.webp',
     heroImageAlt: 'Newly installed air conditioning condenser unit at a Northern Utah home',
+
+    // Rotating coupon strip shown in place of the service marquee.
+    coupons: [
+      '$89 — AC Tune-Up & 21-Point Safety Inspection',
+      '10% OFF — Any AC Repair',
+      '$100 OFF — A New AC System Installation',
+    ],
     mascotImage: '/process-mascot.webp',
     trustChips: TRUST_CHIPS,
     serviceNoun: 'Cooling',

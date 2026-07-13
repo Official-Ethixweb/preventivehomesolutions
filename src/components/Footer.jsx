@@ -2,7 +2,7 @@ import { LICENSE_NUMBER, PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { FULL_ADDRESS, BUSINESS } from '../data/business.js'
 
 const quickLinks = [
-  { label: 'Home', href: '/#hero' },
+  { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about-us' },
   { label: 'Blogs', href: '/blog' },
   { label: 'Preventive Tips', href: '/blog' },
@@ -10,13 +10,13 @@ const quickLinks = [
   { label: 'Contact Us', href: '/#contact' },
 ]
 const services = [
-  'AC Installation and Replacement',
-  'Furnace Installation and Replacement',
-  'Water Heater Installation and Replacement',
-  'Boiler Service and Maintenance',
-  'Drain Cleaning',
-  'Leak Detection & Repair',
-].map((label) => ({ label, href: '/#scheduling' }))
+  { label: 'AC Installation and Replacement', href: '/ac/ac-installation' },
+  { label: 'Furnace Installation and Replacement', href: '/hvac/furnace-installation' },
+  { label: 'Water Heater Installation and Replacement', href: '/water-heater-repair' },
+  { label: 'Boiler Service and Maintenance', href: '/hvac/boiler-service' },
+  { label: 'Drain Cleaning', href: '/plumbing/drain-cleaning' },
+  { label: 'Leak Detection & Repair', href: '/plumbing/leak-detection-repair' },
+]
 
 function ChevronRight() {
   return (
@@ -98,12 +98,12 @@ function SimpleFooter() {
           height="420"
           loading="lazy"
           decoding="async"
-          className="h-24 w-auto"
+          className="h-[115px] w-auto"
         />
 
         {/* Tagline */}
-        <p className="mt-4 font-sans text-lg font-bold text-white">
-          Licensed &amp; Insured Plumbing, Heating &amp; Cooling — serving Northern Utah
+        <p className="mt-4 font-sans text-lg font-bold text-white sm:whitespace-nowrap">
+          Licensed &amp; Insured Plumbing, Heating &amp; Cooling serving Northern Utah
         </p>
 
         {/* Phone (emphasized) */}
@@ -189,7 +189,7 @@ export default function Footer({ simple = false }) {
             {/* Social Icons */}
             <div className="flex items-center gap-4 mt-6">
               <a
-                href="#"
+                href="https://www.facebook.com/people/Preventive-Home-Solutions/61562873696796/"
                 aria-label="Facebook"
                 className="flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
               >

@@ -246,23 +246,41 @@ const FORM_DESIGN_WIDTH = 360
 
 
 
-/* ----------------------------- Coupon strip ----------------------------- */
-// Replaces the service marquee with rotating offers, using the same staggered
-// pop-slide character animation as the hero tagline box.
-function CouponStrip({ coupons }) {
+/* ------------------------- Sticky coupon / call bar --------------------- */
+// Rotating offers pinned to the bottom of the viewport so the discount stays
+// visible as the visitor scrolls, paired with a prominent tap-to-call button.
+function StickyCouponBar({ coupons }) {
   return (
-    <div className="flex w-full items-center justify-center overflow-hidden border-y border-phsOrangeDark bg-phsOrange px-4 py-4 text-white shadow-sm">
-      <span className="mr-3 shrink-0 text-white/80 [&_svg]:h-5 [&_svg]:w-5 sm:[&_svg]:h-6 sm:[&_svg]:w-6">{ICONS.tag}</span>
-      <RotatingText
-        texts={coupons}
-        rotationInterval={3000}
-        staggerDuration={0.01}
-        staggerFrom="last"
-        splitBy="characters"
-        animatePresenceMode="popLayout"
-        mainClassName="font-display text-[clamp(11px,3vw,20px)] whitespace-nowrap font-bold tracking-wide sm:tracking-widest"
-        elementLevelClassName="will-change-transform"
-      />
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-phsOrangeDark bg-phsOrange text-white shadow-[0_-8px_28px_rgba(0,0,0,0.18)]">
+      {/* On lg the extra side padding keeps the coupon + Call button clear of the
+          fixed chatbot (bottom-right) and accessibility widget (bottom-left);
+          below lg those widgets sit above the bar so no inset is needed. The wide
+          max-width leaves the coupon enough room to show in full on one line. */}
+      <div className="mx-auto flex max-w-[1400px] items-center justify-center gap-2.5 px-3 py-2.5 sm:gap-3.5 sm:px-5 sm:py-3 lg:pl-24 lg:pr-32">
+        <span className="shrink-0 text-white/85 [&_svg]:h-5 [&_svg]:w-5 sm:[&_svg]:h-6 sm:[&_svg]:w-6">{ICONS.tag}</span>
+        <div className="rotate-oneline min-w-0 flex-1 overflow-hidden">
+          <RotatingText
+            texts={coupons}
+            rotationInterval={3000}
+            staggerDuration={0.01}
+            staggerFrom="last"
+            splitBy="characters"
+            animatePresenceMode="popLayout"
+            mainClassName="font-display text-[clamp(11px,2.4vw,18px)] whitespace-nowrap font-bold tracking-wide sm:tracking-widest"
+            elementLevelClassName="will-change-transform"
+          />
+        </div>
+        {/* Call button only from md up, where there's room for it beside the
+            coupon without truncating the text. On phones the coupon uses the full
+            bar width (the fixed header already keeps the phone number on screen). */}
+        <a
+          href={`tel:${PHONE_TEL}`}
+          className="cta-diag cta-diag-white group hidden shrink-0 items-center gap-2 rounded-md bg-white px-4 py-2 font-sans text-sm font-black text-phsOrange shadow-sm transition-transform hover:-translate-y-0.5 md:inline-flex"
+        >
+          <PhoneIcon className="h-5 w-5" />
+          Call&nbsp;{PHONE_DISPLAY}
+        </a>
+      </div>
     </div>
   )
 }
@@ -371,7 +389,7 @@ export default function LandingPage({ slug, data }) {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5]">
+    <div className={`min-h-screen bg-[#FAF8F5] ${data.coupons ? 'pb-[68px] sm:pb-[64px]' : ''}`}>
       <TopBar />
       <Header isLanding={true} />
       <main>
@@ -399,17 +417,35 @@ export default function LandingPage({ slug, data }) {
               <Reveal as="h1" delay={100} className="mt-5 font-display text-4xl font-black leading-[1.05] tracking-tight text-phsNavy sm:text-5xl lg:text-6xl">
                 {data.heroStatic}
               </Reveal>
-              <Reveal delay={150} className="mt-4 inline-flex max-w-full items-center overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm">
-                <RotatingText
-                  texts={data.taglines}
-                  rotationInterval={3000}
-                  staggerDuration={0.01}
-                  staggerFrom="last"
-                  splitBy="characters"
-                  animatePresenceMode="popLayout"
-                  mainClassName="font-sans text-[clamp(14px,4vw,20px)] whitespace-nowrap font-bold normal-case tracking-normal text-white"
-                  elementLevelClassName="will-change-transform"
-                />
+              <Reveal delay={150} className="rotate-oneline mt-4 inline-grid max-w-full items-center overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm">
+                {/* Invisible copies of every tagline, stacked in one grid cell, so
+                    the box width is fixed to the LONGEST tagline and never grows or
+                    shrinks as the visible line rotates. Rendered through RotatingText
+                    too, so each ghost's width matches the animated line exactly. */}
+                <span aria-hidden="true" className="pointer-events-none invisible col-start-1 row-start-1 grid">
+                  {data.taglines.map((t) => (
+                    <span key={t} className="col-start-1 row-start-1">
+                      <RotatingText
+                        texts={[t]}
+                        auto={false}
+                        splitBy="characters"
+                        mainClassName="font-sans text-[clamp(14px,4vw,20px)] whitespace-nowrap font-bold normal-case tracking-normal text-white"
+                      />
+                    </span>
+                  ))}
+                </span>
+                <span className="col-start-1 row-start-1 flex items-center">
+                  <RotatingText
+                    texts={data.taglines}
+                    rotationInterval={3000}
+                    staggerDuration={0.01}
+                    staggerFrom="last"
+                    splitBy="characters"
+                    animatePresenceMode="popLayout"
+                    mainClassName="font-sans text-[clamp(14px,4vw,20px)] whitespace-nowrap font-bold normal-case tracking-normal text-white"
+                    elementLevelClassName="will-change-transform"
+                  />
+                </span>
               </Reveal>
               <Reveal as="p" delay={250} className="mt-6 max-w-xl text-[15px] leading-relaxed text-phsInk/70 sm:text-base">
                 {data.heroSubtitle}
@@ -497,6 +533,7 @@ export default function LandingPage({ slug, data }) {
                     <BookingForm
                       serviceOptions={data.serviceOptions}
                       section={`Landing Hero (Desktop) — ${data.serviceName}`}
+                      mobile
                     />
                   </div>
                 </div>
@@ -506,7 +543,7 @@ export default function LandingPage({ slug, data }) {
         </div>
       </section>
 
-      {data.coupons ? <CouponStrip coupons={data.coupons} /> : <MarqueeBanner />}
+      {!data.coupons && <MarqueeBanner />}
 
       {/* ============================ Services =========================== */}
       <section className="relative bg-[#FAF8F5] py-14 lg:py-24">
@@ -543,7 +580,7 @@ export default function LandingPage({ slug, data }) {
         <div className="pointer-events-none absolute -bottom-24 -left-24 z-0 h-72 w-72 rounded-full bg-phsOrange/20 blur-3xl" />
         <div className="relative z-10 mx-auto max-w-[1200px] px-6">
           <div className="mx-auto mb-12 max-w-2xl text-center">
-            <Reveal as="p" className="mb-4 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange sm:text-sm">Why Homeowners Choose Us</Reveal>
+            <Reveal as="p" className="mb-4 font-mono text-xs font-bold tracking-[0.25em] text-white sm:text-sm">Why Homeowners Choose Us</Reveal>
             <Reveal as="h2" delay={100} className="font-display text-3xl font-black leading-[1.05] tracking-tight sm:text-4xl lg:text-[2.75rem]">
               The Best in the Trade
             </Reveal>
@@ -650,8 +687,8 @@ export default function LandingPage({ slug, data }) {
 
             {/* Visible NAP */}
             <Reveal delay={300} className="mt-8 space-y-2 border-t border-white/10 pt-6 text-sm text-white/80">
-              <p><span className="font-bold text-white">Address:</span> {FULL_ADDRESS}</p>
-              <p><span className="font-bold text-white">Phone:</span> <a href={`tel:${PHONE_TEL}`} className="text-phsOrange hover:underline">{PHONE_DISPLAY}</a></p>
+              <p className="font-bold text-white"><span className="font-bold text-white">Address:</span> {FULL_ADDRESS}</p>
+              <p className="font-bold text-white"><span className="font-bold text-white">Phone:</span> <a href={`tel:${PHONE_TEL}`} className="font-bold text-white hover:underline">{PHONE_DISPLAY}</a></p>
               <p><span className="font-bold text-white">Email:</span> <a href={`mailto:${BUSINESS.email}`} className="text-phsOrange hover:underline">{BUSINESS.email}</a></p>
             </Reveal>
           </div>
@@ -735,6 +772,7 @@ export default function LandingPage({ slug, data }) {
 
       </main>
       <Footer />
+      {data.coupons && <StickyCouponBar coupons={data.coupons} />}
     </div>
   )
 }

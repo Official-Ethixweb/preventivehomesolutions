@@ -770,9 +770,153 @@ export default function LandingPage({ slug, data }) {
         </section>
       )}
 
+      <BottomPromoForm serviceName={data.serviceName} />
       </main>
       <Footer simple={true} />
       {data.coupons && <StickyCouponBar coupons={data.coupons} />}
     </div>
+  )
+}
+
+/* -------------------------- Bottom Promo Form ----------------------- */
+function BottomPromoForm({ serviceName }) {
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(null)
+  const [recaptchaToken, setRecaptchaToken] = useState('')
+  const recaptchaRef = useRef(null)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (recaptchaConfigured && !recaptchaToken) {
+      setError('Please confirm you’re not a robot.')
+      return
+    }
+    setSubmitting(true)
+    setError(null)
+
+    const formData = new FormData(e.target)
+    try {
+      await submitLead(
+        {
+          name: formData.get('name'),
+          phone: formData.get('phone'),
+          email: formData.get('email') || '',
+          service: serviceName ? `${serviceName} (Bottom Form)` : 'Landing Bottom Form',
+          message: formData.get('message') || '',
+        },
+        { section: 'Landing Bottom Promo Form', recaptchaToken }
+      )
+      setSubmitted(true)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSubmitting(false)
+      recaptchaRef.current?.reset()
+    }
+  }
+
+  const inputStyle = "w-full rounded-lg bg-[#FAF8F5]/80 border border-[#e6ded4] px-4 py-3.5 text-[15px] text-phsInk placeholder:text-phsInk/40 outline-none transition-all duration-200 focus:border-phsOrange focus:ring-2 focus:ring-phsOrange/20 focus:bg-white"
+
+  return (
+    <section className="bg-white py-16 lg:py-24 border-t border-[#e6ded4]">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-12 md:gap-12">
+          {/* Left Column: Image */}
+          <Reveal variant="left" className="md:col-span-6 flex flex-col justify-stretch">
+            <div className="relative w-full h-full min-h-[320px] md:min-h-[420px] rounded-2xl overflow-hidden border border-[#e6ded4] shadow-[0_15px_40px_-15px_rgba(0,0,0,0.15)]">
+              <img
+                src="/IMG_6217.webp"
+                alt="Preventive Home Solutions Work"
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+              />
+            </div>
+          </Reveal>
+
+          {/* Right Column: Form */}
+          <Reveal variant="right" className="md:col-span-6 flex items-center">
+            <div className="w-full max-w-xl">
+              <span className="font-mono text-xs font-bold tracking-[0.25em] text-phsOrange uppercase">Quick Request</span>
+              <h2 className="mt-2 font-display text-3xl font-black tracking-tight text-phsNavy sm:text-4xl uppercase leading-none">
+                Get a Free Estimate
+              </h2>
+              <p className="mt-4 text-sm leading-relaxed text-gray-500 font-sans">
+                Tell us about your project or service emergency, and we will get back to you same day with upfront, honest options.
+              </p>
+
+              {submitted ? (
+                <div className="mt-8 rounded-2xl bg-green-500/10 p-8 text-center border border-green-500/20">
+                  <div className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-green-500/20 text-green-600 mb-4">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="h-6 w-6">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <h3 className="font-display font-bold text-xl text-phsNavy mb-2">Request Submitted!</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed font-sans">
+                    Thank you. A member of our licensed team will contact you shortly.
+                  </p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+                  <div>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      placeholder="Your name"
+                      className={inputStyle}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <input
+                        type="tel"
+                        name="phone"
+                        required
+                        placeholder="Phone number"
+                        className={inputStyle}
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Email address (optional)"
+                        className={inputStyle}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <textarea
+                      name="message"
+                      rows={3}
+                      placeholder="How can we help? (Briefly describe the issue...)"
+                      className={`${inputStyle} resize-none`}
+                    />
+                  </div>
+
+                  <Recaptcha
+                    ref={recaptchaRef}
+                    onChange={setRecaptchaToken}
+                    className="flex justify-center origin-center [transform:scale(0.85)] -my-3"
+                  />
+
+                  {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}
+
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="cta-diag cta-diag-orange w-full rounded-xl bg-phsOrange py-4 px-6 font-bold text-white shadow-sm hover:shadow hover:-translate-y-0.5 transition active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed text-[15px] tracking-wider"
+                  >
+                    {submitting ? 'Sending Request...' : 'Send Message'}
+                  </button>
+                </form>
+              )}
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
   )
 }

@@ -771,7 +771,7 @@ export default function LandingPage({ slug, data }) {
       )}
 
       </main>
-      <Footer />
+      <Footer simple={true} />
       {data.coupons && <StickyCouponBar coupons={data.coupons} />}
     </div>
   )

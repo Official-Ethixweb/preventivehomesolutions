@@ -1,25 +1,92 @@
 import { LICENSE_NUMBER, PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { FULL_ADDRESS, BUSINESS } from '../data/business.js'
 
-function PinIcon() {
+const quickLinks = [
+  { label: 'Home', href: '/#hero' },
+  { label: 'About Us', href: '/about-us' },
+  { label: 'Blogs', href: '/blog' },
+  { label: 'Preventive Tips', href: '/blog' },
+  { label: 'Maintenance', href: '/#services' },
+  { label: 'Contact Us', href: '/#contact' },
+]
+const services = [
+  'AC Installation and Replacement',
+  'Furnace Installation and Replacement',
+  'Water Heater Installation and Replacement',
+  'Boiler Service and Maintenance',
+  'Drain Cleaning',
+  'Leak Detection & Repair',
+].map((label) => ({ label, href: '/#scheduling' }))
+
+function ChevronRight() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="h-3.5 w-3.5 text-phsOrange transition-transform duration-300 group-hover/link:translate-x-1">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
+  )
+}
+
+function PinIcon({ className = 'h-5 w-5 text-white shrink-0' }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
       <circle cx="12" cy="10" r="3" />
     </svg>
   )
 }
 
-function MailIcon() {
+function PhoneIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 shrink-0">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5 text-white shrink-0">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  )
+}
+
+function MailIcon({ className = 'h-5 w-5 text-white shrink-0' }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
       <polyline points="22,6 12,13 2,6" />
     </svg>
   )
 }
 
-export default function Footer() {
+const contactInfo = [
+  { Icon: PinIcon, text: FULL_ADDRESS },
+  { Icon: PhoneIcon, text: PHONE_DISPLAY, href: `tel:${PHONE_TEL}` },
+  { Icon: MailIcon, text: BUSINESS.email, href: `mailto:${BUSINESS.email}` },
+]
+
+function LinkColumn({ title, items }) {
+  return (
+    <div>
+      <h3 className="font-display font-black text-sm tracking-[0.2em] text-white mb-6 [-webkit-text-stroke:0.6px_currentColor] hover:text-white transition-colors duration-300">
+        {title}
+      </h3>
+      <ul className="space-y-3.5">
+        {items.map((item) => (
+          <li key={item.label}>
+            <a
+              href={item.href}
+              className="group/link inline-flex items-center gap-2 text-[15px] font-bold text-white hover:opacity-80 transition-all duration-300"
+            >
+              <ChevronRight />
+              <span>{item.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+/**
+ * Compact, single-column footer used only on the conversion landing pages
+ * (see LandingPage.jsx). The full sitemap-style footer below is used on the
+ * home page and every other marketing page.
+ */
+function SimpleFooter() {
   return (
     <footer className="bg-[#29ABE2] text-white">
       <div className="mx-auto flex max-w-2xl flex-col items-center px-6 pt-16 pb-28 text-center lg:pb-16">
@@ -51,11 +118,11 @@ export default function Footer() {
         {/* Address + email — each on its own line, centered (no clipping) */}
         <div className="mt-6 flex flex-col items-center gap-2 font-sans text-[14px] font-bold text-white/90 sm:text-[15px]">
           <span className="inline-flex items-center gap-2">
-            <PinIcon />
+            <PinIcon className="h-4 w-4 shrink-0" />
             {FULL_ADDRESS}
           </span>
           <a href={`mailto:${BUSINESS.email}`} className="inline-flex items-center gap-2 whitespace-nowrap hover:opacity-80">
-            <MailIcon />
+            <MailIcon className="h-4 w-4 shrink-0" />
             {BUSINESS.email}
           </a>
         </div>
@@ -73,6 +140,139 @@ export default function Footer() {
           <a href="#" className="hover:text-white">Terms &amp; Conditions</a>
         </nav>
       </div>
+    </footer>
+  )
+}
+
+export default function Footer({ simple = false }) {
+  if (simple) return <SimpleFooter />
+
+  return (
+    <footer
+      className="bg-[#29ABE2] text-white relative overflow-hidden pt-20"
+      style={{
+        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px)',
+        backgroundSize: '24px 24px'
+      }}
+    >
+      <div className="mx-auto max-w-[1400px] px-6 pb-12">
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+
+          {/* Brand Column */}
+          <div className="min-w-0">
+            <div className="flex items-center gap-3">
+              <img
+                src="/main logo.webp"
+                alt="Preventive Home Solutions"
+                width="420"
+                height="420"
+                loading="lazy"
+                decoding="async"
+                className="h-28 w-auto shrink-0"
+              />
+              <span className="min-w-0 font-display text-base font-black tracking-[0.16em] leading-tight text-white hover:text-white transition-colors duration-300">
+                Preventive<br />
+                Home<br />
+                Solutions
+              </span>
+            </div>
+            <p className="mt-6 text-[15px] font-bold leading-relaxed text-white font-sans">
+              Fix It. Prevent It. Protect It. Expert plumbing, heating, and cooling services built on trust and standard.
+            </p>
+
+            {/* State license */}
+            <p className="mt-5 inline-flex items-center gap-2 rounded-md border border-white/20 px-3 py-1.5 font-sans text-[13px] font-bold text-white">
+              <span className="font-mono uppercase tracking-[0.12em] text-white/70">Lic.</span>
+              #{LICENSE_NUMBER}
+            </p>
+
+            {/* Social Icons */}
+            <div className="flex items-center gap-4 mt-6">
+              <a
+                href="#"
+                aria-label="Facebook"
+                className="flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                </svg>
+              </a>
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                </svg>
+              </a>
+              <a
+                href="#"
+                aria-label="Twitter/X"
+                className="flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+              >
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-6 w-6">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links Column (Hidden on Mobile) */}
+          <div className="hidden min-w-0 sm:block">
+            <LinkColumn title="Quick Links" items={quickLinks} />
+          </div>
+
+          {/* Our Services Column (Hidden on Mobile) */}
+          <div className="hidden min-w-0 sm:block -ml-4">
+            <LinkColumn title="Our Services" items={services} />
+          </div>
+
+          {/* Contact Info Column */}
+          <div className="min-w-0">
+            <h3 className="font-display font-black text-sm tracking-[0.2em] text-white mb-6 [-webkit-text-stroke:0.6px_currentColor] hover:text-white transition-colors duration-300">
+              Contact Info
+            </h3>
+            <ul className="space-y-4">
+              {contactInfo.map((info, i) => (
+                <li key={i} className="flex items-start gap-3.5 text-[15px] font-bold text-white">
+                  <info.Icon />
+                  {info.href ? (
+                    <a href={info.href} className="min-w-0 whitespace-nowrap hover:opacity-80 transition-all duration-200">
+                      {info.text}
+                    </a>
+                  ) : (
+                    <span className="min-w-0 break-words">{info.text}</span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+        </div>
+
+        {/* Accessibility Note */}
+        <p className="mt-16 text-center text-[12px] text-white max-w-2xl mx-auto leading-relaxed border-t border-white/5 pt-8 font-sans">
+          Preventive Home Solutions is committed to keeping our site accessible to everyone. We welcome feedback on ways to improve this site's accessibility.{' '}
+          <a href="/accessibility" className="font-bold underline underline-offset-2 hover:opacity-80">Learn about our accessibility features</a>.
+        </p>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="border-t border-white/10 bg-black/10">
+        <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-4 px-6 pt-6 pb-28 lg:pb-6 text-[13px] text-white md:flex-row font-mono font-medium">
+          <p className="text-center md:text-left">
+            Copyright © {new Date().getFullYear()}, Preventive Home Solutions. All Rights Reserved. · License #{LICENSE_NUMBER}
+          </p>
+          <nav className="flex items-center gap-6">
+            <a href="/accessibility">Accessibility</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms &amp; Conditions</a>
+            <a href="#">Sitemap</a>
+          </nav>
+        </div>
+      </div>
+
     </footer>
   )
 }

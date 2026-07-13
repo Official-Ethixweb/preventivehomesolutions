@@ -1,5 +1,5 @@
 import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react'
-import { loadRecaptcha, whenUserEngaged, RECAPTCHA_SITE_KEY } from '../lib/recaptcha.js'
+import { loadRecaptcha, RECAPTCHA_SITE_KEY } from '../lib/recaptcha.js'
 
 /**
  * reCAPTCHA v2 checkbox widget.
@@ -21,10 +21,9 @@ const Recaptcha = forwardRef(function Recaptcha(
 
   useEffect(() => {
     let cancelled = false
-    // Defer the ~380 KB reCAPTCHA download until the visitor actually engages
-    // with the page, keeping it off the initial-load critical path.
-    whenUserEngaged()
-      .then(() => (cancelled ? null : loadRecaptcha()))
+    // Load reCAPTCHA immediately on mount so the checkbox is ready the moment
+    // the visitor reaches any form — no waiting for first interaction.
+    loadRecaptcha()
       .then((grecaptcha) => {
         if (cancelled || !grecaptcha || !containerRef.current) return
         if (widgetId.current !== null) return

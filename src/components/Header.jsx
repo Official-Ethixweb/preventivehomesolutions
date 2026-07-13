@@ -1,8 +1,22 @@
 import { useEffect, useRef, useState } from 'react'
 import BottomNav from './BottomNav.jsx'
 import { SERVICE_GROUPS, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, LICENSE_NUMBER, areaHref } from '../data/nav.js'
+import { BUSINESS } from '../data/business.js'
 
 const LOGO_SRC = '/main logo.webp'
+
+// Short one-line address (no country) for the header, sourced from the same
+// single source of truth as the footer / structured data.
+const SHORT_ADDRESS = `${BUSINESS.address.street}, ${BUSINESS.address.city}, ${BUSINESS.address.region} ${BUSINESS.address.postalCode}`
+
+function MapPinIcon({ className = '' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
+  )
+}
 
 const MENUS = {
   services: { label: 'Services' },
@@ -39,10 +53,31 @@ function PhoneIcon({ className = '' }) {
   )
 }
 
-export default function Header({ isLanding = false }) {
-  if (isLanding) {
-    return (
-      <header className="relative z-40 w-full bg-[#FAF8F5] border-b border-gray-200/50 py-3 lg:py-4">
+/**
+ * Landing-page header. Pinned to the top of the viewport as the visitor scrolls
+ * (position:fixed + a spacer, because html/body use overflow-x:hidden which
+ * makes position:sticky unreliable here). The phone number is the primary,
+ * emphasized call-to-action.
+ */
+function LandingHeader() {
+  const ref = useRef(null)
+  const [barHeight, setBarHeight] = useState(0)
+
+  // Mirror the fixed bar's height into an in-flow spacer so the hero doesn't
+  // jump up underneath it.
+  useEffect(() => {
+    const measure = () => setBarHeight(ref.current?.offsetHeight ?? 0)
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [])
+
+  return (
+    <>
+      <header
+        ref={ref}
+        className="fixed inset-x-0 top-0 z-40 w-full border-b border-gray-200/50 bg-[#FAF8F5]/95 py-3 shadow-sm backdrop-blur lg:py-4"
+      >
         <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-[clamp(12px,4vw,20px)] sm:px-5 lg:px-10">
           {/* Logo */}
           <a href="/" className="group flex items-center gap-2.5">
@@ -96,17 +131,30 @@ export default function Header({ isLanding = false }) {
             </div>
           </div>
 
-          {/* Phone Number (Orange CTA matching homepage style) */}
+          {/* Phone Number — primary emphasized CTA */}
           <a
             href={`tel:${PHONE_TEL}`}
-            className="cta-diag cta-diag-orange group flex items-center gap-2 rounded-md bg-phsOrange border border-phsOrange px-4 py-2.5 font-sans text-sm sm:text-base font-bold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
+            className="cta-diag cta-diag-orange group flex items-center gap-2.5 rounded-md bg-phsOrange border border-phsOrange px-4 py-2 sm:px-5 sm:py-2.5 font-sans font-bold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
           >
-            <PhoneIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white transition-colors duration-300 group-hover:text-phsOrange" />
-            <span>{PHONE_DISPLAY}</span>
+            <PhoneIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white transition-colors duration-300 group-hover:text-phsOrange" />
+            <span className="flex flex-col text-left leading-tight">
+              <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.16em] text-white/85">
+                Call Us 24/7
+              </span>
+              <span className="text-base sm:text-xl font-black tracking-tight">{PHONE_DISPLAY}</span>
+            </span>
           </a>
         </div>
       </header>
-    )
+      {/* Spacer keeps page content below the fixed header */}
+      <div aria-hidden="true" style={{ height: barHeight }} />
+    </>
+  )
+}
+
+export default function Header({ isLanding = false }) {
+  if (isLanding) {
+    return <LandingHeader />
   }
 
   const [openMenu, setOpenMenu] = useState(null) // 'services' | 'areas' | null
@@ -311,13 +359,19 @@ export default function Header({ isLanding = false }) {
                 <PhoneIcon className="h-3.5 w-3.5 text-phsSky" />
                 {PHONE_DISPLAY}
               </a>
-              <a
-                href="/#scheduling"
-                onMouseEnter={closeMenu}
-                className="cta-diag cta-diag-orange rounded-md bg-phsOrange px-3 sm:px-5 py-1.5 sm:py-2.5 font-sans text-[11px] sm:text-sm font-bold text-white shadow-sm whitespace-nowrap hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
-              >
-                Get Free Quote
-              </a>
+              <div className="flex flex-col items-center gap-1">
+                <a
+                  href="/#scheduling"
+                  onMouseEnter={closeMenu}
+                  className="cta-diag cta-diag-orange rounded-md bg-phsOrange px-3 sm:px-5 py-1.5 sm:py-2.5 font-sans text-[11px] sm:text-sm font-bold text-white shadow-sm whitespace-nowrap hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
+                >
+                  Get Free Quote
+                </a>
+                <span className="hidden items-center gap-1 whitespace-nowrap font-sans text-[10px] font-semibold text-phsInk/55 xl:flex">
+                  <MapPinIcon className="h-2.5 w-2.5 shrink-0 text-phsOrange" />
+                  {SHORT_ADDRESS}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -376,14 +430,26 @@ export default function Header({ isLanding = false }) {
             {PHONE_DISPLAY}
           </a>
 
-          {/* Highlighted CTA */}
-          <a
-            href="/#scheduling"
-            onMouseEnter={closeMenu}
-            className="cta-diag cta-diag-orange rounded-md bg-phsOrange px-6 py-3 font-sans text-sm font-bold text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
-          >
-            Get Free Quote
-          </a>
+          {/* Highlighted CTA + address underneath */}
+          <div className="flex flex-col items-center gap-1.5">
+            <a
+              href="/#scheduling"
+              onMouseEnter={closeMenu}
+              className="cta-diag cta-diag-orange rounded-md bg-phsOrange px-6 py-3 font-sans text-sm font-bold text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
+            >
+              Get Free Quote
+            </a>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+S+Main+St+Layton+UT+84041"
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={closeMenu}
+              className="flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange"
+            >
+              <MapPinIcon className="h-3 w-3 shrink-0 text-phsOrange" />
+              {SHORT_ADDRESS}
+            </a>
+          </div>
         </div>
 
       </div>

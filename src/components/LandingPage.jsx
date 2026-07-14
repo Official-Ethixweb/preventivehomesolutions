@@ -249,7 +249,35 @@ const FORM_DESIGN_WIDTH = 360
 /* ------------------------- Sticky coupon / call bar --------------------- */
 // Rotating offers pinned to the bottom of the viewport so the discount stays
 // visible as the visitor scrolls, paired with a prominent tap-to-call button.
+const COUPON_FONT =
+  'font-display text-[clamp(11px,2.4vw,18px)] whitespace-nowrap font-bold tracking-wide sm:tracking-widest'
+
 function StickyCouponBar({ coupons }) {
+  // Auto-shrink the coupon text to fit its column so it can never clip or spill
+  // out of the bar — regardless of viewport width, the device's font-scaling, or
+  // browser zoom. A hidden ghost of the longest coupon gives the natural width;
+  // the visible line is scaled down by whatever factor is needed to fit.
+  const trackRef = useRef(null)
+  const ghostRef = useRef(null)
+  const [scale, setScale] = useState(1)
+
+  useEffect(() => {
+    const track = trackRef.current
+    const ghost = ghostRef.current
+    if (!track || !ghost) return
+    const compute = () => {
+      const avail = track.clientWidth
+      const natural = ghost.getBoundingClientRect().width
+      setScale(avail > 0 && natural > avail ? avail / natural : 1)
+    }
+    const ro = new ResizeObserver(compute)
+    ro.observe(track)
+    compute()
+    // Recompute once webfonts finish loading (Strong is wider than the fallback).
+    if (document.fonts?.ready) document.fonts.ready.then(compute)
+    return () => ro.disconnect()
+  }, [coupons])
+
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-phsOrangeDark bg-phsOrange text-white shadow-[0_-8px_28px_rgba(0,0,0,0.18)]">
       {/* On lg the extra side padding keeps the coupon + Call button clear of the
@@ -258,17 +286,32 @@ function StickyCouponBar({ coupons }) {
           max-width leaves the coupon enough room to show in full on one line. */}
       <div className="mx-auto flex max-w-[1400px] items-center justify-center gap-2.5 px-3 py-2.5 sm:gap-3.5 sm:px-5 sm:py-3 lg:pl-24 lg:pr-32">
         <span className="shrink-0 text-white/85 [&_svg]:h-5 [&_svg]:w-5 sm:[&_svg]:h-6 sm:[&_svg]:w-6">{ICONS.tag}</span>
-        <div className="rotate-oneline min-w-0 flex-1 overflow-hidden">
-          <RotatingText
-            texts={coupons}
-            rotationInterval={3000}
-            staggerDuration={0.01}
-            staggerFrom="last"
-            splitBy="characters"
-            animatePresenceMode="popLayout"
-            mainClassName="font-display text-[clamp(11px,2.4vw,18px)] whitespace-nowrap font-bold tracking-wide sm:tracking-widest"
-            elementLevelClassName="will-change-transform"
-          />
+        <div ref={trackRef} className="relative min-w-0 flex-1 overflow-hidden">
+          {/* Invisible copy of the longest coupon, used only to measure the width
+              the visible line would need at full size. */}
+          <span
+            ref={ghostRef}
+            aria-hidden="true"
+            className={`rotate-oneline pointer-events-none invisible absolute left-0 top-0 grid ${COUPON_FONT}`}
+          >
+            {coupons.map((c) => (
+              <span key={c} className="col-start-1 row-start-1">
+                <RotatingText texts={[c]} auto={false} splitBy="characters" mainClassName={COUPON_FONT} />
+              </span>
+            ))}
+          </span>
+          <div className="rotate-oneline origin-left" style={{ transform: `scale(${scale})` }}>
+            <RotatingText
+              texts={coupons}
+              rotationInterval={3000}
+              staggerDuration={0.01}
+              staggerFrom="last"
+              splitBy="characters"
+              animatePresenceMode="popLayout"
+              mainClassName={COUPON_FONT}
+              elementLevelClassName="will-change-transform"
+            />
+          </div>
         </div>
         {/* Call button only from md up, where there's room for it beside the
             coupon without truncating the text. On phones the coupon uses the full

@@ -11,7 +11,7 @@
 //   RECAPTCHA_MIN_SCORE    Optional score threshold (default 0.5)
 
 const DEFAULT_TO = 'Preventivehomeservices@gmail.com'
-const BUSINESS_ADDRESS = '688 S Main St, Layton, UT 84041, United States'
+const BUSINESS_ADDRESS = '688 N Main St, Layton, UT 84041, United States'
 
 function escapeHtml(value = '') {
   return String(value)

@@ -15,7 +15,7 @@ export const BUSINESS = {
   // Client-provided email + physical address (Layton showroom/office).
   email: 'Preventivehomeservices@gmail.com',
   address: {
-    street: '688 S Main St',
+    street: '688 N Main St',
     city: 'Layton',
     region: 'UT',
     postalCode: '84041',

@@ -8,6 +8,7 @@ export const SERVICE_GROUPS = [
     title: 'Cooling',
     items: [
       { label: 'AC Maintenance & Repair', href: '/ac/ac-repair' },
+      { label: 'AC Tune-Up & Maintenance', href: '/ac/ac-tune-ups' },
       { label: 'AC Installation and Replacement', href: '/ac/ac-installation' },
       { label: 'Heat Pumps', href: '/ac/heat-pumps' },
       { label: 'Mini Splits', href: '/ac/ductless-mini-splits' },
@@ -51,7 +52,7 @@ export const SERVICE_GROUPS = [
       { label: 'Toilet Repair and Replacement', href: '/plumbing/toilet-repair-replacement' },
       { label: 'Water Quality Filters', href: '/plumbing/water-quality-filters' },
       { label: 'Water Line Replacement', href: '/plumbing/water-line-replacement' },
-      { label: 'Emergency Services', href: '/plumbing/emergency-plumbing' },
+      { label: '24/7', href: '/plumbing/emergency-plumbing' },
       { label: 'Garbage Disposal', href: '/plumbing/garbage-disposal' },
     ],
   },

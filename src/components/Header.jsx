@@ -440,7 +440,7 @@ export default function Header({ isLanding = false }) {
               Get Free Quote
             </a>
             <a
-              href="https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+S+Main+St+Layton+UT+84041"
+              href="https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041"
               target="_blank"
               rel="noopener noreferrer"
               onMouseEnter={closeMenu}

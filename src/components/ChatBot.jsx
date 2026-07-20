@@ -14,23 +14,38 @@ import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
  * intake questions live in LEAD_STEPS, so both are easy to extend.
  */
 
-const AVATAR = '/process-mascot.webp'
+// Default-avatar palette: cool blue-greys pulled from the brand navy/sky family
+// (phsNavy #0a2540 / phsSky #1b6e9e) so the placeholder sits in the site's theme
+// instead of reading as neutral grey. Kept as solid colours rather than alpha
+// tints because the launcher renders this on a navy button — a translucent disc
+// would let the navy show through and darken the avatar.
+const AVATAR_DISC = '#d7e3ed'
+const AVATAR_FIGURE = '#5b7a91'
 
 /**
- * Round avatar for the knight mascot. The source art is a full bust (helmet
- * down to gauntlets), so we sit it on a soft light background and scale/anchor
- * to the top so only the head, shoulders, and a little chest show in the circle.
+ * Round default avatar: a generic head-and-shoulders silhouette on a light disc,
+ * tinted to the site's navy/sky palette. Drawn inline as SVG so it needs no image
+ * asset and stays crisp at every size. Decorative by default; pass `alt` to expose
+ * a label to screen readers (call sites inside an already-labelled control pass alt="").
  */
 function Avatar({ className = '', ring = '', alt = '' }) {
   return (
     <span
-      className={`relative block shrink-0 overflow-hidden rounded-full bg-[radial-gradient(circle_at_50%_28%,#f6f9fd,#d7e0ea)] ${ring} ${className}`}
+      className={`relative block shrink-0 overflow-hidden rounded-full ${ring} ${className}`}
+      style={{ backgroundColor: AVATAR_DISC }}
+      {...(alt
+        ? { role: 'img', 'aria-label': alt }
+        : { 'aria-hidden': 'true' })}
     >
-      <img
-        src={AVATAR}
-        alt={alt}
-        className="absolute inset-0 h-full w-full origin-top scale-[1.6] object-cover object-top"
-      />
+      <svg
+        viewBox="0 0 40 40"
+        className="absolute inset-0 h-full w-full"
+        fill={AVATAR_FIGURE}
+        aria-hidden="true"
+      >
+        <circle cx="20" cy="15" r="6.8" />
+        <ellipse cx="20" cy="37" rx="12.5" ry="9.5" />
+      </svg>
     </span>
   )
 }

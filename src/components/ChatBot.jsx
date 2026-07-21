@@ -14,19 +14,19 @@ import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
  * intake questions live in LEAD_STEPS, so both are easy to extend.
  */
 
-// Default-avatar palette: cool blue-greys pulled from the brand navy/sky family
-// (phsNavy #0a2540 / phsSky #1b6e9e) so the placeholder sits in the site's theme
-// instead of reading as neutral grey. Kept as solid colours rather than alpha
-// tints because the launcher renders this on a navy button — a translucent disc
-// would let the navy show through and darken the avatar.
+// Default-avatar palette pulled from the brand navy/sky family (phsNavy #0a2540 /
+// phsSky #1b6e9e) so the icon sits in the site's theme. Kept as solid colours
+// rather than alpha tints because the launcher renders this on a navy button — a
+// translucent disc would let the navy show through and darken the avatar.
 const AVATAR_DISC = '#d7e3ed'
-const AVATAR_FIGURE = '#5b7a91'
+const AVATAR_ICON = '#0a2540'
 
 /**
- * Round default avatar: a generic head-and-shoulders silhouette on a light disc,
- * tinted to the site's navy/sky palette. Drawn inline as SVG so it needs no image
- * asset and stays crisp at every size. Decorative by default; pass `alt` to expose
- * a label to screen readers (call sites inside an already-labelled control pass alt="").
+ * Round default avatar: an outline chat/message bubble (Feather "message-circle"
+ * with a tail at the lower-left) on a light sky-tinted disc, in the site's
+ * navy/sky palette. Drawn inline as SVG so it needs no image asset and stays crisp
+ * at every size. Decorative by default; pass `alt` to expose a label to screen
+ * readers (call sites inside an already-labelled control pass alt="").
  */
 function Avatar({ className = '', ring = '', alt = '' }) {
   return (
@@ -38,13 +38,16 @@ function Avatar({ className = '', ring = '', alt = '' }) {
         : { 'aria-hidden': 'true' })}
     >
       <svg
-        viewBox="0 0 40 40"
-        className="absolute inset-0 h-full w-full"
-        fill={AVATAR_FIGURE}
+        viewBox="0 0 24 24"
+        className="absolute inset-[22%] h-[56%] w-[56%]"
+        fill="none"
+        stroke={AVATAR_ICON}
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         aria-hidden="true"
       >
-        <circle cx="20" cy="15" r="6.8" />
-        <ellipse cx="20" cy="37" rx="12.5" ry="9.5" />
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
       </svg>
     </span>
   )
@@ -710,7 +713,7 @@ export default function ChatBot() {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Close chat' : 'Open chat assistant'}
         className={`fixed bottom-24 right-4 z-[70] h-[4.8rem] w-[4.8rem] rounded-full bg-phsNavy shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:right-6 ${
-          open ? 'hidden lg:block' : 'block'
+          open ? 'hidden' : 'block'
         }`}
       >
         {open ? (

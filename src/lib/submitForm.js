@@ -6,7 +6,7 @@
 // function at /api/contact, which verifies the token and sends the email
 // through SMTP2GO. Secrets never touch the client.
 
-import { trackEvent } from './analytics.js'
+import { trackEvent, trackAdsConversion, ADS_LABELS } from './analytics.js'
 
 const ENDPOINT = '/api/contact'
 
@@ -52,6 +52,9 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
     property_type: fields.propertyType || '',
     page_path: typeof window !== 'undefined' ? window.location.pathname : '',
   })
+
+  // Google Ads conversion for the same lead, so paid-search spend is attributed.
+  trackAdsConversion(ADS_LABELS.leadForm)
 
   return data
 }

@@ -34,6 +34,37 @@ export function initAnalytics() {
   document.head.appendChild(s)
 }
 
+// Google Ads conversion tracking.
+//
+// Separate channel from GA4 above: the Ads tag itself (AW-16752767608) is loaded
+// in index.html, and these labels come straight from the conversion-action
+// snippets in the Ads UI. They are public client-side identifiers, so they live
+// in code rather than an env var — same reasoning as the reCAPTCHA site key.
+//
+// Fired only on a real lead action (a tel: tap, a successful form POST), never
+// on page load, so "Page load" conversion actions must be set to Click in Ads.
+const ADS_ID = 'AW-16752767608'
+
+export const ADS_LABELS = {
+  // "PHS - Phone Click" conversion action.
+  phoneCall: 'lhRSCJmp3qUcEPjkq7Q-',
+  // TODO: paste the label from the "Submit lead form" conversion action snippet.
+  // Until it's filled in, form submissions report to GA4 only — trackAdsConversion
+  // no-ops on an empty label rather than sending a malformed send_to.
+  leadForm: '',
+}
+
+/**
+ * Report a Google Ads conversion. Safe to call from anywhere: no-ops on the
+ * server, when the Ads tag hasn't loaded, and when the label isn't configured.
+ */
+export function trackAdsConversion(label) {
+  if (!label || typeof window === 'undefined') return
+  if (typeof window.gtag !== 'function') return
+  window.gtag('event', 'conversion', { send_to: `${ADS_ID}/${label}` })
+  if (import.meta.env.DEV) console.debug('[Ads]', label)
+}
+
 /**
  * Send a GA4 event. Safe to call whether or not analytics is configured — it
  * falls back to a dataLayer push, and in dev it logs to the console so events
@@ -83,6 +114,7 @@ export function useAnalytics() {
         const label = anchor.textContent.trim().slice(0, 60)
         if (href.startsWith('tel:')) {
           trackEvent('click_to_call', { link_url: href, phone_number: href.replace('tel:', ''), link_text: label })
+          trackAdsConversion(ADS_LABELS.phoneCall)
           return
         }
         if (href.startsWith('mailto:')) {

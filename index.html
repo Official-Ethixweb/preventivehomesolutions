@@ -10,6 +10,18 @@
       content="Licensed plumbing, heating & cooling experts serving Northern Utah. Preventive Home Solutions delivers fast, professional repairs, installs, and maintenance — available 7 days a week. Call (385) 453-9428 for a free quote."
     />
     <meta name="theme-color" content="#0a2540" />
+    <!-- Google tag (gtag.js) — Google Ads conversion tracking (AW-16752767608).
+         Separate from the GA4 property wired up in src/lib/analytics.js: this one
+         exists so paid-search leads are attributed back to the Ads campaign.
+         The id is a public, client-side identifier (it ships in the page either
+         way), so it lives here rather than in an env var. -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-16752767608"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-16752767608');
+    </script>
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Preventive Home Solutions | Plumbing & HVAC in Northern Utah" />
     <meta

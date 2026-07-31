@@ -48,10 +48,8 @@ const ADS_ID = 'AW-16752767608'
 export const ADS_LABELS = {
   // "PHS - Phone Click" conversion action.
   phoneCall: 'lhRSCJmp3qUcEPjkq7Q-',
-  // TODO: paste the label from the "Submit lead form" conversion action snippet.
-  // Until it's filled in, form submissions report to GA4 only — trackAdsConversion
-  // no-ops on an empty label rather than sending a malformed send_to.
-  leadForm: '',
+  // "PHS - Form Submission" conversion action.
+  leadForm: 'mIKoCM2ax6UcEPjkq7Q-',
 }
 
 /**

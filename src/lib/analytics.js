@@ -48,8 +48,8 @@ const ADS_ID = 'AW-16752767608'
 export const ADS_LABELS = {
   // "PHS - Phone Click" conversion action.
   phoneCall: 'lhRSCJmp3qUcEPjkq7Q-',
-  // "Submit lead form (1)" conversion action.
-  leadForm: 'RL6dCPiLot0cEPjkq7Q-',
+  // "PHS - Form Submission" conversion action.
+  leadForm: 'mIKoCM2ax6UcEPjkq7Q-',
 }
 
 /**

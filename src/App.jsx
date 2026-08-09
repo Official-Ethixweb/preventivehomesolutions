@@ -22,6 +22,9 @@ import { BLOG_POSTS } from './data/blog.js'
 import { usePath, useLinkInterceptor } from './router.js'
 import { useAnalytics } from './lib/analytics.js'
 import { setLoading } from './loading.js'
+import { useSeo } from './lib/seo.js'
+import { localBusinessSchema, faqSchema } from './data/business.js'
+import { HOME_FAQS } from './data/homeFaqs.js'
 import { useEffect, useState, lazy, Suspense } from 'react'
 
 // The ChatBot (700+ lines) isn't needed for first paint or interaction, so it
@@ -52,6 +55,7 @@ const ArticlePage = lazy(() => import('./components/ArticlePage.jsx'))
 const AboutPage = lazy(() => import('./components/AboutPage.jsx'))
 const LandingPage = lazy(() => import('./components/LandingPage.jsx'))
 const AccessibilityPage = lazy(() => import('./components/AccessibilityPage.jsx'))
+const ThankYouPage = lazy(() => import('./components/ThankYouPage.jsx'))
 
 
 // Map URL paths to the service-page slugs that drive ServicePage.
@@ -126,6 +130,8 @@ export default function App() {
     page = <AboutPage />
   } else if (path === '/accessibility') {
     page = <AccessibilityPage />
+  } else if (path === '/thank-you') {
+    page = <ThankYouPage />
   } else if (path === '/blog') {
     page = <BlogPage />
   } else if (path.startsWith('/blog/')) {
@@ -159,6 +165,14 @@ export default function App() {
 }
 
 function Home() {
+  useSeo({
+    title: 'Plumbing & HVAC in Layton, UT | Preventive Home Solutions',
+    description:
+      'Licensed plumbing, heating & cooling in Layton, UT and Northern Utah. Fast repairs, installs & maintenance, 7 days a week. Call (385) 453-9428.',
+    path: '/',
+    jsonLd: [localBusinessSchema(), faqSchema(HOME_FAQS)].filter(Boolean),
+  })
+
   return (
     <div className="min-h-screen bg-white">
       <TopBar />

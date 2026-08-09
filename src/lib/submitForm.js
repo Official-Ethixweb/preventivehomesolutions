@@ -1,12 +1,16 @@
 // Shared lead-submission helper used by every site form (Hero booking form,
-// Contact "Get a Free Quote", and the service-page shield form).
+// Contact "Get a Free Quote", the service-page shield form, and the landing
+// page forms).
 //
 // The reCAPTCHA v2 token comes from the visible checkbox widget (passed in via
 // opts.recaptchaToken). We POST the lead as JSON to the Vercel serverless
 // function at /api/contact, which verifies the token and sends the email
-// through SMTP2GO. Secrets never touch the client.
+// through SMTP2GO. Secrets never touch the client. On success we navigate to
+// /thank-you after firing the GA4/Ads conversion events, so every caller gets
+// the confirmation page without wiring it up individually.
 
 import { trackEvent, trackAdsConversion, ADS_LABELS } from './analytics.js'
+import { navigate } from '../router.js'
 
 const ENDPOINT = '/api/contact'
 
@@ -55,6 +59,10 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
 
   // Google Ads conversion for the same lead, so paid-search spend is attributed.
   trackAdsConversion(ADS_LABELS.leadForm)
+
+  // Send the visitor to the confirmation page. Runs after the conversion fire
+  // above, never before/instead of it.
+  navigate('/thank-you')
 
   return data
 }

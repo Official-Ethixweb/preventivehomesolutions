@@ -68,7 +68,7 @@ export default function AccessibilityPage() {
   useSeo({
     title: 'Accessibility | Preventive Home Solutions',
     description:
-      'Our website includes a built-in accessibility toolbar and meets the WCAG 2.1 AA standard, so every customer can adjust text size, contrast, motion and more to suit their needs.',
+      'Our website includes a built-in accessibility toolbar and meets the WCAG 2.1 AA standard for text size, contrast, and motion.',
     path: '/accessibility',
   })
 

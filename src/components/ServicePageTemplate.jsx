@@ -10,6 +10,7 @@ import WhyChoose from './WhyChoose.jsx'
 import ShieldForm from './ShieldForm.jsx'
 import { useSeo } from '../lib/seo.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
+import { serviceSchema, faqSchema, breadcrumbSchema } from '../data/business.js'
 
 /**
  * Reusable SEO service-landing page.
@@ -179,11 +180,31 @@ function FaqAccordion({ title, faqs }) {
 export default function ServicePageTemplate({ content }) {
   const {
     title, metaDescription, path, breadcrumbLabel, parentBreadcrumb, parentHref,
-    heroImage, heroImageAlt, heroH1, introEyebrow, introHeading, hook, serviceNoun,
+    heroImage, heroImageAlt, heroImageWidth, heroImageHeight, heroH1, introEyebrow, introHeading, hook, serviceNoun,
     introBlocks = [], faqs = [], related = [], since = SINCE_YEAR,
   } = content
 
-  useSeo({ title, description: metaDescription, path, image: heroImage })
+  useSeo({
+    title,
+    description: metaDescription,
+    path,
+    image: heroImage,
+    jsonLd: [
+      serviceSchema({
+        serviceType: serviceNoun,
+        name: serviceNoun,
+        description: metaDescription,
+        pageUrl: path,
+      }),
+      faqSchema(faqs),
+      breadcrumbSchema({
+        trail: [
+          { label: parentBreadcrumb, pageUrl: parentHref },
+          { label: breadcrumbLabel, pageUrl: path },
+        ],
+      }),
+    ].filter(Boolean),
+  })
 
   return (
     <div className="min-h-screen bg-white">
@@ -194,7 +215,13 @@ export default function ServicePageTemplate({ content }) {
       {/* ------------------------------ Hero ------------------------------ */}
       <section className="relative overflow-hidden text-white">
         {/* Full-bleed service photo */}
-        <img src={heroImage} alt={heroImageAlt} className="absolute inset-0 z-0 h-full w-full object-cover" />
+        <img
+          src={heroImage}
+          alt={heroImageAlt}
+          width={heroImageWidth}
+          height={heroImageHeight}
+          className="absolute inset-0 z-0 h-full w-full object-cover"
+        />
         {/* ~80% brand-color overlay for legibility */}
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-phsNavy/90 via-phsNavy/80 to-phsNavy/70" />
         {/* Warm brand glow, matching the home band */}

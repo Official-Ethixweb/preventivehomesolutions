@@ -25,9 +25,6 @@ export const BUSINESS = {
   geo: { lat: 41.0512, lng: -111.9711 },
   since: '1989',
   priceRange: '$$',
-  // Rating shown in AggregateRating markup. These should be updated to the
-  // business's real Google totals when available.
-  rating: { value: '5.0', count: '127' },
 }
 
 /** Full one-line postal address, e.g. for a visible contact block. */
@@ -53,31 +50,13 @@ function areaServed() {
   }))
 }
 
-/** Open-24/7 opening hours specification (Mon–Sun, all day). */
-function openingHours() {
-  return {
-    '@type': 'OpeningHoursSpecification',
-    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    opens: '00:00',
-    closes: '23:59',
-  }
-}
-
-function aggregateRating() {
-  return {
-    '@type': 'AggregateRating',
-    ratingValue: BUSINESS.rating.value,
-    reviewCount: BUSINESS.rating.count,
-    bestRating: '5',
-    worstRating: '1',
-  }
-}
-
 /**
  * LocalBusiness node. `businessType` narrows the schema.org type per trade
- * ('Plumber' | 'HVACBusiness'). `pageUrl` becomes the node's canonical url.
+ * ('Plumber' | 'HVACBusiness'); the sitewide default is
+ * 'HomeAndConstructionBusiness' since the company offers both. `pageUrl`
+ * becomes the node's canonical url.
  */
-export function localBusinessSchema({ businessType = 'HVACBusiness', pageUrl, image } = {}) {
+export function localBusinessSchema({ businessType = 'HomeAndConstructionBusiness', pageUrl, image } = {}) {
   const url = pageUrl ? ORIGIN + pageUrl : ORIGIN
   return {
     '@context': 'https://schema.org',
@@ -99,16 +78,15 @@ export function localBusinessSchema({ businessType = 'HVACBusiness', pageUrl, im
       longitude: BUSINESS.geo.lng,
     },
     areaServed: areaServed(),
-    openingHoursSpecification: openingHours(),
-    aggregateRating: aggregateRating(),
   }
 }
 
 /**
  * Service node describing the trade offered on this landing page, linked back
- * to the LocalBusiness as the provider.
+ * to the LocalBusiness as the provider. Defaults to every SERVICE_AREAS city;
+ * pass `city` to scope it to one (e.g. a per-city service-area page).
  */
-export function serviceSchema({ serviceType, name, description, pageUrl }) {
+export function serviceSchema({ serviceType, name, description, pageUrl, city }) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -117,8 +95,7 @@ export function serviceSchema({ serviceType, name, description, pageUrl }) {
     description,
     url: pageUrl ? ORIGIN + pageUrl : ORIGIN,
     provider: { '@id': `${ORIGIN}/#business` },
-    areaServed: areaServed(),
-    aggregateRating: aggregateRating(),
+    areaServed: city ? { '@type': 'City', name: `${city}, UT` } : areaServed(),
   }
 }
 
@@ -136,14 +113,25 @@ export function faqSchema(faqs = []) {
   }
 }
 
-/** BreadcrumbList node: Home › [current landing page]. */
-export function breadcrumbSchema({ label, pageUrl }) {
+/**
+ * BreadcrumbList node: Home › ... › current page, matching the visible
+ * breadcrumb nav on the page. Pass either { label, pageUrl } for a simple
+ * Home › page trail, or `trail: [{ label, pageUrl }, ...]` for intermediate
+ * levels (e.g. Home › Plumbing › Drain Cleaning).
+ */
+export function breadcrumbSchema({ label, pageUrl, trail }) {
+  const items = trail ?? [{ label, pageUrl }]
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: ORIGIN + '/' },
-      { '@type': 'ListItem', position: 2, name: label, item: ORIGIN + pageUrl },
+      ...items.map((step, i) => ({
+        '@type': 'ListItem',
+        position: i + 2,
+        name: step.label,
+        item: ORIGIN + step.pageUrl,
+      })),
     ],
   }
 }

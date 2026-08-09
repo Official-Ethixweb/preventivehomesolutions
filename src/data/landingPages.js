@@ -63,6 +63,8 @@ export const LANDING_PAGES = {
       'From a dripping faucet to a full repipe, our licensed plumbers protect your home from costly water damage — with clean, code-compliant work and honest pricing.',
     heroImage: '/Pot Filler Faucet Install in Ogden.webp',
     heroImageAlt: 'Licensed plumber installing a pot filler faucet in a Northern Utah home',
+    heroImageWidth: 1200,
+    heroImageHeight: 900,
     mascotImage: '/process-mascot.webp',
     trustChips: TRUST_CHIPS,
     serviceNoun: 'Plumbing',
@@ -115,7 +117,7 @@ export const LANDING_PAGES = {
     path: '/hvac-services',
     businessType: 'HVACBusiness',
     serviceType: 'Heating',
-    metaTitle: 'Heating & Furnace Repair in Northern Utah | Preventive Home Solutions',
+    metaTitle: 'Heating & Furnace Repair | Preventive Home Solutions',
     metaDescription:
       'Furnace repair, installation, boilers & heat pumps in Layton & Northern Utah. Same-day, 24/7 no-heat emergency service. Licensed HVAC pros. Call (385) 453-9428.',
     serviceName: 'Heating & HVAC Services',
@@ -135,6 +137,8 @@ export const LANDING_PAGES = {
       'When the temperature drops, your heating can’t afford to fail. We service, repair, and install furnaces, boilers, heat pumps, and mini-splits — keeping your home warm all season long.',
     heroImage: '/Heating furnace.webp',
     heroImageAlt: 'Technician installing a high-efficiency furnace in a Northern Utah home',
+    heroImageWidth: 900,
+    heroImageHeight: 1200,
     mascotImage: '/process-mascot.webp',
     trustChips: TRUST_CHIPS,
     serviceNoun: 'Heating',
@@ -185,7 +189,7 @@ export const LANDING_PAGES = {
     path: '/air-conditioning-services',
     businessType: 'HVACBusiness',
     serviceType: 'Air Conditioning',
-    metaTitle: 'Air Conditioning Repair & Install in Northern Utah | Preventive Home Solutions',
+    metaTitle: 'Air Conditioning Repair & Install | Preventive Home Solutions',
     metaDescription:
       'AC repair, installation & tune-ups in Layton & Northern Utah. Same-day, 24/7 cooling service from licensed techs. Beat the Utah heat — call (385) 453-9428.',
     serviceName: 'Air Conditioning Services',
@@ -205,6 +209,8 @@ export const LANDING_PAGES = {
       'Utah summers get hot fast. Whether your AC needs a tune-up, a repair, or a full replacement, our certified technicians deliver reliable cooling and keep your energy costs down.',
     heroImage: '/AC installed 01.webp',
     heroImageAlt: 'Newly installed air conditioning condenser unit at a Northern Utah home',
+    heroImageWidth: 891,
+    heroImageHeight: 1200,
 
     // Rotating coupon strip shown in place of the service marquee.
     coupons: [

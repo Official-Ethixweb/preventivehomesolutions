@@ -1,20 +1,10 @@
 import { useState } from 'react'
 import Reveal from './Reveal.jsx'
-import { navigate } from '../router.js'
-import { areaHref } from '../data/nav.js'
+import { areaHref, SERVICE_AREAS } from '../data/nav.js'
 
-const citiesList = [
-  'Ogden',
-  'West Point',
-  'Syracuse',
-  'Layton',
-  'Farmington',
-  'Clinton',
-  'Roy',
-  'Clearfield',
-  'Riverdale',
-  'Brigham City',
-]
+// Single source of truth for served cities — SERVICE_AREAS (nav.js) — so this
+// list can never list a city without a real /service-areas/<slug> page.
+const citiesList = SERVICE_AREAS
 
 function PinIcon() {
   return (
@@ -54,16 +44,20 @@ export default function AreasWeServe() {
                 {citiesList.map((city) => {
                   const isActive = activeCity === city
                   return (
-                    <div
+                    <a
                       key={city}
-                      onClick={() => {
-                        // On mobile the map sits below the grid where a zoom
-                        // update goes unseen, so tapping a city opens that
-                        // city's dedicated service-area page instead.
-                        if (window.matchMedia('(max-width: 1023px)').matches) {
-                          navigate(areaHref(city))
-                          return
-                        }
+                      href={areaHref(city)}
+                      onClick={(e) => {
+                        // On desktop, the first tap previews the city on the map
+                        // instead of navigating away; a second tap (anywhere
+                        // outside the VIEW link) toggles the preview off. The
+                        // VIEW link itself is a real navigation and must not be
+                        // intercepted. On mobile there's no inline map to
+                        // preview, so the card navigates on first tap like a
+                        // normal link.
+                        if (window.matchMedia('(max-width: 1023px)').matches) return
+                        if (e.target.closest('[data-view-link]')) return
+                        e.preventDefault()
                         setActiveCity(isActive ? '' : city)
                       }}
                       className={`group flex items-center gap-3 p-4 rounded-xl border cursor-pointer select-none shadow-md shadow-phsNavy/10 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-[1.04] hover:border-phsOrange hover:bg-phsOrange hover:shadow-lg hover:shadow-phsOrange/40 ${
@@ -79,15 +73,14 @@ export default function AreasWeServe() {
                         {city}
                       </span>
                       {isActive && (
-                        <a
-                          href={areaHref(city)}
-                          onClick={(e) => e.stopPropagation()}
+                        <span
+                          data-view-link
                           className="ml-auto font-mono text-[10px] font-bold tracking-[0.1em] text-phsOrange transition-colors group-hover:text-white hover:underline"
                         >
                           VIEW →
-                        </a>
+                        </span>
                       )}
-                    </div>
+                    </a>
                   )
                 })}
               </div>

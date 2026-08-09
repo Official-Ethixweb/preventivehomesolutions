@@ -316,8 +316,7 @@ export const POST_CONTENT = {
 
   /* ------------------------------------------------------------------ */
   'tankless-vs-traditional-water-heater': {
-    metaTitle:
-      'Tankless vs Traditional Water Heater in Cold Climates: Best Choice for Northern Utah | Preventive Home Solutions',
+    metaTitle: 'Tankless vs Traditional Water Heater for Cold Climates | Preventive Home Solutions',
     metaDescription:
       'Tankless or traditional tank water heater for a cold Utah winter? Compare cost, hot-water capacity, lifespan and cold-climate performance to pick the right one.',
     keywords: [

@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import TopBar from './TopBar.jsx'
 import Header from './Header.jsx'
 import MarqueeBanner from './MarqueeBanner.jsx'
@@ -7,6 +6,14 @@ import Footer from './Footer.jsx'
 import Reveal from './Reveal.jsx'
 import { SERVICE_PAGES, subServiceHref } from '../data/services.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
+import { useSeo } from '../lib/seo.js'
+import { serviceSchema, breadcrumbSchema } from '../data/business.js'
+
+const SERVICE_TYPE_BY_SLUG = {
+  plumbing: 'Plumbing',
+  hvac: 'HVAC',
+  ac: 'Air Conditioning',
+}
 
 /* ----------------------------- Inline icons ----------------------------- */
 /* Simple stroke icons keyed by name in the services data. */
@@ -61,9 +68,23 @@ function PhoneIcon({ className = '' }) {
 export default function ServicePage({ slug }) {
   const data = SERVICE_PAGES[slug]
 
-  useEffect(() => {
-    if (data) document.title = `${data.name} | Preventive Home Solutions`
-  }, [data])
+  useSeo({
+    title: data ? `${data.name} | Preventive Home Solutions` : undefined,
+    description: data?.metaDescription,
+    path: data ? `/${data.slug}` : undefined,
+    image: data?.heroImage,
+    jsonLd: data
+      ? [
+          serviceSchema({
+            serviceType: SERVICE_TYPE_BY_SLUG[slug] || data.name,
+            name: data.name,
+            description: data.metaDescription,
+            pageUrl: `/${data.slug}`,
+          }),
+          breadcrumbSchema({ label: data.name, pageUrl: `/${data.slug}` }),
+        ]
+      : undefined,
+  })
 
   if (!data) return null
 
@@ -147,7 +168,13 @@ export default function ServicePage({ slug }) {
               <span className="absolute bottom-0 left-0 z-10 h-8 w-8 border-b-4 border-l-4 border-phsOrange" />
               <span className="absolute bottom-0 right-0 z-10 h-8 w-8 border-b-4 border-r-4 border-phsOrange" />
               <div className="relative aspect-[4/3] w-full overflow-hidden">
-                <img src={data.heroImage} alt={data.heroImageAlt} className="h-full w-full object-cover" />
+                <img
+                  src={data.heroImage}
+                  alt={data.heroImageAlt}
+                  width={data.heroImageWidth}
+                  height={data.heroImageHeight}
+                  className="h-full w-full object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-phsNavy/30 to-transparent" />
               </div>
             </div>

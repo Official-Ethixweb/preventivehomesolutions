@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 
 const SITE_NAME = 'Preventive Home Solutions'
 const ORIGIN =
-  typeof window !== 'undefined' ? window.location.origin : 'https://preventivehomesolutions.com'
+  typeof window !== 'undefined' ? window.location.origin : 'https://www.preventivehomesolutions.com'
 
 function upsertMeta(selector, attr, name, content) {
   if (content == null) return
@@ -38,8 +38,11 @@ function upsertLink(rel, href) {
  * @param {string} [opts.path]   Pathname for the canonical URL (defaults to current).
  * @param {string} [opts.image]  Absolute or root-relative OG image.
  * @param {object|object[]} [opts.jsonLd]  Structured data injected as <script type="application/ld+json">.
+ * @param {boolean} [opts.noindex]  When true, tells crawlers not to index this page
+ *   (still crawls its links). Use for post-conversion/utility pages that should
+ *   never be a search-landing target, e.g. /thank-you.
  */
-export function useSeo({ title, description, path, image = '/og-image.png', jsonLd } = {}) {
+export function useSeo({ title, description, path, image = '/og-image.png', jsonLd, noindex = false } = {}) {
   useEffect(() => {
     const prevTitle = document.title
     if (title) document.title = title
@@ -49,6 +52,7 @@ export function useSeo({ title, description, path, image = '/og-image.png', json
 
     upsertMeta('meta[name="description"]', 'name', 'description', description)
     upsertLink('canonical', canonical)
+    upsertMeta('meta[name="robots"]', 'name', 'robots', noindex ? 'noindex,follow' : 'index,follow')
 
     upsertMeta('meta[property="og:title"]', 'property', 'og:title', title)
     upsertMeta('meta[property="og:description"]', 'property', 'og:description', description)
@@ -75,7 +79,7 @@ export function useSeo({ title, description, path, image = '/og-image.png', json
       document.title = prevTitle
       if (script) script.remove()
     }
-  }, [title, description, path, image, JSON.stringify(jsonLd)])
+  }, [title, description, path, image, noindex, JSON.stringify(jsonLd)])
 }
 
 export { ORIGIN, SITE_NAME }

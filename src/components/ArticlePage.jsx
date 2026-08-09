@@ -69,8 +69,17 @@ export default function ArticlePage({ post }) {
   const published = new Date(post.date).toISOString()
   const faqs = content?.faqs ?? []
 
+  // Article metaTitles are hand-written and often descriptive/long; drop the
+  // brand suffix when the full string would truncate in search results.
+  const fullTitle = content?.metaTitle ?? `${post.title} | ${SITE_NAME}`
+  const suffix = ` | ${SITE_NAME}`
+  const pageTitle =
+    fullTitle.length > 60 && fullTitle.endsWith(suffix)
+      ? fullTitle.slice(0, -suffix.length)
+      : fullTitle
+
   useSeo({
-    title: content?.metaTitle ?? `${post.title} | ${SITE_NAME}`,
+    title: pageTitle,
     description: content?.metaDescription ?? post.excerpt,
     path: `/blog/${post.slug}`,
     image: post.image,
@@ -95,7 +104,7 @@ export default function ArticlePage({ post }) {
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: `${ORIGIN}/` },
           { '@type': 'ListItem', position: 2, name: 'Blog', item: `${ORIGIN}/blog` },
-          { '@type': 'ListItem', position: 3, name: post.title, item: `${ORIGIN}/blog/${post.slug}` },
+          { '@type': 'ListItem', position: 3, name: post.category, item: `${ORIGIN}/blog/${post.slug}` },
         ],
       },
       ...(faqs.length

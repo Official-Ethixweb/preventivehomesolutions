@@ -140,7 +140,7 @@ export default function ContactForm() {
               {/* Details */}
               <div className="space-y-2 font-sans text-[11px] sm:text-xs text-gray-500 leading-relaxed">
                 <p>
-                  <span className="font-bold text-phsInk">Areas:</span> <span className="text-phsOrange">Ogden, Syracuse, Layton, Clearfield, Farmington, Clinton &amp; more</span>
+                  <span className="font-bold text-phsInk">Areas:</span> <span className="text-phsOrange">Layton, Ogden, Syracuse, Clearfield, Kaysville, Clinton &amp; more</span>
                 </p>
               </div>
             </Reveal>

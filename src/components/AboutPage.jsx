@@ -77,16 +77,16 @@ const PROMISES = [
 
 export default function AboutPage() {
   useSeo({
-    title: 'About Us Plumbing, Heating & Cooling in Northern Utah | Preventive Home Solutions',
+    title: 'About Us | Preventive Home Solutions',
     description:
-      'Meet Preventive Home Solutions the licensed crew defending Northern Utah homes with plumbing, heating and cooling. 35+ years of experience, proactive care, transparent pricing.',
+      'Meet the licensed team defending Northern Utah homes with plumbing, heating & cooling. 35+ years of experience, transparent pricing.',
     path: '/about-us',
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'AboutPage',
       name: `About ${SITE_NAME}`,
       url: `${ORIGIN}/about-us`,
-      about: { '@type': 'HVACBusiness', name: SITE_NAME, areaServed: 'Northern Utah', telephone: '+1-385-453-9428' },
+      about: { '@id': `${ORIGIN}/#business` },
     },
   })
 

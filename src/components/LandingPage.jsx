@@ -439,7 +439,13 @@ export default function LandingPage({ slug, data }) {
 
       {/* ============================== Hero ============================== */}
       <section className="relative overflow-hidden bg-[#FAF8F5] text-phsInk">
-        <img src={data.heroImage} alt={data.heroImageAlt} className="absolute inset-0 z-0 h-full w-full object-cover opacity-10" />
+        <img
+          src={data.heroImage}
+          alt={data.heroImageAlt}
+          width={data.heroImageWidth}
+          height={data.heroImageHeight}
+          className="absolute inset-0 z-0 h-full w-full object-cover opacity-10"
+        />
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FAF8F5]/95 via-[#FAF8F5]/90 to-[#FAF8F5]/80" />
         <div className="pointer-events-none absolute -top-24 -right-24 z-0 h-72 w-72 rounded-full bg-phsOrange/10 blur-3xl" />
 

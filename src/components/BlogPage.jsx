@@ -81,9 +81,9 @@ export default function BlogPage() {
 
   // SEO: per-page meta + Blog structured data listing every article.
   useSeo({
-    title: 'Field Notes Plumbing, HVAC & Home Maintenance Blog | Preventive Home Solutions',
+    title: 'Field Notes Blog | Preventive Home Solutions',
     description:
-      'Expert plumbing, heating, cooling and home-maintenance advice for Northern Utah homeowners. Real tips from the licensed techs at Preventive Home Solutions.',
+      'Expert plumbing, heating, cooling and home-maintenance advice for Northern Utah homeowners. Real tips from our licensed techs.',
     path: '/blog',
     jsonLd: {
       '@context': 'https://schema.org',

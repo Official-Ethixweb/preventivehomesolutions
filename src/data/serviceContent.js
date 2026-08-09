@@ -5,7 +5,7 @@
 import { subServiceHref } from './services.js'
 import { PHONE_DISPLAY } from './nav.js'
 
-const CITY = 'Ogden'
+const CITY = 'Layton'
 
 function buildFaqs(title, parentName) {
   const t = title
@@ -29,7 +29,7 @@ function buildFaqs(title, parentName) {
     },
     {
       q: `Which areas do you cover for ${t}?`,
-      a: `We serve ${CITY}, Layton, Clearfield, Syracuse, Roy, Riverdale, and all of Northern Utah — with no travel surcharges inside our service area.`,
+      a: `We serve ${CITY}, Ogden, Clearfield, Syracuse, Roy, Riverdale, and all of Northern Utah — with no travel surcharges inside our service area.`,
     },
   ]
 }
@@ -88,10 +88,10 @@ export function subServiceToContent(parent, service) {
     .map((s) => ({ label: s.title, href: subServiceHref(parent.slug, s.slug) }))
 
   return {
-    title: `${title} in ${CITY}, UT | Preventive Home Solutions`,
-    metaDescription:
-      `Professional ${title.toLowerCase()} in ${CITY} and Northern Utah. ${service.description} ` +
-      `Licensed, insured, same-day service with upfront pricing. Call ${PHONE_DISPLAY}.`,
+    title: `${title} in ${CITY}, UT | Preventive Home Solutions`.length <= 60
+      ? `${title} in ${CITY}, UT | Preventive Home Solutions`
+      : `${title} in ${CITY}, UT`,
+    metaDescription: `${service.description} Licensed, same-day service in ${CITY}, UT. Call ${PHONE_DISPLAY}.`,
     path: subServiceHref(parent.slug, service.slug),
 
     breadcrumbLabel: title,
@@ -100,6 +100,8 @@ export function subServiceToContent(parent, service) {
 
     heroImage: parent.heroImage,
     heroImageAlt: parent.heroImageAlt,
+    heroImageWidth: parent.heroImageWidth,
+    heroImageHeight: parent.heroImageHeight,
     heroH1: `Expert ${title} in ${CITY} & Northern Utah`,
 
     introEyebrow: parent.eyebrow,

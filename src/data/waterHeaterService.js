@@ -3,9 +3,9 @@
 
 /** @type {import('../components/ServicePageTemplate.jsx').ServiceContent} */
 export const WATER_HEATER_CONTENT = {
-  title: 'Water Heater Repair & Installation in Ogden, UT | Preventive Home Solutions',
+  title: 'Water Heater Repair in Layton, UT | Preventive Home Solutions',
   metaDescription:
-    'Fast water heater repair, replacement, and tankless installation in Ogden and Northern Utah. Licensed plumbers, upfront pricing, same-day service, and written warranties. Call (385) 453-9428.',
+    'Fast water heater repair, replacement & tankless installs in Layton and Northern Utah. Upfront pricing, same-day service. Call (385) 453-9428.',
   path: '/water-heater-repair',
 
   breadcrumbLabel: 'Water Heater Repair',
@@ -13,8 +13,10 @@ export const WATER_HEATER_CONTENT = {
   parentHref: '/plumbing',
 
   heroImage: '/beforeandafterwaterheater.webp',
-  heroImageAlt: 'Water heater installation and replacement job in Ogden, Utah',
-  heroH1: 'Water Heater Repair & Installation in Ogden, UT — Hot Water Restored, Fast',
+  heroImageAlt: 'Water heater installation and replacement job in Layton, Utah',
+  heroImageWidth: 940,
+  heroImageHeight: 788,
+  heroH1: 'Water Heater Repair & Installation in Layton, UT — Hot Water Restored, Fast',
 
   introEyebrow: 'Water Heater Experts',
   introHeading: 'Reliable Hot Water for Every Northern Utah Home',
@@ -40,7 +42,7 @@ export const WATER_HEATER_CONTENT = {
       callUs: true,
     },
     {
-      heading: 'Water Heater Repair in Ogden & Northern Utah',
+      heading: 'Water Heater Repair in Layton & Northern Utah',
       paragraph:
         'Not every water heater problem means a full replacement. Our technicians troubleshoot no-hot-water calls, rumbling tanks, discolored water, and pilot or heating-element failures, then give you an honest recommendation on whether to repair or replace. We carry common parts on the truck so most repairs are handled in a single visit — often the same day you call.',
       callUs: true,
@@ -72,7 +74,7 @@ export const WATER_HEATER_CONTENT = {
       callUs: true,
     },
     {
-      heading: 'Why Ogden Homeowners Trust Preventive Home Solutions',
+      heading: 'Why Layton Homeowners Trust Preventive Home Solutions',
       paragraph:
         'We’re a family-owned, licensed and insured team that has protected Northern Utah homes for over 35 years. Every water heater job comes with upfront pricing, clean and code-compliant workmanship, and a written warranty. When you choose Preventive, you’re not just hiring a plumber — you’re enlisting a guard committed to your home’s long-term comfort.',
       callUs: false,

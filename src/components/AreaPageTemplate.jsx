@@ -10,6 +10,7 @@ import WhyChoose from './WhyChoose.jsx'
 import ShieldForm from './ShieldForm.jsx'
 import { useSeo } from '../lib/seo.js'
 import { PHONE_DISPLAY, PHONE_TEL, SERVICE_AREAS, areaHref } from '../data/nav.js'
+import { serviceSchema, faqSchema, breadcrumbSchema } from '../data/business.js'
 
 /**
  * Reusable service-area landing page — one layout for every city.
@@ -20,6 +21,8 @@ import { PHONE_DISPLAY, PHONE_TEL, SERVICE_AREAS, areaHref } from '../data/nav.j
  */
 
 const HERO_IMAGE = '/Van in Kaysville Call.webp'
+const HERO_IMAGE_WIDTH = 900
+const HERO_IMAGE_HEIGHT = 1200
 
 /* ------------------------------- Icons --------------------------------- */
 const iconBase = {
@@ -168,12 +171,30 @@ function FaqAccordion({ title, faqs }) {
 /* -------------------------------- Template ------------------------------ */
 export default function AreaPageTemplate({ area }) {
   const { slug, city, county, zips, intro } = area
+  const pageUrl = `/service-areas/${slug}`
+  const faqs = buildFaqs(city)
 
   useSeo({
-    title: `Plumbing, Heating & AC in ${city}, UT | Preventive Home Solutions`,
-    description: `Licensed plumbing, heating, cooling, and water heater service in ${city}, Utah. Same-day appointments, upfront pricing, and written warranties. Call (385) 453-9428.`,
-    path: `/service-areas/${slug}`,
+    title: `Plumbing & HVAC in ${city}, UT | Preventive Home Solutions`,
+    description: `Licensed plumbing, heating & AC service in ${city}, UT. Same-day appointments, upfront pricing. Call (385) 453-9428.`,
+    path: pageUrl,
     image: HERO_IMAGE,
+    jsonLd: [
+      serviceSchema({
+        serviceType: 'Plumbing, Heating & Air Conditioning',
+        name: `Plumbing, Heating & AC Service in ${city}, UT`,
+        description: intro,
+        pageUrl,
+        city,
+      }),
+      faqSchema(faqs),
+      breadcrumbSchema({
+        trail: [
+          { label: 'Areas We Serve', pageUrl: '/#areas-we-serve' },
+          { label: city, pageUrl },
+        ],
+      }),
+    ].filter(Boolean),
   })
 
   const otherAreas = SERVICE_AREAS.filter((c) => c !== city)
@@ -186,7 +207,13 @@ export default function AreaPageTemplate({ area }) {
 
       {/* ------------------------------ Hero ------------------------------ */}
       <section className="relative overflow-hidden text-white">
-        <img src={HERO_IMAGE} alt={`Preventive Home Solutions service van in ${city}, Utah`} className="absolute inset-0 z-0 h-full w-full object-cover" />
+        <img
+          src={HERO_IMAGE}
+          alt={`Preventive Home Solutions service van in ${city}, Utah`}
+          width={HERO_IMAGE_WIDTH}
+          height={HERO_IMAGE_HEIGHT}
+          className="absolute inset-0 z-0 h-full w-full object-cover"
+        />
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-phsNavy/90 via-phsNavy/80 to-phsNavy/70" />
         <div className="pointer-events-none absolute -top-24 -right-24 z-0 h-72 w-72 rounded-full bg-phsOrange/25 blur-3xl" />
 
@@ -300,7 +327,7 @@ export default function AreaPageTemplate({ area }) {
       </section>
 
       {/* --------------------------------- FAQ ---------------------------- */}
-      <FaqAccordion title={`${city} Service FAQs`} faqs={buildFaqs(city)} />
+      <FaqAccordion title={`${city} Service FAQs`} faqs={faqs} />
 
       {/* --------------------- Shared band: How It Works ------------------ */}
       <div className="relative overflow-hidden bg-phsSky">

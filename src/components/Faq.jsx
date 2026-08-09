@@ -1,28 +1,6 @@
 import { useState } from 'react'
 import Reveal from './Reveal.jsx'
-
-const faqs = [
-  {
-    q: 'Do you charge for estimates?',
-    a: "No. On-site estimates for plumbing, heating, and cooling work are free. You'll get upfront, fixed pricing before any work begins.",
-  },
-  {
-    q: 'What areas do you cover?',
-    a: 'We service all of Northern Utah, including Ogden, Syracuse, Layton, Clearfield, Farmington, Clinton, West Point, Roy, Riverdale, and Brigham City.',
-  },
-  {
-    q: 'How fast can you get here for emergencies?',
-    a: 'We offer rapid response for plumbing and HVAC emergencies, typically arriving within a few hours to resolve issues fast.',
-  },
-  {
-    q: 'How do I schedule an appointment?',
-    a: 'You can easily schedule an appointment by calling our office or booking online through our scheduling portal.',
-  },
-  {
-    q: 'Are your technicians certified?',
-    a: "Yes. Our team consists of licensed, certified, background-checked, and highly trained professionals who prioritize your home's safety and comfort.",
-  },
-]
+import { HOME_FAQS as faqs } from '../data/homeFaqs.js'
 
 export default function Faq() {
   const [openIndex, setOpenIndex] = useState(0)

@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/generate-sitemap.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "optimize:images": "node scripts/optimize-images.mjs",
+    "sitemap": "node scripts/generate-sitemap.mjs",
     "a11y": "node scripts/a11y-audit.mjs"
   },
   "dependencies": {

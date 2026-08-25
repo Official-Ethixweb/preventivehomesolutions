@@ -8,7 +8,11 @@ import { fetchGoogleReviews } from '../lib/googleReviews.js'
  * - When VITE_GOOGLE_MAPS_API_KEY + VITE_GOOGLE_PLACE_ID are configured, it
  *   pulls live reviews from the Preventive Home Solutions business profile and
  *   re-polls every 5 minutes so fresh reviews appear without a reload.
- * - Otherwise it falls back to representative reviews so the motion still works.
+ * - Otherwise it falls back to generic, unattributed trust cards (no invented
+ *   names or quotes — those keys are not yet configured for this project; see
+ *   .env.example). Never replace these with fabricated reviewer names/quotes,
+ *   even as placeholder content — a "read on Google" link next to an invented
+ *   name misrepresents it as a real review.
  */
 
 // Where fallback cards (and any live review missing its own link) send users.
@@ -16,42 +20,12 @@ const BUSINESS_GOOGLE_URL =
   'https://www.google.com/search?q=Preventive+Home+Solutions+reviews'
 
 const FALLBACK_REVIEWS = [
-  {
-    author: 'Marcus Whitfield',
-    rating: 5,
-    text: 'Showed up same day for a burst pipe and had it fixed in under two hours. Clean, professional, and fair priced. Could not ask for more.',
-    time: '2 weeks ago',
-  },
-  {
-    author: 'Danielle Pierce',
-    rating: 5,
-    text: 'Our furnace died on the coldest night of the year and they came out after hours. Honest about what needed fixing instead of upselling us. Lifesavers.',
-    time: 'a month ago',
-  },
-  {
-    author: 'Trevor Hansen',
-    rating: 5,
-    text: 'Signed up for their maintenance plan and it has already paid for itself. The technicians actually explain what they are doing. Highly recommend.',
-    time: '3 weeks ago',
-  },
-  {
-    author: 'Priya Raman',
-    rating: 5,
-    text: 'Replaced our water heater quickly and left the space cleaner than they found it. Texted ahead with arrival time. Genuinely great service.',
-    time: '2 months ago',
-  },
-  {
-    author: 'Jordan Blake',
-    rating: 5,
-    text: 'Drain backup on a Sunday and they still answered. Diagnosed it right the first time. These are the people you want defending your home.',
-    time: '1 month ago',
-  },
-  {
-    author: 'Sofia Mendez',
-    rating: 5,
-    text: 'Licensed, on time, and they stand behind their work. Had them back for a second job because the first went so smoothly. Five stars easily.',
-    time: '5 days ago',
-  },
+  { rating: 5, text: 'Same-day service, upfront pricing, and clean, code-compliant work every time.' },
+  { rating: 5, text: 'Licensed and insured technicians who explain the problem before they fix it.' },
+  { rating: 5, text: 'Available 24/7 for emergencies — no waiting days for a callback.' },
+  { rating: 5, text: 'Family-owned and serving Northern Utah homeowners since 1989.' },
+  { rating: 5, text: 'Every job backed by a written warranty, so you know the work will last.' },
+  { rating: 5, text: 'Honest, upfront quotes before any work begins — no hourly surprises.' },
 ]
 
 function GoogleG({ className = 'h-5 w-5' }) {
@@ -81,34 +55,34 @@ function Star({ filled }) {
 function ReviewCard({ author, avatar, rating, text, time, url }) {
   const stars = Math.round(rating || 5)
   const initial = (author || 'G').trim().charAt(0).toUpperCase()
+  // Fallback cards (no `author`) are generic trust statements, not real
+  // reviews — never attribute them to a person or link out as if they were.
+  const isRealReview = Boolean(author)
 
-  return (
-    <a
-      href={url || BUSINESS_GOOGLE_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      title="Read this review on Google"
-      className="flex w-[300px] shrink-0 cursor-pointer flex-col rounded-2xl border border-[#e6ded4] bg-white p-6 shadow-lg shadow-phsNavy/5 transition-all duration-300 will-change-transform hover:-translate-y-2 hover:scale-[1.04] hover:border-phsOrange/30 hover:shadow-2xl hover:shadow-phsNavy/15 sm:w-[340px]"
-    >
+  const content = (
+    <>
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
-          {avatar ? (
-            <img
-              src={avatar}
-              alt=""
-              width="40"
-              height="40"
-              loading="lazy"
-              referrerPolicy="no-referrer"
-              className="h-10 w-10 rounded-full object-cover"
-            />
-          ) : (
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-phsOrange/10 font-display font-bold text-phsOrange">
-              {initial}
-            </div>
-          )}
+          {isRealReview &&
+            (avatar ? (
+              <img
+                src={avatar}
+                alt=""
+                width="40"
+                height="40"
+                loading="lazy"
+                referrerPolicy="no-referrer"
+                className="h-10 w-10 rounded-full object-cover"
+              />
+            ) : (
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-phsOrange/10 font-display font-bold text-phsOrange">
+                {initial}
+              </div>
+            ))}
           <div>
-            <p className="font-display text-sm font-bold leading-tight text-phsNavy">{author}</p>
+            {isRealReview && (
+              <p className="font-display text-sm font-bold leading-tight text-phsNavy">{author}</p>
+            )}
             <div className="mt-1 flex gap-0.5">
               {[0, 1, 2, 3, 4].map((i) => (
                 <Star key={i} filled={i < stars} />
@@ -124,7 +98,24 @@ function ReviewCard({ author, avatar, rating, text, time, url }) {
       </p>
 
       {time && <p className="mt-3 text-xs font-medium text-gray-500">{time}</p>}
+    </>
+  )
+
+  const className =
+    'flex w-[300px] shrink-0 cursor-pointer flex-col rounded-2xl border border-[#e6ded4] bg-white p-6 shadow-lg shadow-phsNavy/5 transition-all duration-300 will-change-transform hover:-translate-y-2 hover:scale-[1.04] hover:border-phsOrange/30 hover:shadow-2xl hover:shadow-phsNavy/15 sm:w-[340px]'
+
+  return isRealReview ? (
+    <a
+      href={url || BUSINESS_GOOGLE_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Read this review on Google"
+      className={className}
+    >
+      {content}
     </a>
+  ) : (
+    <div className={className}>{content}</div>
   )
 }
 

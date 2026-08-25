@@ -4,6 +4,7 @@ import RotatingText from './RotatingText.jsx'
 import Recaptcha from './Recaptcha.jsx'
 import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
+import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 
 // The static heading reads "Heavy Duty Home Service"; the box rotates the specifics.
 const BOX_PHRASES = [
@@ -11,9 +12,6 @@ const BOX_PHRASES = [
   'HVAC Service → Built for Utah Winters',
   'Drain Clearing → No Clog Too Tough',
 ]
-
-const PHONE_DISPLAY = '(385) 453-9428'
-const PHONE_TEL = '3854539428'
 
 const SERVICES = ['Plumbing', 'Heating', 'Cooling', 'Maintenance', 'Other']
 

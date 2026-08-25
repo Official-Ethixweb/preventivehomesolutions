@@ -21,28 +21,38 @@ const Recaptcha = forwardRef(function Recaptcha(
 
   useEffect(() => {
     let cancelled = false
-    // Load reCAPTCHA immediately on mount so the checkbox is ready the moment
-    // the visitor reaches any form — no waiting for first interaction.
-    loadRecaptcha()
-      .then((grecaptcha) => {
-        if (cancelled || !grecaptcha || !containerRef.current) return
-        if (widgetId.current !== null) return
-        try {
-          widgetId.current = grecaptcha.render(containerRef.current, {
-            sitekey: RECAPTCHA_SITE_KEY,
-            theme,
-            ...(size ? { size } : {}),
-            callback: (token) => onChangeRef.current?.(token),
-            'expired-callback': () => onChangeRef.current?.(''),
-            'error-callback': () => onChangeRef.current?.(''),
-          })
-        } catch {
-          /* already rendered (React StrictMode double-invoke) — ignore */
-        }
-      })
-      .catch(() => {})
+
+    function render() {
+      loadRecaptcha()
+        .then((grecaptcha) => {
+          if (cancelled || !grecaptcha || !containerRef.current) return
+          if (widgetId.current !== null) return
+          try {
+            widgetId.current = grecaptcha.render(containerRef.current, {
+              sitekey: RECAPTCHA_SITE_KEY,
+              theme,
+              ...(size ? { size } : {}),
+              callback: (token) => onChangeRef.current?.(token),
+              'expired-callback': () => onChangeRef.current?.(''),
+              'error-callback': () => onChangeRef.current?.(''),
+            })
+          } catch {
+            /* already rendered (React StrictMode double-invoke) — ignore */
+          }
+        })
+        .catch(() => {})
+    }
+
+    // Defer the ~310KB reCAPTCHA script off the critical rendering path — it
+    // only needs to be ready by the time a visitor reaches the form, not
+    // before first paint. Same idle-defer approach as ChatBot in App.jsx.
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 1500))
+    const cic = window.cancelIdleCallback || clearTimeout
+    const id = ric(render, { timeout: 2000 })
+
     return () => {
       cancelled = true
+      cic(id)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 

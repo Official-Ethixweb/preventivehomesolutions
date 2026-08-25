@@ -179,7 +179,9 @@ export default function BlogPage() {
                   onClick={() => setActive(cat)}
                   className={`rounded-full border px-4 py-2 font-mono text-[10px] font-bold tracking-[0.16em] uppercase transition-all duration-300 sm:text-[11px] ${
                     on
-                      ? 'border-phsOrange bg-phsOrange text-white shadow-[0_8px_20px_-6px_rgba(243,116,27,0.55)]'
+                      ? // phsOrangeDark, not phsOrange, so the white label text
+                        // actually clears WCAG contrast at this small size.
+                        'border-phsOrangeDark bg-phsOrangeDark text-white shadow-[0_8px_20px_-6px_rgba(184,72,13,0.55)]'
                       : 'border-phsNavy/15 bg-white text-phsNavy/70 hover:border-phsOrange/50 hover:text-phsOrange'
                   }`}
                   aria-pressed={on}
@@ -205,7 +207,7 @@ export default function BlogPage() {
                   alt={featured.title}
                   className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                <span className="absolute top-5 left-5 z-20 rounded bg-phsOrange px-3 py-1.5 font-mono text-[10px] font-bold tracking-widest text-white shadow-sm">
+                <span className="absolute top-5 left-5 z-20 rounded bg-phsOrangeDark px-3 py-1.5 font-mono text-[10px] font-bold tracking-widest text-white shadow-sm">
                   FEATURED · {featured.category}
                 </span>
               </div>
@@ -242,7 +244,7 @@ export default function BlogPage() {
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-phsNavy/65 via-phsNavy/0 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  <span className="absolute top-4 left-4 z-10 rounded bg-phsOrange px-2.5 py-1 font-mono text-[9px] font-bold tracking-widest text-white shadow-sm">
+                  <span className="absolute top-4 left-4 z-10 rounded bg-phsOrangeDark px-2.5 py-1 font-mono text-[9px] font-bold tracking-widest text-white shadow-sm">
                     {post.category}
                   </span>
                 </div>

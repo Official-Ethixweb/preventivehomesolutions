@@ -1,18 +1,14 @@
-import { useEffect } from 'react'
 import AreaPageTemplate from './AreaPageTemplate.jsx'
+import NotFoundPage from './NotFoundPage.jsx'
 import { AREA_PAGES } from '../data/serviceAreas.js'
-import { navigate } from '../router.js'
 
 // Route component for /service-areas/<slug>. One template, every city.
 export default function AreaPage({ slug }) {
   const area = AREA_PAGES[slug]
 
-  // Unknown city slug → send the visitor to the areas section on the home page
-  // instead of a blank screen.
-  useEffect(() => {
-    if (!area) navigate('/#areas-we-serve')
-  }, [area])
-
-  if (!area) return null
+  // Unknown city slug → a real 404 (noindexed, with links back to real
+  // pages), not a silent client-side redirect — that left crawlers seeing
+  // what looked like an indexable duplicate of the homepage.
+  if (!area) return <NotFoundPage />
   return <AreaPageTemplate area={area} />
 }

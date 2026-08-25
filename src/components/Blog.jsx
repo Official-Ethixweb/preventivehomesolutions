@@ -58,8 +58,9 @@ export default function Blog() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 
-                {/* Category Badge */}
-                <span className="absolute top-4 left-4 rounded bg-phsOrange px-2.5 py-1 text-[9px] font-mono font-bold tracking-widest text-white shadow-sm z-10">
+                {/* Category Badge — phsOrangeDark, not phsOrange, so the
+                    white text clears WCAG contrast at this small size. */}
+                <span className="absolute top-4 left-4 rounded bg-phsOrangeDark px-2.5 py-1 text-[9px] font-mono font-bold tracking-widest text-white shadow-sm z-10">
                   {post.category}
                 </span>
               </div>

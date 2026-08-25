@@ -22,14 +22,22 @@ function escapeHtml(value = '') {
     .replace(/'/g, '&#39;')
 }
 
+const MAX_BODY_BYTES = 100 * 1024 // 100KB — far more than a lead form needs
+
 async function readBody(req) {
   if (req.body && typeof req.body === 'object') return req.body
   if (typeof req.body === 'string' && req.body.length) {
     try { return JSON.parse(req.body) } catch { return {} }
   }
   // Fallback: manually read the stream (some runtimes don't pre-parse).
+  // Capped so a runaway/malicious body can't be buffered into memory in full.
   const chunks = []
-  for await (const chunk of req) chunks.push(chunk)
+  let total = 0
+  for await (const chunk of req) {
+    total += chunk.length
+    if (total > MAX_BODY_BYTES) return { __tooLarge: true }
+    chunks.push(chunk)
+  }
   if (!chunks.length) return {}
   try { return JSON.parse(Buffer.concat(chunks).toString('utf8')) } catch { return {} }
 }
@@ -68,6 +76,9 @@ export default async function handler(req, res) {
   }
 
   const body = await readBody(req)
+  if (body.__tooLarge) {
+    return res.status(413).json({ success: false, message: 'Request too large.' })
+  }
   const {
     name, firstName, lastName, email, phone, service, message,
     section, recaptchaToken,
@@ -75,12 +86,27 @@ export default async function handler(req, res) {
 
   const fullName = (name || [firstName, lastName].filter(Boolean).join(' ')).trim()
 
-  // Minimal server-side validation (never trust the client).
+  // Minimal server-side validation (never trust the client — these fields can
+  // arrive from a direct API call, not just the site's own forms).
   if (!fullName || !phone || !service) {
     return res.status(400).json({ success: false, message: 'Please fill in your name, phone, and service.' })
   }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ success: false, message: 'Please enter a valid email address.' })
+  }
+  // Reject implausibly long field values — well past any real name/phone/
+  // service/message, but tight enough to stop a garbage or malicious payload
+  // from bloating the outgoing email or exhausting SMTP2GO's limits.
+  const FIELD_MAX = { fullName: 200, phone: 40, email: 200, service: 200, message: 4000, section: 200 }
+  const tooLong =
+    fullName.length > FIELD_MAX.fullName ||
+    String(phone).length > FIELD_MAX.phone ||
+    (email && String(email).length > FIELD_MAX.email) ||
+    String(service).length > FIELD_MAX.service ||
+    (message && String(message).length > FIELD_MAX.message) ||
+    (section && String(section).length > FIELD_MAX.section)
+  if (tooLong) {
+    return res.status(400).json({ success: false, message: 'One of the fields is too long. Please shorten it and try again.' })
   }
 
   // 1) Verify the human.

@@ -1,17 +1,20 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { navigate } from '../router.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
+import { submitLead as submitLeadToServer } from '../lib/submitForm.js'
+import { recaptchaConfigured } from '../lib/recaptcha.js'
+import Recaptcha from './Recaptcha.jsx'
 
 /**
  * Guided support chatbot with validated lead capture.
  *
- * For now this is a deterministic, rule-based assistant: it walks visitors to
- * the right service, and can collect their contact details (name, phone,
- * email, ZIP, service) with real validation before handing the "lead" off.
- * There is no backend yet, so a completed request is stored locally and logged
- * — the submitLead() function is the single seam where a real API / email /
- * AI backend gets wired in later. The whole guided menu lives in FLOW and the
- * intake questions live in LEAD_STEPS, so both are easy to extend.
+ * A deterministic, rule-based assistant: it walks visitors to the right
+ * service, and collects their contact details (name, phone, email, ZIP,
+ * service) with real validation before submitting the lead through the same
+ * /api/contact pipeline every other site form uses (see submitLead in
+ * lib/submitForm.js) — same reCAPTCHA verification, same SMTP2GO email. The
+ * whole guided menu lives in FLOW and the intake questions live in
+ * LEAD_STEPS, so both are easy to extend.
  */
 
 // Default-avatar palette pulled from the brand navy/sky family (phsNavy #0a2540 /
@@ -298,6 +301,9 @@ export default function ChatBot() {
   const [mode, setMode] = useState('menu') // 'menu' | 'form' | 'done'
   const [inputActive, setInputActive] = useState(false)
   const [inputValue, setInputValue] = useState('')
+  const [recaptchaToken, setRecaptchaToken] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const recaptchaRef = useRef(null)
 
   const timers = useRef([])
   const scrollEnd = useRef(null)
@@ -369,15 +375,19 @@ export default function ChatBot() {
     const d = formData.current
     setInputActive(false)
     setOptions([])
+    setRecaptchaToken('')
     const summary =
       `Name: ${d.name}\n` +
       `Phone: ${d.phone}\n` +
       `Email: ${d.email}\n` +
       `ZIP: ${d.zip}${d.city ? ` (${d.city})` : ''}${d.outsideArea ? ' — outside standard area' : ''}\n` +
       `Service: ${d.service}`
+    // Only offer "Yes, send it" once the reCAPTCHA widget (rendered below the
+    // options row while mode stays 'form') has produced a token, or when no
+    // site key is configured at all — mirrors every other form's gating.
     revealSeq(['Thanks. Please confirm your details:', summary, 'Should I send this to our team?'], () =>
       setOptions([
-        { label: 'Yes, send it', submit: true },
+        { label: 'Yes, send it', submit: true, needsRecaptcha: true },
         { label: 'Start over', restart: true },
       ])
     )
@@ -401,38 +411,43 @@ export default function ChatBot() {
     revealSeq(intro, () => askStep(0))
   }, [revealSeq, askStep])
 
-  const submitLead = useCallback(() => {
-    const lead = { ...formData.current, submittedAt: new Date().toISOString() }
-    // No backend yet: persist locally + log. This is the seam for a future
-    // API / email / AI integration.
+  const submitLead = useCallback(async () => {
+    const d = formData.current
+    setSubmitting(true)
+    setTyping(true)
     try {
-      const key = 'phs_chat_leads'
-      const arr = JSON.parse(localStorage.getItem(key) || '[]')
-      arr.push(lead)
-      localStorage.setItem(key, JSON.stringify(arr))
-    } catch {
-      /* ignore storage errors */
+      await submitLeadToServer(
+        {
+          name: d.name,
+          phone: d.phone,
+          email: d.email,
+          service: d.service,
+          message: `ZIP: ${d.zip}${d.city ? ` (${d.city})` : ''}${d.outsideArea ? ' — outside standard service area' : ''}`,
+        },
+        { section: 'ChatBot', recaptchaToken }
+      )
+      // submitLeadToServer navigates to /thank-you on success, which unmounts
+      // this widget — no further local state updates needed.
+    } catch (err) {
+      setSubmitting(false)
+      setTyping(false)
+      // v2 tokens are single-use — reset the widget so "Try again" gets a
+      // fresh checkbox instead of resubmitting an already-consumed token.
+      recaptchaRef.current?.reset()
+      const first = firstNameOf(d.name)
+      revealSeq(
+        [
+          `Sorry${first ? `, ${first}` : ''} — ${err.message || 'something went wrong sending that.'}`,
+        ],
+        () =>
+          setOptions([
+            { label: 'Try again', submit: true, needsRecaptcha: true },
+            { label: `Call ${PHONE_DISPLAY}`, tel: PHONE_TEL },
+            { label: 'Start over', restart: true },
+          ])
+      )
     }
-    // eslint-disable-next-line no-console
-    console.log('[PHS ChatBot] New lead captured:', lead)
-
-    const first = firstNameOf(lead.name)
-    setMode('done')
-    setInputActive(false)
-    setOptions([])
-    revealSeq(
-      [
-        `Thank you${first ? `, ${first}` : ''}. Your request has been received.`,
-        `Our team will reach out to you shortly at ${lead.phone}.`,
-        `If it is urgent, you can call us now at ${PHONE_DISPLAY}.`,
-      ],
-      () =>
-        setOptions([
-          { label: `Call ${PHONE_DISPLAY}`, tel: PHONE_TEL },
-          { label: 'Start over', restart: true },
-        ])
-    )
-  }, [revealSeq])
+  }, [revealSeq, recaptchaToken])
 
   const restart = useCallback(() => {
     clearTimers()
@@ -441,6 +456,8 @@ export default function ChatBot() {
     setTyping(false)
     setInputActive(false)
     setInputValue('')
+    setSubmitting(false)
+    setRecaptchaToken('')
     formData.current = {}
     steps.current = []
     stepIdx.current = 0
@@ -634,18 +651,32 @@ export default function ChatBot() {
             <div ref={scrollEnd} />
           </div>
 
+          {/* reCAPTCHA gate — shown only ahead of the final "Yes, send it" step,
+              same verification every other site form uses before /api/contact
+              will accept the lead. */}
+          {options.some((o) => o.needsRecaptcha) && recaptchaConfigured && (
+            <div className="flex justify-center border-t border-black/5 bg-white px-4 pt-3">
+              <Recaptcha ref={recaptchaRef} onChange={setRecaptchaToken} size="compact" />
+            </div>
+          )}
+
           {/* Quick replies */}
           {options.length > 0 && (
             <div className="flex flex-wrap gap-2 border-t border-black/5 bg-white px-4 py-3">
-              {options.map((opt) => (
-                <button
-                  key={opt.label}
-                  onClick={() => handleOption(opt)}
-                  className="rounded-full border border-phsOrange/40 bg-phsOrange/5 px-3.5 py-2 text-sm font-semibold text-phsOrangeDark transition hover:bg-phsOrange hover:text-white active:scale-95"
-                >
-                  {opt.label}
-                </button>
-              ))}
+              {options.map((opt) => {
+                const waitingOnRecaptcha =
+                  opt.needsRecaptcha && recaptchaConfigured && !recaptchaToken
+                return (
+                  <button
+                    key={opt.label}
+                    onClick={() => handleOption(opt)}
+                    disabled={waitingOnRecaptcha || submitting}
+                    className="rounded-full border border-phsOrange/40 bg-phsOrange/5 px-3.5 py-2 text-sm font-semibold text-phsOrangeDark transition hover:bg-phsOrange hover:text-white active:scale-95 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-phsOrange/5 disabled:hover:text-phsOrangeDark"
+                  >
+                    {opt.submit && submitting ? 'Sending…' : opt.label}
+                  </button>
+                )
+              })}
             </div>
           )}
 

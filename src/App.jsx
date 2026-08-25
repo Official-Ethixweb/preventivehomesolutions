@@ -56,6 +56,7 @@ const AboutPage = lazy(() => import('./components/AboutPage.jsx'))
 const LandingPage = lazy(() => import('./components/LandingPage.jsx'))
 const AccessibilityPage = lazy(() => import('./components/AccessibilityPage.jsx'))
 const ThankYouPage = lazy(() => import('./components/ThankYouPage.jsx'))
+const NotFoundPage = lazy(() => import('./components/NotFoundPage.jsx'))
 
 
 // Map URL paths to the service-page slugs that drive ServicePage.
@@ -109,41 +110,49 @@ export default function App() {
     }
   }, [path])
 
-  const slug = ROUTES[path]
+  // Normalize a single trailing slash once, up front, so every match below
+  // (exact-string checks included) treats "/plumbing" and "/plumbing/" the
+  // same way — a real page must never 404 just because of a trailing slash.
+  // Root "/" is left alone since stripping it would produce an empty string.
+  const normalizedPath = path !== '/' ? path.replace(/\/$/, '') : path
+
+  const slug = ROUTES[normalizedPath]
   // Nested sub-service route, e.g. /plumbing/drain-cleaning
-  const segments = path.replace(/\/$/, '').split('/').filter(Boolean)
+  const segments = normalizedPath.split('/').filter(Boolean)
   const subService =
     segments.length === 2 ? getSubService(segments[0], segments[1]) : null
 
   // Conversion landing pages, e.g. /plumbing-services, /hvac-services.
-  const landingKey = path.replace(/^\//, '').replace(/\/$/, '')
+  const landingKey = normalizedPath.replace(/^\//, '')
 
   let page
   if (LANDING_PAGES[landingKey]) {
     page = <LandingPage slug={landingKey} data={LANDING_PAGES[landingKey]} />
-  } else if (path === '/water-heater-repair') {
+  } else if (normalizedPath === '/water-heater-repair') {
     page = <WaterHeaterPage />
-  } else if (path.startsWith('/service-areas/')) {
-    const citySlug = path.slice('/service-areas/'.length).replace(/\/$/, '')
+  } else if (normalizedPath.startsWith('/service-areas/')) {
+    const citySlug = normalizedPath.slice('/service-areas/'.length)
     page = <AreaPage slug={citySlug} />
-  } else if (path === '/about-us') {
+  } else if (normalizedPath === '/about-us') {
     page = <AboutPage />
-  } else if (path === '/accessibility') {
+  } else if (normalizedPath === '/accessibility') {
     page = <AccessibilityPage />
-  } else if (path === '/thank-you') {
+  } else if (normalizedPath === '/thank-you') {
     page = <ThankYouPage />
-  } else if (path === '/blog') {
+  } else if (normalizedPath === '/blog') {
     page = <BlogPage />
-  } else if (path.startsWith('/blog/')) {
-    const postSlug = path.slice('/blog/'.length).replace(/\/$/, '')
+  } else if (normalizedPath.startsWith('/blog/')) {
+    const postSlug = normalizedPath.slice('/blog/'.length)
     const post = BLOG_POSTS.find((p) => p.slug === postSlug)
-    page = post ? <ArticlePage post={post} /> : <BlogPage />
+    page = post ? <ArticlePage post={post} /> : <NotFoundPage />
   } else if (subService) {
     page = <SubServicePage parentSlug={segments[0]} childSlug={segments[1]} />
   } else if (slug && SERVICE_PAGES[slug]) {
     page = <ServicePage slug={slug} />
-  } else {
+  } else if (normalizedPath === '/') {
     page = <Home />
+  } else {
+    page = <NotFoundPage />
   }
 
   return (

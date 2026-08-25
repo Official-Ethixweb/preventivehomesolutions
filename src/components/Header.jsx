@@ -164,6 +164,7 @@ export default function Header({ isLanding = false }) {
   // (position:sticky is unreliable here because an ancestor uses overflow-x:
   // hidden, so the compact bar is a separate position:fixed overlay instead.)
   const fullHeaderRef = useRef(null)
+  const compactHeaderRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
     const onScroll = () => {
@@ -178,6 +179,15 @@ export default function Header({ isLanding = false }) {
       window.removeEventListener('resize', onScroll)
     }
   }, [])
+
+  // The compact header is only hidden via a CSS transform (see className
+  // below), which leaves it fully in the tab order and screen-reader-reachable
+  // even while pushed off-screen. `inert` removes it from both while hidden.
+  // Set as a real DOM property (not a JSX prop) since React 18 doesn't
+  // forward the boolean `inert` attribute to the underlying element.
+  useEffect(() => {
+    if (compactHeaderRef.current) compactHeaderRef.current.inert = !scrolled
+  }, [scrolled])
 
   // Keep showing the last menu's content while the panel fades out.
   const lastKeyRef = useRef('services')
@@ -326,8 +336,15 @@ export default function Header({ isLanding = false }) {
 
   return (
     <>
-      {/* Compact, pinned nav that slides in once scrolled past the full header */}
+      {/* Compact, pinned nav that slides in once scrolled past the full header.
+          Off-screen via transform (not display/visibility) while !scrolled, so
+          `inert` is needed too — otherwise its links stay keyboard-focusable
+          and screen-reader-reachable while invisible, ahead of real content.
+          Set imperatively (see the effect above `compactHeaderRef` is declared
+          with) since React 18 doesn't forward the boolean `inert` JSX prop to
+          the actual DOM attribute. */}
       <div
+        ref={compactHeaderRef}
         className={`fixed inset-x-0 top-0 z-50 bg-phsCream/95 backdrop-blur shadow-md transition-transform duration-300 ease-out ${
           scrolled ? 'translate-y-0' : '-translate-y-full'
         }`}
@@ -412,7 +429,7 @@ export default function Header({ isLanding = false }) {
 
           {/* State license number */}
           <div className="hidden flex-col items-end leading-tight whitespace-nowrap xl:flex">
-            <span className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-phsInk/45">
+            <span className="font-sans text-[10px] font-bold uppercase tracking-[0.14em] text-phsInk/70">
               Licensed &amp; Insured
             </span>
             <span className="font-sans text-[12px] font-bold text-phsInk/70">

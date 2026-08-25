@@ -141,7 +141,7 @@ export default function ArticlePage({ post }) {
               <span className="text-phsOrange">{post.category}</span>
             </Reveal>
 
-            <Reveal as="span" delay={80} className="inline-block bg-phsOrange px-3 py-1.5 font-mono text-[10px] font-bold tracking-widest text-white">
+            <Reveal as="span" delay={80} className="inline-block bg-phsOrangeDark px-3 py-1.5 font-mono text-[10px] font-bold tracking-widest text-white">
               {post.category}
             </Reveal>
 
@@ -259,7 +259,7 @@ export default function ArticlePage({ post }) {
                   <a href={`/blog/${p.slug}`} className="flex flex-1 flex-col">
                     <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-100">
                       <img src={p.image} alt={p.title} className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-                      <span className="absolute top-4 left-4 z-10 bg-phsOrange px-2.5 py-1 font-mono text-[9px] font-bold tracking-widest text-white">
+                      <span className="absolute top-4 left-4 z-10 bg-phsOrangeDark px-2.5 py-1 font-mono text-[9px] font-bold tracking-widest text-white">
                         {p.category}
                       </span>
                     </div>

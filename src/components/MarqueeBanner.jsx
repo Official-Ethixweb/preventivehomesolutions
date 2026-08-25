@@ -43,13 +43,15 @@ export default function MarqueeBanner() {
   const repeatedServices = [...services, ...services, ...services, ...services, ...services, ...services, ...services, ...services]
 
   return (
-    <div className="flex w-full overflow-hidden bg-phsOrange py-4 text-white border-y border-phsOrangeDark shadow-sm">
+    <div className="flex w-full overflow-hidden bg-phsOrangeDark py-4 text-white border-y border-phsOrangeDark shadow-sm">
       <div className="flex w-max min-w-full animate-marquee items-center gap-16 whitespace-nowrap pl-16">
         {repeatedServices.map((service, i) => (
           <div key={i} className="flex items-center gap-3">
             <service.Icon className="h-6 w-6 opacity-80" />
-            {/* 20px bold clears the WCAG "large text" threshold (≥18.66px bold),
-                so white-on-orange passes at the 3:1 ratio. */}
+            {/* White text needs phsOrangeDark (not phsOrange) as the
+                background to actually clear WCAG contrast — plain phsOrange
+                measures ~2.85:1, short of even the large/bold-text 3:1 floor
+                despite the 20px bold size otherwise qualifying for it. */}
             <span className="font-display text-xl font-bold tracking-widest">{service.name}</span>
           </div>
         ))}

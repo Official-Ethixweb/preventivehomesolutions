@@ -21,6 +21,10 @@ const ENDPOINT = '/api/contact'
  * @param {string} [opts.recaptchaToken]  Token from the reCAPTCHA v2 widget.
  * @returns {Promise<{success:true}>}  Resolves on success, throws Error(message) otherwise.
  */
+// A hung request (dropped connection, server never responds) would otherwise
+// leave the caller's "Sending…" state stuck forever with no way to retry.
+const TIMEOUT_MS = 15000
+
 export async function submitLead(fields, { section, recaptchaToken } = {}) {
   let res
   try {
@@ -28,8 +32,12 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...fields, section, recaptchaToken }),
+      signal: AbortSignal.timeout(TIMEOUT_MS),
     })
-  } catch {
+  } catch (err) {
+    if (err.name === 'TimeoutError' || err.name === 'AbortError') {
+      throw new Error('That took too long. Please check your connection and try again, or call us at (385) 453-9428.')
+    }
     throw new Error('Network error, please try again.')
   }
 

@@ -180,9 +180,14 @@ export default async function handler(req, res) {
     })
 
     // SMTP2GO returns HTTP 200 even for some failures; the real result is in
-    // data.data.succeeded / data.data.error.
+    // data.data.succeeded / data.data.error. Note "succeeded" only means
+    // SMTP2GO accepted the message into its own send queue, not that the
+    // recipient's mail server has actually accepted or delivered it — that
+    // requires a separate lookup against SMTP2GO's Activity/Search-Activity
+    // API using email_id, which this endpoint does not currently do.
     const data = await resp.json().catch(() => ({}))
     const succeeded = data?.data?.succeeded
+    const emailId = data?.data?.email_id
     if (!resp.ok || !succeeded) {
       console.error('[api/contact] SMTP2GO error', resp.status, JSON.stringify(data))
       return res.status(502).json({
@@ -190,6 +195,10 @@ export default async function handler(req, res) {
         message: 'We couldn’t send your request. Please call us at (385) 453-9428.',
       })
     }
+    // Safe, PII-free record of the SMTP2GO transaction so a delivery issue
+    // can be correlated to a specific message via SMTP2GO's own dashboard
+    // (search by email_id) — no lead details (name/phone/email) logged.
+    console.log('[api/contact] SMTP2GO accepted', { emailId, section: section || 'Website form' })
     return res.status(200).json({ success: true })
   } catch (err) {
     console.error('[api/contact] SMTP2GO request failed', err)

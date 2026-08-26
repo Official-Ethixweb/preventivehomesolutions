@@ -148,7 +148,7 @@ function validateZip(raw) {
 // Intake questions asked in order. `service` is dropped when we already know it.
 const LEAD_STEPS = [
   { key: 'name', type: 'text', inputMode: 'text', placeholder: 'Your first and last name', validate: validateName,
-    prompt: "Great — let's get this set up. What's your full name?" },
+    prompt: "Great - let's get this set up. What's your full name?" },
   { key: 'phone', type: 'text', inputMode: 'tel', placeholder: '10-digit phone number', validate: validatePhone,
     prompt: 'Thanks{name}. What is the best phone number to reach you?' },
   { key: 'email', type: 'text', inputMode: 'email', placeholder: 'you@example.com', validate: validateEmail,
@@ -380,7 +380,7 @@ export default function ChatBot() {
       `Name: ${d.name}\n` +
       `Phone: ${d.phone}\n` +
       `Email: ${d.email}\n` +
-      `ZIP: ${d.zip}${d.city ? ` (${d.city})` : ''}${d.outsideArea ? ' — outside standard area' : ''}\n` +
+      `ZIP: ${d.zip}${d.city ? ` (${d.city})` : ''}${d.outsideArea ? ' - outside standard area' : ''}\n` +
       `Service: ${d.service}`
     // Only offer "Yes, send it" once the reCAPTCHA widget (rendered below the
     // options row while mode stays 'form') has produced a token, or when no
@@ -406,7 +406,7 @@ export default function ChatBot() {
     setInputActive(false)
     setOptions([])
     const intro = service
-      ? `Perfect — I'll put together a request for ${service} and have our team follow up.`
+      ? `Perfect - I'll put together a request for ${service} and have our team follow up.`
       : "I'll grab a few quick details and our team will reach out to you."
     revealSeq(intro, () => askStep(0))
   }, [revealSeq, askStep])
@@ -422,7 +422,7 @@ export default function ChatBot() {
           phone: d.phone,
           email: d.email,
           service: d.service,
-          message: `ZIP: ${d.zip}${d.city ? ` (${d.city})` : ''}${d.outsideArea ? ' — outside standard service area' : ''}`,
+          message: `ZIP: ${d.zip}${d.city ? ` (${d.city})` : ''}${d.outsideArea ? ' - outside standard service area' : ''}`,
         },
         { section: 'ChatBot', recaptchaToken }
       )
@@ -437,7 +437,7 @@ export default function ChatBot() {
       const first = firstNameOf(d.name)
       revealSeq(
         [
-          `Sorry${first ? `, ${first}` : ''} — ${err.message || 'something went wrong sending that.'}`,
+          `Sorry${first ? `, ${first}` : ''} - ${err.message || 'something went wrong sending that.'}`,
         ],
         () =>
           setOptions([

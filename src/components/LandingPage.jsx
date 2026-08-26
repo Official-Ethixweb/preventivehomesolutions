@@ -365,7 +365,7 @@ function ZipChecker() {
         <div className="mt-4 flex flex-col gap-3 rounded-xl bg-green-500/15 p-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="flex items-center gap-2 text-sm font-bold text-green-200">
             <span className="[&_svg]:h-5 [&_svg]:w-5">{ICONS.shield}</span>
-            Great news — we service your area!
+            Great news - we service your area!
           </p>
           <a href={`tel:${PHONE_TEL}`} className="inline-flex items-center justify-center gap-2 rounded-lg bg-phsOrange px-4 py-2.5 text-sm font-bold text-white">
             <PhoneIcon className="h-4 w-4" /> Call Now
@@ -374,7 +374,7 @@ function ZipChecker() {
       )}
       {result === 'no' && (
         <div className="mt-4 flex flex-col gap-3 rounded-xl bg-white/10 p-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm font-semibold text-white/90">We may still be able to help — give us a call to confirm.</p>
+          <p className="text-sm font-semibold text-white/90">We may still be able to help - give us a call to confirm.</p>
           <a href={`tel:${PHONE_TEL}`} className="inline-flex items-center justify-center gap-2 rounded-lg bg-phsOrange px-4 py-2.5 text-sm font-bold text-white">
             <PhoneIcon className="h-4 w-4" /> Call Now
           </a>
@@ -543,7 +543,7 @@ export default function LandingPage({ slug, data }) {
                     >
                       <BookingForm
                         serviceOptions={data.serviceOptions}
-                        section={`Landing Hero (Mobile) — ${data.serviceName}`}
+                        section={`Landing Hero (Mobile) - ${data.serviceName}`}
                         mobile
                       />
                     </div>
@@ -581,7 +581,7 @@ export default function LandingPage({ slug, data }) {
                   >
                     <BookingForm
                       serviceOptions={data.serviceOptions}
-                      section={`Landing Hero (Desktop) — ${data.serviceName}`}
+                      section={`Landing Hero (Desktop) - ${data.serviceName}`}
                       mobile
                     />
                   </div>

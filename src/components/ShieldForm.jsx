@@ -77,7 +77,7 @@ export default function ShieldForm({ serviceNoun, section }) {
           phone: formData.get('phone'),
           service,
         },
-        { section: section || `Service Page — ${serviceNoun || 'Service'}`, recaptchaToken }
+        { section: section || `Service Page - ${serviceNoun || 'Service'}`, recaptchaToken }
       )
       setSubmitted(true)
     } catch (err) {

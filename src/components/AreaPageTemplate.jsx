@@ -10,7 +10,7 @@ import WhyChoose from './WhyChoose.jsx'
 import ShieldForm from './ShieldForm.jsx'
 import { useSeo } from '../lib/seo.js'
 import { PHONE_DISPLAY, PHONE_TEL, SERVICE_AREAS, areaHref } from '../data/nav.js'
-import { serviceSchema, faqSchema, breadcrumbSchema } from '../data/business.js'
+import { localBusinessSchema, serviceSchema, faqSchema, breadcrumbSchema } from '../data/business.js'
 
 /**
  * Reusable service-area landing page — one layout for every city.
@@ -101,8 +101,8 @@ function buildFaqs(city) {
       a: `Everything we do — plumbing, drains and sewer, water heaters, furnaces and boilers, and air conditioning. Repairs, maintenance plans, and full installations are all available to ${city} homeowners.`,
     },
     {
-      q: 'Are your technicians licensed and insured?',
-      a: 'Yes. Every technician is licensed, insured, and background-checked, and our work is clean and code-compliant. Each job is backed by a written warranty.',
+      q: `Are the technicians you send to ${city} licensed and insured?`,
+      a: `Yes. Every technician we send into ${city} homes is licensed, insured, and background-checked, and every job is clean, code-compliant, and backed by a written warranty.`,
     },
     {
       q: `Do you offer free estimates in ${city}?`,
@@ -180,6 +180,7 @@ export default function AreaPageTemplate({ area }) {
     path: pageUrl,
     image: HERO_IMAGE,
     jsonLd: [
+      localBusinessSchema({ pageUrl, image: HERO_IMAGE }),
       serviceSchema({
         serviceType: 'Plumbing, Heating & Air Conditioning',
         name: `Plumbing, Heating & AC Service in ${city}, UT`,

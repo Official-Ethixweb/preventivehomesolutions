@@ -26,6 +26,16 @@ const ENDPOINT = '/api/contact'
 const TIMEOUT_MS = 15000
 
 export async function submitLead(fields, { section, recaptchaToken } = {}) {
+  // Fired the moment a submit is actually attempted (after client-side
+  // validation passes, right before the network call) — lets the funnel
+  // measure attempts vs. successes vs. failures, not just successes.
+  trackEvent('form_submit_attempt', { form_section: section || 'Unknown', service: fields.service || '' })
+
+  const fail = (message) => {
+    trackEvent('form_submit_failure', { form_section: section || 'Unknown', message })
+    return new Error(message)
+  }
+
   let res
   try {
     res = await fetch(ENDPOINT, {
@@ -36,9 +46,9 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
     })
   } catch (err) {
     if (err.name === 'TimeoutError' || err.name === 'AbortError') {
-      throw new Error('That took too long. Please check your connection and try again, or call us at (385) 453-9428.')
+      throw fail('That took too long. Please check your connection and try again, or call us at (385) 453-9428.')
     }
-    throw new Error('Network error, please try again.')
+    throw fail('Network error, please try again.')
   }
 
   let data = {}
@@ -47,13 +57,11 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
   } catch {
     // Non-JSON response (e.g. hitting the SPA fallback in local `vite` dev where
     // the serverless function isn't running).
-    throw new Error(
-      'We couldn’t send your request right now. Please call us at (385) 453-9428.'
-    )
+    throw fail('We couldn’t send your request right now. Please call us at (385) 453-9428.')
   }
 
   if (!res.ok || !data.success) {
-    throw new Error(data.message || 'Something went wrong. Please try again or call us.')
+    throw fail(data.message || 'Something went wrong. Please try again or call us.')
   }
 
   // GA4 conversion: a lead form was submitted successfully. `section` tells us

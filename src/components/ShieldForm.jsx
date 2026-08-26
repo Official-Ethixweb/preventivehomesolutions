@@ -3,6 +3,7 @@ import Recaptcha from './Recaptcha.jsx'
 import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
 import { PHONE_DISPLAY } from '../data/nav.js'
+import { trackEvent } from '../lib/analytics.js'
 
 /**
  * "Get a Free Quote" form rendered on the shield graphic (shield.svg +
@@ -56,12 +57,15 @@ export default function ShieldForm({ serviceNoun, section }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    const sectionLabel = section || `Service Page - ${serviceNoun || 'Service'}`
     if (!service) {
       setError('Please choose a service.')
+      trackEvent('form_validation_error', { form_section: sectionLabel, field: 'service' })
       return
     }
     if (recaptchaConfigured && !recaptchaToken) {
       setError('Please confirm you’re not a robot.')
+      trackEvent('form_validation_error', { form_section: sectionLabel, field: 'recaptcha' })
       return
     }
     setSubmitting(true)
@@ -77,7 +81,7 @@ export default function ShieldForm({ serviceNoun, section }) {
           phone: formData.get('phone'),
           service,
         },
-        { section: section || `Service Page - ${serviceNoun || 'Service'}`, recaptchaToken }
+        { section: sectionLabel, recaptchaToken }
       )
       setSubmitted(true)
     } catch (err) {
@@ -114,7 +118,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                   <CheckIcon />
                 </div>
                 <h3 className="mt-4 font-display text-xl font-extrabold tracking-tight text-phsInk">Request Received</h3>
-                <p className="mt-2 max-w-[240px] text-sm text-phsInk/60">
+                <p className="mt-2 max-w-[240px] text-sm text-phsInk/70">
                   Our team will reach out shortly. For urgent needs, call {PHONE_DISPLAY}.
                 </p>
               </div>

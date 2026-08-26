@@ -87,10 +87,19 @@ export function subServiceToContent(parent, service) {
     .slice(0, 4)
     .map((s) => ({ label: s.title, href: subServiceHref(parent.slug, s.slug) }))
 
+  // A few services (heat pumps, mini-splits, thermostats, indoor air quality)
+  // are genuinely listed under both /hvac and /ac since the equipment does
+  // both jobs — tag the title with the parent category so the two URLs never
+  // collide on an identical <title>, which search engines treat as duplicates.
+  const isDualListed = ['hvac', 'ac'].includes(parent.slug) &&
+    ['heat-pumps', 'ductless-mini-splits', 'thermostats', 'indoor-air-quality'].includes(service.slug)
+  const dualLabel = parent.slug === 'ac' ? 'Cooling' : 'Heating'
+  const titleBase = isDualListed ? `${title} (${dualLabel})` : title
+
   return {
-    title: `${title} in ${CITY}, UT | Preventive Home Solutions`.length <= 60
-      ? `${title} in ${CITY}, UT | Preventive Home Solutions`
-      : `${title} in ${CITY}, UT`,
+    title: `${titleBase} in ${CITY}, UT | Preventive Home Solutions`.length <= 60
+      ? `${titleBase} in ${CITY}, UT | Preventive Home Solutions`
+      : `${titleBase} in ${CITY}, UT`,
     metaDescription: `${service.description} Licensed, same-day service in ${CITY}, UT. Call ${PHONE_DISPLAY}.`,
     path: subServiceHref(parent.slug, service.slug),
 
@@ -102,7 +111,7 @@ export function subServiceToContent(parent, service) {
     heroImageAlt: parent.heroImageAlt,
     heroImageWidth: parent.heroImageWidth,
     heroImageHeight: parent.heroImageHeight,
-    heroH1: `Expert ${title} in ${CITY} & Northern Utah`,
+    heroH1: `Expert ${titleBase} in ${CITY} & Northern Utah`,
 
     introEyebrow: parent.eyebrow,
     introHeading: `Professional ${title} You Can Count On`,

@@ -175,7 +175,7 @@ export default function App() {
 
 function Home() {
   useSeo({
-    title: 'Plumbing & HVAC in Layton, UT | Preventive Home Solutions',
+    title: 'Plumbing, Heating & AC in Northern Utah | Preventive Home Solutions',
     description:
       'Licensed plumbing, heating & cooling in Layton, UT and Northern Utah. Fast repairs, installs & maintenance, 7 days a week. Call (385) 453-9428.',
     path: '/',

@@ -7,7 +7,7 @@ import Reveal from './Reveal.jsx'
 import { SERVICE_PAGES, subServiceHref } from '../data/services.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { useSeo } from '../lib/seo.js'
-import { serviceSchema, breadcrumbSchema } from '../data/business.js'
+import { localBusinessSchema, serviceSchema, breadcrumbSchema } from '../data/business.js'
 
 const SERVICE_TYPE_BY_SLUG = {
   plumbing: 'Plumbing',
@@ -69,12 +69,13 @@ export default function ServicePage({ slug }) {
   const data = SERVICE_PAGES[slug]
 
   useSeo({
-    title: data ? `${data.name} | Preventive Home Solutions` : undefined,
+    title: data ? `${data.name} in Layton, UT | Preventive Home Solutions` : undefined,
     description: data?.metaDescription,
     path: data ? `/${data.slug}` : undefined,
     image: data?.heroImage,
     jsonLd: data
       ? [
+          localBusinessSchema({ pageUrl: `/${data.slug}`, image: data.heroImage }),
           serviceSchema({
             serviceType: SERVICE_TYPE_BY_SLUG[slug] || data.name,
             name: data.name,

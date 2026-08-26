@@ -21,7 +21,7 @@ const CITY_DETAILS = {
     county: 'Davis County',
     zips: ['84040', '84041'],
     intro:
-      "Layton is home base for Preventive Home Solutions — our shop sits right on Main Street. When your furnace, drain, or water heater acts up, we're often just minutes away.",
+      "Layton is home base for Preventive Home Solutions — our shop sits right on Main Street, so Layton plumbing, heating, and AC calls are usually the fastest we can reach. From older homes with aging galvanized plumbing to newer construction across the city, we've serviced Layton homes for over 35 years. Whether it's a water heater that won't relight, a furnace struggling through a Davis County winter, or a drain that won't clear, our Layton-based crew is typically on-site the same day you call.",
   },
   Syracuse: {
     county: 'Davis County',

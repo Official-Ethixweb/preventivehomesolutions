@@ -461,7 +461,7 @@ export default function Header({ isLanding = false }) {
               target="_blank"
               rel="noopener noreferrer"
               onMouseEnter={closeMenu}
-              className="flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange"
+              className="flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/70 transition-colors hover:text-phsOrange"
             >
               <MapPinIcon className="h-3 w-3 shrink-0 text-phsOrange" />
               {SHORT_ADDRESS}

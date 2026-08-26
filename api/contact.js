@@ -161,50 +161,109 @@ export default async function handler(req, res) {
 
   const text = rows.map(([k, v]) => `${k}: ${v}`).join('\n')
 
-  try {
-    const resp = await fetch('https://api.smtp2go.com/v3/email/send', {
-      method: 'POST',
-      headers: {
-        'X-Smtp2go-Api-Key': apiKey,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        sender: from,
-        to: [to],
-        subject: `New ${service} request — ${fullName}`,
-        html_body: html,
-        text_body: text,
-        ...(email ? { custom_headers: [{ header: 'Reply-To', value: email }] } : {}),
-      }),
-    })
-
-    // SMTP2GO returns HTTP 200 even for some failures; the real result is in
-    // data.data.succeeded / data.data.error. Note "succeeded" only means
-    // SMTP2GO accepted the message into its own send queue, not that the
-    // recipient's mail server has actually accepted or delivered it — that
-    // requires a separate lookup against SMTP2GO's Activity/Search-Activity
-    // API using email_id, which this endpoint does not currently do.
-    const data = await resp.json().catch(() => ({}))
-    const succeeded = data?.data?.succeeded
-    const emailId = data?.data?.email_id
-    if (!resp.ok || !succeeded) {
-      console.error('[api/contact] SMTP2GO error', resp.status, JSON.stringify(data))
-      return res.status(502).json({
-        success: false,
-        message: 'We couldn’t send your request. Please call us at (385) 453-9428.',
+  // Sends one SMTP2GO email/send request and reports back whether SMTP2GO's
+  // own queue actually accepted it (see the note below on what "succeeded"
+  // does and doesn't guarantee). Shared by both the owner notification and
+  // the customer confirmation — two entirely distinct send operations, each
+  // with its own SMTP2GO email_id, never conflated with one another.
+  async function sendMail(kind, { to, subject, html_body, text_body, replyTo }) {
+    try {
+      const resp = await fetch('https://api.smtp2go.com/v3/email/send', {
+        method: 'POST',
+        headers: {
+          'X-Smtp2go-Api-Key': apiKey,
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          sender: from,
+          to: [to],
+          subject,
+          html_body,
+          text_body,
+          ...(replyTo ? { custom_headers: [{ header: 'Reply-To', value: replyTo }] } : {}),
+        }),
       })
+
+      // SMTP2GO returns HTTP 200 even for some failures; the real result is
+      // in data.data.succeeded / data.data.error. Note "succeeded" means
+      // SMTP2GO accepted the message into its own send queue, not that the
+      // recipient's mail server has actually accepted or delivered it —
+      // that requires a separate lookup against SMTP2GO's Activity/
+      // Search-Activity API using email_id, which this endpoint doesn't do.
+      const data = await resp.json().catch(() => ({}))
+      const succeeded = data?.data?.succeeded
+      const emailId = data?.data?.email_id
+      if (!resp.ok || !succeeded) {
+        console.error('[api/contact] SMTP2GO error', { kind, status: resp.status, body: JSON.stringify(data) })
+        return { ok: false, emailId: null }
+      }
+      // Safe, PII-free record of the SMTP2GO transaction so a delivery issue
+      // can be correlated to a specific message via SMTP2GO's own dashboard
+      // (search by email_id) — no lead details (name/phone/email) logged.
+      console.log('[api/contact] SMTP2GO accepted', { kind, emailId })
+      return { ok: true, emailId }
+    } catch (err) {
+      console.error('[api/contact] SMTP2GO request failed', { kind, error: String(err) })
+      return { ok: false, emailId: null }
     }
-    // Safe, PII-free record of the SMTP2GO transaction so a delivery issue
-    // can be correlated to a specific message via SMTP2GO's own dashboard
-    // (search by email_id) — no lead details (name/phone/email) logged.
-    console.log('[api/contact] SMTP2GO accepted', { emailId, section: section || 'Website form' })
-    return res.status(200).json({ success: true })
-  } catch (err) {
-    console.error('[api/contact] SMTP2GO request failed', err)
+  }
+
+  // 1) Notify the business — this is the email that actually matters for
+  // the lead to be actioned, so its outcome decides the API response.
+  const ownerResult = await sendMail('owner', {
+    to,
+    subject: `New ${service} request — ${fullName}`,
+    html_body: html,
+    text_body: text,
+    replyTo: email || undefined,
+  })
+  const ownerNotification = ownerResult.ok ? 'success' : 'failure'
+  if (ownerNotification === 'failure') {
+    console.log('[api/contact] result', { ownerNotification, customerConfirmation: 'skipped' })
     return res.status(502).json({
       success: false,
       message: 'We couldn’t send your request. Please call us at (385) 453-9428.',
     })
   }
+
+  // 2) Confirm receipt to the customer, if they gave an email — best-effort:
+  // its outcome never flips the API response to failure, since the lead has
+  // already reached the business either way (only logged on failure so it
+  // can be followed up on, never surfaced to the visitor as an error).
+  let customerConfirmation = 'skipped'
+  if (email) {
+    const firstName = fullName.split(' ')[0]
+    // Client-facing only — no internal routing, API, or SMTP2GO details.
+    const confirmHtml = `
+      <div style="font-family:Arial,Helvetica,sans-serif;color:#16263d;max-width:560px">
+        <h2 style="margin:0 0 4px;color:#0a2540">Thanks, ${escapeHtml(firstName)} — we've got your request</h2>
+        <p style="margin:0 0 16px;color:#647089;font-size:13px">A member of our team will follow up with you shortly to confirm the details.</p>
+        <table style="border-collapse:collapse;width:100%">
+          <tr>
+            <td style="padding:8px 12px;background:#f4ecdf;border:1px solid #e6ded4;font-weight:bold;width:140px">Service Requested</td>
+            <td style="padding:8px 12px;border:1px solid #e6ded4">${escapeHtml(service)}</td>
+          </tr>
+        </table>
+        <p style="margin:16px 0 0;color:#16263d;font-size:13px">Need something sooner? Call us anytime at <strong>(385) 453-9428</strong>.</p>
+        <p style="margin:16px 0 0;color:#647089;font-size:12px">Preventive Home Solutions · ${escapeHtml(BUSINESS_ADDRESS)}</p>
+      </div>`
+    const confirmText =
+      `Thanks, ${firstName} — we've got your request.\n\n` +
+      `A member of our team will follow up with you shortly to confirm the details.\n\n` +
+      `Service Requested: ${service}\n\n` +
+      `Need something sooner? Call us anytime at (385) 453-9428.\n\n` +
+      `Preventive Home Solutions\n${BUSINESS_ADDRESS}`
+
+    const customerResult = await sendMail('customer', {
+      to: email,
+      subject: `We've received your ${service} request — Preventive Home Solutions`,
+      html_body: confirmHtml,
+      text_body: confirmText,
+    })
+    customerConfirmation = customerResult.ok ? 'success' : 'failure'
+  }
+
+  console.log('[api/contact] result', { ownerNotification, customerConfirmation })
+  return res.status(200).json({ success: true })
 }

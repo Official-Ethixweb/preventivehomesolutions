@@ -9,12 +9,6 @@
     "nodes": [
       {
         "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
-      {
-        "target": [
           ".tracking-\\[0\\.28em\\]"
         ],
         "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 font-mono text-xs font-bold tracking-[0.28em] text-phsOrange\" style=\"transition-delay: 100ms;\">TRUSTED HOME CARE · NORTHERN UTAH</p>"
@@ -5900,6 +5894,12 @@
           ".shadow-\\[0_18px_40px_-12px_rgba\\(10\\,37\\,64\\,0\\.22\\)\\].hover\\:shadow-\\[0_28px_55px_-12px_rgba\\(10\\,37\\,64\\,0\\.32\\)\\][href$=\"heat-pumps\"] > .mt-6.gap-1\\.5.inline-flex"
         ],
         "html": "<span class=\"mt-6 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange\">"
+      },
+      {
+        "target": [
+          ".tracking-\\[0\\.4em\\]"
+        ],
+        "html": "<span class=\"font-mono text-[11px] font-bold tracking-[0.4em] text-phsOrange/80\">LOADING</span>"
       }
     ]
   },
@@ -6056,13 +6056,73 @@
     ]
   },
   {
-    "route": "/blog/utah-inversions-indoor-air-quality",
+    "route": "/ac/emergency-cooling",
     "viewport": "mobile",
     "rule": "color-contrast",
     "impact": "serious",
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
+      {
+        "target": [
+          ".flex-col-reverse > div > .text-xs.tracking-\\[0\\.25em\\].mb-4"
+        ],
+        "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 mb-4 font-mono text-xs font-bold uppercase tracking-[0.25em] text-phsOrange sm:text-sm\">Cooling Services</p>"
+      },
+      {
+        "target": [
+          ".duration-700.translate-x-0.translate-y-0:nth-child(1) > div > .mt-5.tracking-wide.text-sm > .hover\\:text-phsOrangeDark.text-phsOrange[href=\"tel:3854539428\"]"
+        ],
+        "html": "<a href=\"tel:3854539428\" class=\"text-phsOrange transition-colors hover:text-phsOrangeDark\">(385) 453-9428</a>"
+      },
+      {
+        "target": [
+          ".duration-700.translate-x-0.translate-y-0:nth-child(2) > div > .mt-5.tracking-wide.text-sm > .hover\\:text-phsOrangeDark.text-phsOrange[href=\"tel:3854539428\"]"
+        ],
+        "html": "<a href=\"tel:3854539428\" class=\"text-phsOrange transition-colors hover:text-phsOrangeDark\">(385) 453-9428</a>"
+      },
+      {
+        "target": [
+          ".duration-700.translate-x-0.translate-y-0:nth-child(3) > div > .mt-5.tracking-wide.text-sm > .hover\\:text-phsOrangeDark.text-phsOrange[href=\"tel:3854539428\"]"
+        ],
+        "html": "<a href=\"tel:3854539428\" class=\"text-phsOrange transition-colors hover:text-phsOrangeDark\">(385) 453-9428</a>"
+      },
+      {
+        "target": [
+          ".lg\\:top-28 > .text-xs.tracking-\\[0\\.25em\\].sm\\:text-sm"
+        ],
+        "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 text-xs sm:text-sm font-mono tracking-[0.25em] font-bold text-phsOrange mb-4\">Why Choose Preventive Home Solutions</p>"
+      },
+      {
+        "target": [
+          ".mb-12 > .text-xs.tracking-\\[0\\.25em\\].mb-4"
+        ],
+        "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 mb-4 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange sm:text-sm\">Explore More</p>"
+      },
+      {
+        "target": [
+          ".shadow-\\[0_18px_40px_-12px_rgba\\(10\\,37\\,64\\,0\\.22\\)\\].hover\\:shadow-\\[0_28px_55px_-12px_rgba\\(10\\,37\\,64\\,0\\.32\\)\\][href$=\"ac-repair\"] > .mt-6.gap-1\\.5.inline-flex"
+        ],
+        "html": "<span class=\"mt-6 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange\">"
+      },
+      {
+        "target": [
+          ".shadow-\\[0_18px_40px_-12px_rgba\\(10\\,37\\,64\\,0\\.22\\)\\].hover\\:shadow-\\[0_28px_55px_-12px_rgba\\(10\\,37\\,64\\,0\\.32\\)\\][href$=\"ac-installation\"] > .mt-6.gap-1\\.5.inline-flex"
+        ],
+        "html": "<span class=\"mt-6 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange\">"
+      },
+      {
+        "target": [
+          ".shadow-\\[0_18px_40px_-12px_rgba\\(10\\,37\\,64\\,0\\.22\\)\\].hover\\:shadow-\\[0_28px_55px_-12px_rgba\\(10\\,37\\,64\\,0\\.32\\)\\][href$=\"ac-tune-ups\"] > .mt-6.gap-1\\.5.inline-flex"
+        ],
+        "html": "<span class=\"mt-6 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange\">"
+      },
+      {
+        "target": [
+          ".shadow-\\[0_18px_40px_-12px_rgba\\(10\\,37\\,64\\,0\\.22\\)\\].hover\\:shadow-\\[0_28px_55px_-12px_rgba\\(10\\,37\\,64\\,0\\.32\\)\\][href$=\"heat-pumps\"] > .mt-6.gap-1\\.5.inline-flex"
+        ],
+        "html": "<span class=\"mt-6 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange\">"
+      },
       {
         "target": [
           "a[href$=\"/#hero\"] > .text-\\[10\\.5px\\].tracking-wide.font-sans"
@@ -6074,7 +6134,145 @@
           ".-mt-8 > .text-\\[10\\.5px\\].tracking-wide.font-sans"
         ],
         "html": "<span class=\"font-sans text-[10.5px] font-bold tracking-wide text-phsOrange\">Get Quote</span>"
+      }
+    ]
+  },
+  {
+    "route": "/blog/emergency-plumbing-steps",
+    "viewport": "desktop",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
+    "nodes": [
+      {
+        "target": [
+          ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
+        ],
+        "html": "<span class=\"text-phsOrange\">PLUMBING</span>"
       },
+      {
+        "target": [
+          ".gap-x-3 > .text-phsOrange"
+        ],
+        "html": "<span class=\"text-phsOrange\">PHS FIELD TEAM</span>"
+      },
+      {
+        "target": [
+          ".tracking-\\[0\\.22em\\]"
+        ],
+        "html": "<p class=\"font-mono text-[11px] font-bold tracking-[0.22em] text-phsOrange\">PREVENTIVE HOME SOLUTIONS</p>"
+      },
+      {
+        "target": [
+          ".max-w-\\[760px\\].mx-auto > .text-xs.tracking-\\[0\\.25em\\].mb-3"
+        ],
+        "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 mb-3 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange\">FREQUENTLY ASKED</p>"
+      },
+      {
+        "target": [
+          ".max-w-\\[1200px\\] > .text-xs.tracking-\\[0\\.25em\\].mb-3"
+        ],
+        "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 mb-3 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange\">KEEP READING</p>"
+      },
+      {
+        "target": [
+          "a[href$=\"utah-hard-water-impacts\"] > .p-6.flex-1.flex-col > .gap-1\\.5.text-\\[10px\\].tracking-widest"
+        ],
+        "html": "<span class=\"inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange\">"
+      },
+      {
+        "target": [
+          "a[href$=\"sump-pump-maintenance\"] > .p-6.flex-1.flex-col > .gap-1\\.5.text-\\[10px\\].tracking-widest"
+        ],
+        "html": "<span class=\"inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange\">"
+      },
+      {
+        "target": [
+          ".hover\\:-translate-y-1\\.5.hover\\:border-phsOrange\\/40.hover\\:shadow-\\[0_24px_45px_-18px_rgba\\(10\\,37\\,64\\,0\\.3\\)\\]:nth-child(3) > .flex-1.flex-col > .p-6.flex-1.flex-col > .gap-1\\.5.text-\\[10px\\].tracking-widest"
+        ],
+        "html": "<span class=\"inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange\">"
+      }
+    ]
+  },
+  {
+    "route": "/blog/emergency-plumbing-steps",
+    "viewport": "mobile",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
+    "nodes": [
+      {
+        "target": [
+          ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
+        ],
+        "html": "<span class=\"text-phsOrange\">PLUMBING</span>"
+      },
+      {
+        "target": [
+          ".gap-x-3 > .text-phsOrange"
+        ],
+        "html": "<span class=\"text-phsOrange\">PHS FIELD TEAM</span>"
+      },
+      {
+        "target": [
+          ".tracking-\\[0\\.22em\\]"
+        ],
+        "html": "<p class=\"font-mono text-[11px] font-bold tracking-[0.22em] text-phsOrange\">PREVENTIVE HOME SOLUTIONS</p>"
+      },
+      {
+        "target": [
+          ".max-w-\\[760px\\].mx-auto > .text-xs.tracking-\\[0\\.25em\\].mb-3"
+        ],
+        "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 mb-3 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange\">FREQUENTLY ASKED</p>"
+      },
+      {
+        "target": [
+          ".max-w-\\[1200px\\] > .text-xs.tracking-\\[0\\.25em\\].mb-3"
+        ],
+        "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 mb-3 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange\">KEEP READING</p>"
+      },
+      {
+        "target": [
+          "a[href$=\"utah-hard-water-impacts\"] > .p-6.flex-1.flex-col > .gap-1\\.5.text-\\[10px\\].tracking-widest"
+        ],
+        "html": "<span class=\"inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange\">"
+      },
+      {
+        "target": [
+          "a[href$=\"sump-pump-maintenance\"] > .p-6.flex-1.flex-col > .gap-1\\.5.text-\\[10px\\].tracking-widest"
+        ],
+        "html": "<span class=\"inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange\">"
+      },
+      {
+        "target": [
+          ".hover\\:-translate-y-1\\.5.hover\\:border-phsOrange\\/40.hover\\:shadow-\\[0_24px_45px_-18px_rgba\\(10\\,37\\,64\\,0\\.3\\)\\]:nth-child(3) > .flex-1.flex-col > .p-6.flex-1.flex-col > .gap-1\\.5.text-\\[10px\\].tracking-widest"
+        ],
+        "html": "<span class=\"inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange\">"
+      },
+      {
+        "target": [
+          "a[href$=\"/#hero\"] > .text-\\[10\\.5px\\].tracking-wide.font-sans"
+        ],
+        "html": "<span class=\"font-sans text-[10.5px] font-bold tracking-wide text-phsOrange\">Home</span>"
+      },
+      {
+        "target": [
+          ".-mt-8 > .text-\\[10\\.5px\\].tracking-wide.font-sans"
+        ],
+        "html": "<span class=\"font-sans text-[10.5px] font-bold tracking-wide text-phsOrange\">Get Quote</span>"
+      }
+    ]
+  },
+  {
+    "route": "/blog/utah-inversions-indoor-air-quality",
+    "viewport": "desktop",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
+    "nodes": [
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -6126,8 +6324,8 @@
     ]
   },
   {
-    "route": "/blog/seer2-2026-hvac-standards",
-    "viewport": "desktop",
+    "route": "/blog/utah-inversions-indoor-air-quality",
+    "viewport": "mobile",
     "rule": "color-contrast",
     "impact": "serious",
     "help": "Elements must meet minimum color contrast ratio thresholds",
@@ -6135,10 +6333,74 @@
     "nodes": [
       {
         "target": [
-          ".text-phsInk\\/60"
+          ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
         ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
+        "html": "<span class=\"text-phsOrange\">AIR QUALITY</span>"
       },
+      {
+        "target": [
+          ".gap-x-3 > .text-phsOrange"
+        ],
+        "html": "<span class=\"text-phsOrange\">PHS FIELD TEAM</span>"
+      },
+      {
+        "target": [
+          ".tracking-\\[0\\.22em\\]"
+        ],
+        "html": "<p class=\"font-mono text-[11px] font-bold tracking-[0.22em] text-phsOrange\">PREVENTIVE HOME SOLUTIONS</p>"
+      },
+      {
+        "target": [
+          ".max-w-\\[760px\\].mx-auto > .text-xs.tracking-\\[0\\.25em\\].mb-3"
+        ],
+        "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 mb-3 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange\">FREQUENTLY ASKED</p>"
+      },
+      {
+        "target": [
+          ".max-w-\\[1200px\\] > .text-xs.tracking-\\[0\\.25em\\].mb-3"
+        ],
+        "html": "<p class=\"transition-all duration-700 ease-out will-change-transform opacity-100 translate-x-0 translate-y-0 scale-100 mb-3 font-mono text-xs font-bold tracking-[0.25em] text-phsOrange\">KEEP READING</p>"
+      },
+      {
+        "target": [
+          "a[href$=\"emergency-plumbing-steps\"] > .p-6.flex-1.flex-col > .gap-1\\.5.text-\\[10px\\].tracking-widest"
+        ],
+        "html": "<span class=\"inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange\">"
+      },
+      {
+        "target": [
+          ".hover\\:-translate-y-1\\.5.hover\\:border-phsOrange\\/40.hover\\:shadow-\\[0_24px_45px_-18px_rgba\\(10\\,37\\,64\\,0\\.3\\)\\]:nth-child(2) > .flex-1.flex-col > .p-6.flex-1.flex-col > .gap-1\\.5.text-\\[10px\\].tracking-widest"
+        ],
+        "html": "<span class=\"inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange\">"
+      },
+      {
+        "target": [
+          ".hover\\:-translate-y-1\\.5.hover\\:border-phsOrange\\/40.hover\\:shadow-\\[0_24px_45px_-18px_rgba\\(10\\,37\\,64\\,0\\.3\\)\\]:nth-child(3) > .flex-1.flex-col > .p-6.flex-1.flex-col > .gap-1\\.5.text-\\[10px\\].tracking-widest"
+        ],
+        "html": "<span class=\"inline-flex items-center gap-1.5 font-mono text-[10px] font-bold tracking-widest text-phsOrange\">"
+      },
+      {
+        "target": [
+          "a[href$=\"/#hero\"] > .text-\\[10\\.5px\\].tracking-wide.font-sans"
+        ],
+        "html": "<span class=\"font-sans text-[10.5px] font-bold tracking-wide text-phsOrange\">Home</span>"
+      },
+      {
+        "target": [
+          ".-mt-8 > .text-\\[10\\.5px\\].tracking-wide.font-sans"
+        ],
+        "html": "<span class=\"font-sans text-[10.5px] font-bold tracking-wide text-phsOrange\">Get Quote</span>"
+      }
+    ]
+  },
+  {
+    "route": "/blog/seer2-2026-hvac-standards",
+    "viewport": "desktop",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
+    "nodes": [
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -6267,12 +6529,6 @@
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
-      {
-        "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -6401,12 +6657,6 @@
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
-      {
-        "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -6535,12 +6785,6 @@
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
-      {
-        "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -6669,12 +6913,6 @@
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
-      {
-        "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -6803,12 +7041,6 @@
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
-      {
-        "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -6937,12 +7169,6 @@
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
-      {
-        "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -7071,12 +7297,6 @@
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
-      {
-        "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -7205,12 +7425,6 @@
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
-      {
-        "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"
@@ -7339,12 +7553,6 @@
     "help": "Elements must meet minimum color contrast ratio thresholds",
     "helpUrl": "https://dequeuniversity.com/rules/axe/4.12/color-contrast?application=playwright",
     "nodes": [
-      {
-        "target": [
-          ".text-phsInk\\/60"
-        ],
-        "html": "<a href=\"https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/60 transition-colors hover:text-phsOrange\">"
-      },
       {
         "target": [
           ".flex-wrap.tracking-\\[0\\.18em\\].text-white\\/90 > .text-phsOrange"

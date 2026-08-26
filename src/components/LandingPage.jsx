@@ -10,6 +10,7 @@ import RotatingText from './RotatingText.jsx'
 import Recaptcha from './Recaptcha.jsx'
 import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
+import { trackEvent } from '../lib/analytics.js'
 import { useSeo } from '../lib/seo.js'
 import { BUSINESS, FULL_ADDRESS, buildLandingSchema } from '../data/business.js'
 import { PHONE_DISPLAY, PHONE_TEL, SERVICE_AREAS, areaHref } from '../data/nav.js'
@@ -94,10 +95,12 @@ function BookingForm({ serviceOptions, section, mobile = false }) {
     e.preventDefault()
     if (!service) {
       setError('Please choose a service.')
+      trackEvent('form_validation_error', { form_section: section, field: 'service' })
       return
     }
     if (recaptchaConfigured && !recaptchaToken) {
       setError('Please confirm you’re not a robot.')
+      trackEvent('form_validation_error', { form_section: section, field: 'recaptcha' })
       return
     }
     setSubmitting(true)
@@ -146,7 +149,7 @@ function BookingForm({ serviceOptions, section, mobile = false }) {
         <h3 className="mt-5 font-display text-2xl font-extrabold tracking-tight text-phsInk">
           Request Received
         </h3>
-        <p className="mt-2 max-w-xs text-sm text-phsInk/60">
+        <p className="mt-2 max-w-xs text-sm text-phsInk/70">
           Our team will reach out shortly. For urgent needs, call {PHONE_DISPLAY}.
         </p>
       </div>
@@ -839,6 +842,7 @@ function BottomPromoForm({ serviceName }) {
     e.preventDefault()
     if (recaptchaConfigured && !recaptchaToken) {
       setError('Please confirm you’re not a robot.')
+      trackEvent('form_validation_error', { form_section: 'Landing Bottom Promo Form', field: 'recaptcha' })
       return
     }
     setSubmitting(true)

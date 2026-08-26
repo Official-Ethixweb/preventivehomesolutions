@@ -5,6 +5,7 @@ import Recaptcha from './Recaptcha.jsx'
 import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
+import { trackEvent } from '../lib/analytics.js'
 
 // The static heading reads "Heavy Duty Home Service"; the box rotates the specifics.
 const BOX_PHRASES = [
@@ -68,10 +69,12 @@ function BookingForm({ mobile = false }) {
     // browsers skip during native validation, so enforce the choice here.
     if (!service) {
       setError('Please choose a service.')
+      trackEvent('form_validation_error', { form_section: 'Hero - Book Your Inspection', field: 'service' })
       return
     }
     if (recaptchaConfigured && !recaptchaToken) {
       setError('Please confirm you’re not a robot.')
+      trackEvent('form_validation_error', { form_section: 'Hero - Book Your Inspection', field: 'recaptcha' })
       return
     }
     setSubmitting(true)
@@ -120,7 +123,7 @@ function BookingForm({ mobile = false }) {
         <h3 className="mt-5 font-display text-2xl font-extrabold tracking-tight text-phsInk">
           Request Received
         </h3>
-        <p className="mt-2 max-w-xs text-sm text-phsInk/60">
+        <p className="mt-2 max-w-xs text-sm text-phsInk/70">
           Our team will reach out shortly to confirm your inspection. For
           urgent needs, call {PHONE_DISPLAY}.
         </p>
@@ -256,9 +259,11 @@ export default function Hero() {
 
   return (
     <section id="hero" className="relative w-full overflow-hidden bg-phsCream">
-      <div className="relative mx-auto grid max-w-[1500px] items-start gap-8 px-[clamp(16px,5vw,20px)] sm:px-5 py-[clamp(24px,8vw,32px)] sm:py-8 lg:grid-cols-2 lg:gap-12 lg:px-10 lg:py-24">
-        {/* Left column */}
-        <div className="-mt-5 lg:mt-0">
+      <div className="relative mx-auto grid max-w-[1500px] grid-cols-1 items-start gap-8 px-[clamp(16px,5vw,20px)] sm:px-5 py-[clamp(24px,8vw,32px)] sm:py-8 lg:grid-cols-2 lg:gap-12 lg:px-10 lg:py-24">
+        {/* Left column. min-w-0 overrides the grid item's default min-width:auto,
+            which otherwise lets the max-w-md paragraph below force this column
+            (and the whole grid) wider than the viewport on narrow screens. */}
+        <div className="-mt-5 min-w-0 lg:mt-0">
           <Reveal
             as="p"
             delay={100}

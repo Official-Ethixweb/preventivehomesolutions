@@ -3,6 +3,8 @@ import Reveal from './Reveal.jsx'
 import Recaptcha from './Recaptcha.jsx'
 import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
+import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
+import { trackEvent } from '../lib/analytics.js'
 
 const inputClass =
   'w-full rounded-lg bg-gray-100 border border-gray-200 px-5 py-4 text-[15px] text-phsInk placeholder-gray-400 outline-none transition-all duration-200 focus:border-phsOrange focus:ring-2 focus:ring-phsOrange/20 focus:bg-white'
@@ -22,10 +24,12 @@ export default function ContactForm() {
     // browsers skip during native validation, so enforce the choice here.
     if (!service) {
       setError('Please choose a service.')
+      trackEvent('form_validation_error', { form_section: 'Contact / Get a Free Quote', field: 'service' })
       return
     }
     if (recaptchaConfigured && !recaptchaToken) {
       setError('Please confirm you’re not a robot.')
+      trackEvent('form_validation_error', { form_section: 'Contact / Get a Free Quote', field: 'recaptcha' })
       return
     }
     setSubmitting(true)
@@ -128,13 +132,13 @@ export default function ContactForm() {
 
               {/* Call Now Button */}
               <a
-                href="tel:3854539428"
+                href={`tel:${PHONE_TEL}`}
                 className="cta-diag cta-diag-orange inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-8 py-4 text-base font-bold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-95 mb-8"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
-                <span>(385) 453-9428</span>
+                <span>{PHONE_DISPLAY}</span>
               </a>
 
               {/* Details */}

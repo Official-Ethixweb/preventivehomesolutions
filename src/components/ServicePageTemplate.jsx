@@ -10,7 +10,7 @@ import WhyChoose from './WhyChoose.jsx'
 import ShieldForm from './ShieldForm.jsx'
 import { useSeo } from '../lib/seo.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
-import { serviceSchema, faqSchema, breadcrumbSchema } from '../data/business.js'
+import { localBusinessSchema, serviceSchema, faqSchema, breadcrumbSchema } from '../data/business.js'
 
 /**
  * Reusable SEO service-landing page.
@@ -190,6 +190,7 @@ export default function ServicePageTemplate({ content }) {
     path,
     image: heroImage,
     jsonLd: [
+      localBusinessSchema({ pageUrl: path, image: heroImage }),
       serviceSchema({
         serviceType: serviceNoun,
         name: serviceNoun,

@@ -29,9 +29,7 @@ export const SERVICE_GROUPS = [
   {
     title: 'Water Heaters',
     items: [
-      { label: 'Water Heater Repair and Maintenance', href: '/water-heater-repair' },
-      { label: 'Water Heater Installation and Replacement', href: '/water-heater-repair' },
-      { label: 'Tankless Waterheater', href: '/water-heater-repair' },
+      { label: 'Water Heater Repair & Installation', href: '/water-heater-repair' },
     ],
   },
   {

@@ -424,7 +424,7 @@ export default function ChatBot() {
           service: d.service,
           message: `ZIP: ${d.zip}${d.city ? ` (${d.city})` : ''}${d.outsideArea ? ' - outside standard service area' : ''}`,
         },
-        { section: 'ChatBot', recaptchaToken }
+        { section: `ChatBot - ${d.service || 'General'}`, recaptchaToken }
       )
       // submitLeadToServer navigates to /thank-you on success, which unmounts
       // this widget — no further local state updates needed.

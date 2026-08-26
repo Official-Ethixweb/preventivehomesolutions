@@ -87,7 +87,7 @@ function BookingForm({ mobile = false }) {
           service,
           message: formData.get('message') || '',
         },
-        { section: 'Hero — Book Your Inspection', recaptchaToken }
+        { section: 'Hero - Book Your Inspection', recaptchaToken }
       )
       setSubmitted(true)
     } catch (err) {

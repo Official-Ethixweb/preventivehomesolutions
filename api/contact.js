@@ -10,17 +10,14 @@
 //   RECAPTCHA_SECRET_KEY   Google reCAPTCHA secret key
 //   RECAPTCHA_MIN_SCORE    Optional score threshold (default 0.5)
 
-const DEFAULT_TO = 'Preventivehomeservices@gmail.com'
-const BUSINESS_ADDRESS = '688 N Main St, Layton, UT 84041, United States'
+import {
+  ownerEmailHtml,
+  ownerEmailText,
+  customerEmailHtml,
+  customerEmailText,
+} from './_emailTemplate.js'
 
-function escapeHtml(value = '') {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;')
-}
+const DEFAULT_TO = 'Preventivehomeservices@gmail.com'
 
 const MAX_BODY_BYTES = 100 * 1024 // 100KB — far more than a lead form needs
 
@@ -133,33 +130,14 @@ export default async function handler(req, res) {
     })
   }
 
-  const rows = [
-    ['Name', fullName],
-    ['Phone', phone],
-    ['Email', email || '—'],
-    ['Service', service],
-    ['Message', message || '—'],
-    ['Source', section || 'Website form'],
-  ]
-  const html = `
-    <div style="font-family:Arial,Helvetica,sans-serif;color:#16263d;max-width:560px">
-      <h2 style="margin:0 0 4px;color:#0a2540">New Website Lead</h2>
-      <p style="margin:0 0 16px;color:#647089;font-size:13px">${escapeHtml(section || 'Website form')}</p>
-      <table style="border-collapse:collapse;width:100%">
-        ${rows
-          .map(
-            ([k, v]) => `
-          <tr>
-            <td style="padding:8px 12px;background:#f4ecdf;border:1px solid #e6ded4;font-weight:bold;width:120px">${escapeHtml(k)}</td>
-            <td style="padding:8px 12px;border:1px solid #e6ded4">${escapeHtml(v)}</td>
-          </tr>`
-          )
-          .join('')}
-      </table>
-      <p style="margin:16px 0 0;color:#647089;font-size:12px">${escapeHtml(BUSINESS_ADDRESS)}</p>
-    </div>`
-
-  const text = rows.map(([k, v]) => `${k}: ${v}`).join('\n')
+  // Human-readable submission time (server timezone; UTC is unambiguous
+  // across the owner's inbox regardless of where they open it).
+  const submittedAt =
+    new Date().toLocaleString('en-US', {
+      dateStyle: 'medium',
+      timeStyle: 'short',
+      timeZone: 'UTC',
+    }) + ' UTC'
 
   // Sends one SMTP2GO email/send request and reports back whether SMTP2GO's
   // own queue actually accepted it (see the note below on what "succeeded"
@@ -211,11 +189,12 @@ export default async function handler(req, res) {
 
   // 1) Notify the business — this is the email that actually matters for
   // the lead to be actioned, so its outcome decides the API response.
+  const ownerFields = { fullName, phone, email, service, message, section, submittedAt }
   const ownerResult = await sendMail('owner', {
     to,
-    subject: `New ${service} request — ${fullName}`,
-    html_body: html,
-    text_body: text,
+    subject: `New PHS Lead - ${service} - ${fullName}`,
+    html_body: ownerEmailHtml(ownerFields),
+    text_body: ownerEmailText(ownerFields),
     replyTo: email || undefined,
   })
   const ownerNotification = ownerResult.ok ? 'success' : 'failure'
@@ -234,32 +213,12 @@ export default async function handler(req, res) {
   let customerConfirmation = 'skipped'
   if (email) {
     const firstName = fullName.split(' ')[0]
-    // Client-facing only — no internal routing, API, or SMTP2GO details.
-    const confirmHtml = `
-      <div style="font-family:Arial,Helvetica,sans-serif;color:#16263d;max-width:560px">
-        <h2 style="margin:0 0 4px;color:#0a2540">Thanks, ${escapeHtml(firstName)} — we've got your request</h2>
-        <p style="margin:0 0 16px;color:#647089;font-size:13px">A member of our team will follow up with you shortly to confirm the details.</p>
-        <table style="border-collapse:collapse;width:100%">
-          <tr>
-            <td style="padding:8px 12px;background:#f4ecdf;border:1px solid #e6ded4;font-weight:bold;width:140px">Service Requested</td>
-            <td style="padding:8px 12px;border:1px solid #e6ded4">${escapeHtml(service)}</td>
-          </tr>
-        </table>
-        <p style="margin:16px 0 0;color:#16263d;font-size:13px">Need something sooner? Call us anytime at <strong>(385) 453-9428</strong>.</p>
-        <p style="margin:16px 0 0;color:#647089;font-size:12px">Preventive Home Solutions · ${escapeHtml(BUSINESS_ADDRESS)}</p>
-      </div>`
-    const confirmText =
-      `Thanks, ${firstName} — we've got your request.\n\n` +
-      `A member of our team will follow up with you shortly to confirm the details.\n\n` +
-      `Service Requested: ${service}\n\n` +
-      `Need something sooner? Call us anytime at (385) 453-9428.\n\n` +
-      `Preventive Home Solutions\n${BUSINESS_ADDRESS}`
-
+    const customerFields = { firstName, service, submittedAt }
     const customerResult = await sendMail('customer', {
       to: email,
-      subject: `We've received your ${service} request — Preventive Home Solutions`,
-      html_body: confirmHtml,
-      text_body: confirmText,
+      subject: `Thanks, ${firstName} - We Received Your PHS Request`,
+      html_body: customerEmailHtml(customerFields),
+      text_body: customerEmailText(customerFields),
     })
     customerConfirmation = customerResult.ok ? 'success' : 'failure'
   }

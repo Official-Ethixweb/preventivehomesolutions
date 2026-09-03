@@ -15,6 +15,7 @@ import {
   ownerEmailText,
   customerEmailHtml,
   customerEmailText,
+  PHONE_DISPLAY,
 } from './_emailTemplate.js'
 
 const DEFAULT_TO = 'Preventivehomeservices@gmail.com'
@@ -126,7 +127,7 @@ export default async function handler(req, res) {
     console.error('[api/contact] Missing SMTP2GO_API_KEY or MAIL_FROM env var.')
     return res.status(500).json({
       success: false,
-      message: 'Email delivery isn’t configured yet. Please call us at (385) 453-9428.',
+      message: `Email delivery isn’t configured yet. Please call us at ${PHONE_DISPLAY}.`,
     })
   }
 
@@ -202,7 +203,7 @@ export default async function handler(req, res) {
     console.log('[api/contact] result', { ownerNotification, customerConfirmation: 'skipped' })
     return res.status(502).json({
       success: false,
-      message: 'We couldn’t send your request. Please call us at (385) 453-9428.',
+      message: `We couldn’t send your request. Please call us at ${PHONE_DISPLAY}.`,
     })
   }
 

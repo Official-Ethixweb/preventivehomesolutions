@@ -94,7 +94,7 @@ function buildFaqs(city) {
     },
     {
       q: `How fast can you get to my home in ${city}?`,
-      a: `For most of ${city} we offer same-day appointments, and emergency calls are prioritized 7 days a week. Call (385) 453-9428 and we'll give you an honest arrival window before we roll a truck.`,
+      a: `For most of ${city} we offer same-day appointments, and emergency calls are prioritized 7 days a week. Call ${PHONE_DISPLAY} and we'll give you an honest arrival window before we roll a truck.`,
     },
     {
       q: `Which services do you offer in ${city}?`,
@@ -176,7 +176,7 @@ export default function AreaPageTemplate({ area }) {
 
   useSeo({
     title: `Plumbing & HVAC in ${city}, UT | Preventive Home Solutions`,
-    description: `Licensed plumbing, heating & AC service in ${city}, UT. Same-day appointments, upfront pricing. Call (385) 453-9428.`,
+    description: `Licensed plumbing, heating & AC service in ${city}, UT. Same-day appointments, upfront pricing. Call ${PHONE_DISPLAY}.`,
     path: pageUrl,
     image: HERO_IMAGE,
     jsonLd: [

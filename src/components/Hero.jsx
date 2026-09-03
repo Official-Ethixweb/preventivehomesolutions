@@ -197,7 +197,7 @@ function BookingForm({ mobile = false }) {
 
         <div>
           <label htmlFor="bf-message" className={labelClass}>How can we help?</label>
-          <textarea id="bf-message" name="message" rows={mobile ? 2 : 3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)] max-lg:!w-[calc(100%-14px)]`} />
+          <textarea id="bf-message" name="message" rows={mobile ? 2 : 3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)] max-lg:!w-[calc(100%-78px)]`} />
         </div>
 
         {/* Captcha scaled down so it tucks into the shield's tapering lower
@@ -211,14 +211,14 @@ function BookingForm({ mobile = false }) {
         <Recaptcha
           ref={recaptchaRef}
           onChange={setRecaptchaToken}
-          className={`${mobile ? '!-mb-8' : '-mb-6'} flex origin-top justify-center [transform:scale(0.68)]`}
+          className={`${mobile ? '!-mb-8 [transform:scale(0.58)]' : '-mb-6 [transform:scale(0.68)]'} flex origin-top justify-center`}
         />
 
         {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
-          className="cta-diag cta-diag-orange group mx-auto flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-6 py-2.5 font-sans text-[14px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed -mt-[10px]"
+          className="cta-diag cta-diag-orange group mx-auto flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-6 max-lg:px-3 py-2.5 font-sans text-[14px] max-lg:text-[12px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed -mt-[10px]"
         >
           {submitting ? 'Sending...' : 'Book Now'}
           {!submitting && <ArrowIcon className="h-[17px] w-[17px] transition-transform duration-300 group-hover:translate-x-1" />}
@@ -335,7 +335,7 @@ export default function Hero() {
             <div className="absolute inset-0 z-30 flex flex-col items-center justify-start px-[4%] pt-[14%]">
               <div ref={mobileShieldFormRef} className="w-full flex justify-center">
                 <div
-                  className="origin-top"
+                  className="origin-top shrink-0"
                   style={{
                     width: `${MOBILE_FORM_DESIGN_WIDTH}px`,
                     transform: `scale(${mobileFormScale})`,

@@ -371,16 +371,16 @@ export default function Header({ isLanding = false }) {
               <a
                 href={`tel:${PHONE_TEL}`}
                 onMouseEnter={closeMenu}
-                className="phone-glow cta-diag cta-diag-white inline-flex items-center gap-1.5 rounded-md bg-white px-2.5 py-1.5 font-sans text-[11px] sm:text-sm font-bold text-phsInk whitespace-nowrap"
+                className="phone-glow-orange cta-diag cta-diag-orange inline-flex items-center gap-1.5 rounded-md bg-phsOrange px-3 py-2 font-sans text-[13px] sm:text-base font-black text-white whitespace-nowrap shadow-md"
               >
-                <PhoneIcon className="h-3.5 w-3.5 text-phsSky" />
+                <PhoneIcon className="h-4 w-4 text-white" />
                 {PHONE_DISPLAY}
               </a>
               <div className="flex flex-col items-center gap-1">
                 <a
                   href="/#scheduling"
                   onMouseEnter={closeMenu}
-                  className="cta-diag cta-diag-orange rounded-md bg-phsOrange px-3 sm:px-5 py-1.5 sm:py-2.5 font-sans text-[11px] sm:text-sm font-bold text-white shadow-sm whitespace-nowrap hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
+                  className="cta-diag cta-diag-white rounded-md border border-phsOrange/50 bg-white px-3 sm:px-5 py-1.5 sm:py-2.5 font-sans text-[11px] sm:text-sm font-bold text-phsOrange shadow-sm whitespace-nowrap hover:-translate-y-0.5 hover:border-phsOrange hover:shadow-md active:translate-y-0"
                 >
                   Get Free Quote
                 </a>
@@ -418,9 +418,6 @@ export default function Header({ isLanding = false }) {
             fetchpriority="high"
             className="h-[62px] w-auto rounded-lg transition-transform duration-300 group-hover:scale-[1.05] lg:h-[clamp(5.0781rem,9.0625vw,8.75rem)] lg:translate-y-[5px]"
           />
-          <span className="font-display text-[15px] sm:text-xl font-extrabold leading-tight text-phsInk lg:max-w-none">
-            Preventive Home Solutions
-          </span>
         </a>
 
         {/* Right cluster: nav + phone + CTA grouped together */}
@@ -438,21 +435,12 @@ export default function Header({ isLanding = false }) {
           </div>
 
           {/* Phone as a button */}
-          <a
-            href={`tel:${PHONE_TEL}`}
-            onMouseEnter={closeMenu}
-            className="cta-diag cta-diag-white hidden items-center gap-2 rounded-md border border-phsSky/20 bg-white px-4 py-2.5 font-sans text-sm font-bold text-phsInk shadow-sm hover:-translate-y-0.5 hover:shadow-md xl:inline-flex"
-          >
-            <PhoneIcon className="h-4 w-4" />
-            {PHONE_DISPLAY}
-          </a>
-
           {/* Highlighted CTA + address underneath */}
           <div className="flex flex-col items-center gap-1.5">
             <a
               href="/#scheduling"
               onMouseEnter={closeMenu}
-              className="cta-diag cta-diag-orange rounded-md bg-phsOrange px-6 py-3 font-sans text-sm font-bold text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0"
+              className="cta-diag cta-diag-white rounded-md border border-phsOrange/50 bg-white px-6 py-3 font-sans text-sm font-bold text-phsOrange shadow-sm hover:-translate-y-0.5 hover:border-phsOrange hover:shadow-md active:translate-y-0"
             >
               Get Free Quote
             </a>
@@ -468,6 +456,24 @@ export default function Header({ isLanding = false }) {
             </a>
           </div>
         </div>
+
+        {/* Primary action on every breakpoint: a big, glowing, tappable phone
+            number. Emergency plumbing/HVAC callers convert on a call far more
+            readily than on a form, so this outranks Get Free Quote. */}
+        <a
+          href={`tel:${PHONE_TEL}`}
+          onMouseEnter={closeMenu}
+          aria-label={`Call us at ${PHONE_DISPLAY}`}
+          className="phone-glow-orange cta-diag cta-diag-orange group flex shrink-0 items-center gap-2 rounded-md bg-phsOrange px-3 py-2 sm:px-5 sm:py-3 font-sans font-bold text-white shadow-md transition-transform hover:-translate-y-0.5 active:translate-y-0"
+        >
+          <PhoneIcon className="h-5 w-5 sm:h-6 sm:w-6 shrink-0 text-white" />
+          <span className="flex flex-col text-left leading-tight">
+            <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.16em] text-white/85">
+              Call Us 24/7
+            </span>
+            <span className="text-[15px] sm:text-xl font-black tracking-tight whitespace-nowrap">{PHONE_DISPLAY}</span>
+          </span>
+        </a>
 
       </div>
 

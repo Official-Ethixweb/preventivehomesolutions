@@ -269,10 +269,21 @@ export default function Hero() {
             which otherwise lets the max-w-md paragraph below force this column
             (and the whole grid) wider than the viewport on narrow screens. */}
         <div className="-mt-5 min-w-0 lg:mt-0">
+          {/* The wordmark lives here rather than in the header, so the header
+              can spend its width on the phone number. It still reads as the
+              first line of the page, directly above the eyebrow. */}
+          <Reveal
+            as="p"
+            delay={60}
+            className="font-display text-[clamp(18px,5.5vw,22px)] lg:text-2xl font-black leading-tight tracking-tight text-phsInk"
+          >
+            Preventive Home Solutions
+          </Reveal>
+
           <Reveal
             as="p"
             delay={100}
-            className="font-mono text-xs font-bold tracking-[0.28em] text-phsOrange"
+            className="mt-1.5 font-mono text-xs font-bold tracking-[0.28em] text-phsOrange"
           >
             TRUSTED HOME CARE · NORTHERN UTAH
           </Reveal>

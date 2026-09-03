@@ -249,6 +249,24 @@ html.a11y-nomotion #a11y-root *::after {
   animation: phs-phone-glow 2.4s ease-in-out infinite;
 }
 
+/* Warm variant of the pulse above, for the phone button once it carries the
+   brand orange — the blue glow reads as a clash against an orange fill. The
+   phone is the header's loudest element on purpose: calling converts far
+   better than a form for emergency plumbing/HVAC work. Respects reduced
+   motion (see the global prefers-reduced-motion block).*/
+@keyframes phs-phone-glow-orange {
+  0%,
+  100% {
+    box-shadow: 0 0 5px 0 rgba(243, 117, 27, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(243, 117, 27, 0.75);
+  }
+}
+.phone-glow-orange {
+  animation: phs-phone-glow-orange 2.2s ease-in-out infinite;
+}
+
 /* Elemental aura behind the hero knight — calm water-blue up top, flickering
    fire-orange below. They breathe gently and out of sync so it feels alive,
    while staying subtle. (-50% X is baked in so the glow stays centred.) */

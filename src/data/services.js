@@ -6,6 +6,8 @@
 // included). Those drive the dedicated sub-service pages rendered by
 // ServiceDetailPage at nested routes like /plumbing/drain-cleaning.
 
+import { PHONE_DISPLAY } from './nav.js'
+
 export const SERVICE_PAGES = {
   plumbing: {
     slug: 'plumbing',
@@ -20,7 +22,7 @@ export const SERVICE_PAGES = {
     introText:
       "From a dripping faucet to a full repipe, our licensed plumbers handle it all with clean, code-compliant workmanship. We diagnose the real problem, fix it right the first time, and protect your Northern Utah home from costly water damage available 7 days a week.",
     metaDescription:
-      'Licensed plumbers in Layton, UT for repairs, drain cleaning, water heaters & more. Same-day service, upfront pricing. Call (385) 453-9428.',
+      `Licensed plumbers in Layton, UT for repairs, drain cleaning, water heaters & more. Same-day service, upfront pricing. Call ${PHONE_DISPLAY}.`,
     servicesHeading: 'Our Expert Plumbing Services',
     servicesIntro:
       'Whatever the issue, the same craftsmanship and honest pricing. Here are the plumbing services our team handles every day.',
@@ -240,7 +242,7 @@ export const SERVICE_PAGES = {
     introText:
       "When the temperature drops, your heating system can't afford to fail. We service, repair, and install furnaces, boilers, heat pumps, and mini-splits keeping your home warm, your air clean, and your energy bills in check all season long.",
     metaDescription:
-      'Furnace, boiler & heat pump repair and installation in Layton, UT. Built for Utah winters. Same-day service. Call (385) 453-9428.',
+      `Furnace, boiler & heat pump repair and installation in Layton, UT. Built for Utah winters. Same-day service. Call ${PHONE_DISPLAY}.`,
     servicesHeading: 'Our Expert Heating Services',
     servicesIntro:
       'From a no-heat emergency to a high-efficiency upgrade, our certified technicians keep your home comfortable through the coldest months.',
@@ -428,7 +430,7 @@ export const SERVICE_PAGES = {
     introText:
       "Utah summers get hot fast. Whether your AC needs a tune-up, a repair, or a full replacement, our certified technicians deliver reliable cooling that keeps your home comfortable and your energy costs down with same-day service available.",
     metaDescription:
-      'AC repair, installation & tune-ups in Layton, UT and Northern Utah. Fast, reliable cooling service. Call (385) 453-9428.',
+      `AC repair, installation & tune-ups in Layton, UT and Northern Utah. Fast, reliable cooling service. Call ${PHONE_DISPLAY}.`,
     servicesHeading: 'Our Expert Cooling Services',
     servicesIntro:
       'From routine tune-ups to brand-new high-efficiency systems, we keep your home cool and your air clean all summer long.',

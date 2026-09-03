@@ -33,6 +33,15 @@ const COLORS = {
 const LOGO_URL = 'https://www.preventivehomesolutions.com/main logo.webp'
 const SITE_URL = 'https://www.preventivehomesolutions.com'
 
+// NAP constants, mirroring src/data/nav.js + src/data/business.js. Duplicated
+// deliberately rather than imported: api/ is bundled as a Vercel serverless
+// function, separate from the Vite client build, so it must not reach into
+// src/. Kept in one place here (and re-exported for api/contact.js) so the
+// serverless side still has a single source of truth. Keep in sync with nav.js.
+export const PHONE_DISPLAY = '(385) 453-9428'
+export const PHONE_TEL = '3854539428'
+export const BUSINESS_ADDRESS = '688 N Main St, Layton, UT 84041'
+
 function escapeHtml(value = '') {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -134,8 +143,8 @@ function shell({ preheader, accentLabel, accentColor, bodyHtml }) {
                 </tr>
                 <tr>
                   <td style="font:400 12px/1.7 Arial,Helvetica,sans-serif;color:#9fb3c8;">
-                    688 N Main St, Layton, UT 84041, United States<br>
-                    <a href="tel:3854539428" style="color:#9fb3c8;text-decoration:none;">(385) 453-9428</a>
+                    ${BUSINESS_ADDRESS}, United States<br>
+                    <a href="tel:${PHONE_TEL}" style="color:#9fb3c8;text-decoration:none;">${PHONE_DISPLAY}</a>
                     &nbsp;·&nbsp;
                     <a href="${SITE_URL}" style="color:#9fb3c8;text-decoration:none;">preventivehomesolutions.com</a>
                   </td>
@@ -218,7 +227,7 @@ export function ownerEmailText({ fullName, phone, email, service, message, secti
     '',
     `Reply to this email to reach ${email ? 'the customer directly (Reply-To is set)' : 'our records'}, or call ${phone}.`,
     '',
-    '- Preventive Home Solutions · 688 N Main St, Layton, UT 84041',
+    `- Preventive Home Solutions · ${BUSINESS_ADDRESS}`,
   ].filter((l) => l !== null)
   return lines.join('\n')
 }
@@ -254,7 +263,7 @@ export function customerEmailHtml({ firstName, service, submittedAt }) {
         <td align="center" style="padding:24px;">
           <div style="font:800 13px/1.4 Arial,Helvetica,sans-serif;color:${COLORS.navy};margin-bottom:4px;">Need help sooner?</div>
           <div style="font:400 13px/1.5 Arial,Helvetica,sans-serif;color:${COLORS.muted};margin-bottom:16px;">Call us directly - we're here to help.</div>
-          ${button('(385) 453-9428', 'tel:3854539428')}
+          ${button(PHONE_DISPLAY, `tel:${PHONE_TEL}`)}
         </td>
       </tr>
     </table>
@@ -279,9 +288,9 @@ export function customerEmailText({ firstName, service, submittedAt }) {
     'WHAT HAPPENS NEXT?',
     'Our team will review your request and contact you soon to confirm the details and help with the next step.',
     '',
-    'Need help sooner? Call us directly at (385) 453-9428.',
+    `Need help sooner? Call us directly at ${PHONE_DISPLAY}.`,
     '',
-    '- Preventive Home Solutions · 688 N Main St, Layton, UT 84041',
+    `- Preventive Home Solutions · ${BUSINESS_ADDRESS}`,
   ].join('\n')
 }
 

@@ -102,9 +102,9 @@ function BookingForm({ mobile = false }) {
   }
 
   const fieldClass =
-    'w-full rounded-md border border-phsSky/15 bg-white/70 px-4 py-3 text-center text-sm text-phsInk placeholder:text-phsInk/40 outline-none transition-colors focus:border-phsSky focus:bg-white'
+    'w-full rounded-md border border-phsSky/15 bg-white/70 px-3 max-lg:px-2.5 py-3 text-center text-sm max-lg:text-[16px] text-phsInk placeholder:text-phsInk/40 outline-none transition-colors focus:border-phsSky focus:bg-white'
   const labelClass =
-    'mb-1.5 block text-center font-mono text-[11.5px] lg:text-[11px] font-bold tracking-[0.18em] text-phsInk'
+    'mb-1.5 max-lg:mb-1 block text-center font-mono text-[11.5px] max-lg:text-[13px] lg:text-[11px] font-bold max-lg:tracking-[0.12em] tracking-[0.18em] text-phsInk'
 
   if (submitted) {
     return (
@@ -140,7 +140,7 @@ function BookingForm({ mobile = false }) {
         Book Your Inspection
       </h2>
 
-      <div className={mobile ? 'mt-4 space-y-2.5' : 'mt-6 space-y-4'}>
+      <div className={mobile ? 'mt-3 space-y-2' : 'mt-6 space-y-4'}>
         <div>
           <label htmlFor="bf-name" className={labelClass}>Full Name</label>
           <input id="bf-name" name="name" type="text" required placeholder="Jane Doe" className={fieldClass} />
@@ -197,7 +197,7 @@ function BookingForm({ mobile = false }) {
 
         <div>
           <label htmlFor="bf-message" className={labelClass}>How can we help?</label>
-          <textarea id="bf-message" name="message" rows={mobile ? 2 : 3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)]`} />
+          <textarea id="bf-message" name="message" rows={mobile ? 2 : 3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)] max-lg:!w-[calc(100%-14px)]`} />
         </div>
 
         {/* Captcha scaled down so it tucks into the shield's tapering lower
@@ -228,6 +228,7 @@ function BookingForm({ mobile = false }) {
 // that this design width maps onto the shield region, keeping all of its
 // content proportional to the shield as the screen resizes.
 const FORM_DESIGN_WIDTH = 360
+const MOBILE_FORM_DESIGN_WIDTH = 338
 
 export default function Hero() {
   // Scale the shield form to match the shield's current rendered size.
@@ -251,7 +252,7 @@ export default function Hero() {
     const el = mobileShieldFormRef.current
     if (!el) return
     const ro = new ResizeObserver(() => {
-      if (el.clientWidth) setMobileFormScale(el.clientWidth / FORM_DESIGN_WIDTH)
+      if (el.clientWidth) setMobileFormScale(el.clientWidth / MOBILE_FORM_DESIGN_WIDTH)
     })
     ro.observe(el)
     return () => ro.disconnect()
@@ -378,12 +379,12 @@ export default function Hero() {
                 padding is kept small so the fields reach toward the shield's
                 inner edges; the form is scaled uniformly off the available
                 width so it stays proportional as the screen resizes. */}
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-[6%] pt-[14%]">
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-[4%] pt-[14%]">
               <div ref={mobileShieldFormRef} className="w-full flex justify-center">
                 <div
                   className="origin-top"
                   style={{
-                    width: `${FORM_DESIGN_WIDTH}px`,
+                    width: `${MOBILE_FORM_DESIGN_WIDTH}px`,
                     transform: `scale(${mobileFormScale})`,
                   }}
                 >

@@ -109,7 +109,7 @@ export default function ShieldForm({ serviceNoun, section }) {
       />
 
       {/* Form content positioned inside the shield bounds, scaled to fit width */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-[8%] pt-[18%]">
+      <div className="absolute inset-0 z-30 flex flex-col items-center justify-start px-[8%] pt-[18%]">
         <div ref={boxRef} className="flex w-full justify-center">
           <div className="origin-top" style={{ width: `${FORM_DESIGN_WIDTH}px`, transform: `scale(${scale})` }}>
             {submitted ? (

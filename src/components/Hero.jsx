@@ -321,7 +321,7 @@ export default function Hero() {
                 padding is kept small so the fields reach toward the shield's
                 inner edges; the form is scaled uniformly off the available
                 width so it stays proportional as the screen resizes. */}
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-[4%] pt-[14%]">
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-start px-[4%] pt-[14%]">
               <div ref={mobileShieldFormRef} className="w-full flex justify-center">
                 <div
                   className="origin-top"

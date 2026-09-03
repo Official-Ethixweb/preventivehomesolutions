@@ -90,9 +90,6 @@ function LandingHeader() {
               fetchpriority="high"
               className="h-14 lg:h-16 w-auto rounded-lg transition-transform duration-300 group-hover:scale-105"
             />
-            <span className="font-display text-[15px] sm:text-lg font-black leading-tight text-phsInk">
-              Preventive<br className="sm:hidden" /> Home Solutions
-            </span>
           </a>
 
           {/* Middle Content - Desktop Only */}
@@ -134,14 +131,14 @@ function LandingHeader() {
           {/* Phone Number — primary emphasized CTA */}
           <a
             href={`tel:${PHONE_TEL}`}
-            className="cta-diag cta-diag-orange group flex items-center gap-2.5 rounded-md bg-phsOrange border border-phsOrange px-4 py-2 sm:px-5 sm:py-2.5 font-sans font-bold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
+            className="phone-glow-orange cta-diag cta-diag-orange group flex shrink-0 items-center gap-2 sm:gap-2.5 rounded-md bg-phsOrange border border-phsOrange px-3 py-2 sm:px-5 sm:py-2.5 font-sans font-bold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
           >
             <PhoneIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white transition-colors duration-300 group-hover:text-phsOrange" />
             <span className="flex flex-col text-left leading-tight">
               <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.16em] text-white/85">
                 Call Us 24/7
               </span>
-              <span className="text-base sm:text-xl font-black tracking-tight">{PHONE_DISPLAY}</span>
+              <span className="text-[15px] sm:text-xl font-black tracking-tight whitespace-nowrap">{PHONE_DISPLAY}</span>
             </span>
           </a>
         </div>

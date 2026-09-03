@@ -128,9 +128,9 @@ function BookingForm({ serviceOptions, section, mobile = false }) {
   }
 
   const fieldClass =
-    'w-full rounded-md border border-phsSky/15 bg-white/70 px-4 py-3 text-center text-sm text-phsInk placeholder:text-phsInk/40 outline-none transition-colors focus:border-phsSky focus:bg-white'
+    'w-full rounded-md border border-phsSky/15 bg-white/70 px-3 max-lg:px-2.5 py-3 text-center text-sm max-lg:text-[16px] text-phsInk placeholder:text-phsInk/40 outline-none transition-colors focus:border-phsSky focus:bg-white'
   const labelClass =
-    'mb-1.5 block text-center font-mono text-[11.5px] lg:text-[11px] font-bold tracking-[0.18em] text-phsInk'
+    'mb-1.5 max-lg:mb-1 block text-center font-mono text-[11.5px] max-lg:text-[13px] lg:text-[11px] font-bold max-lg:tracking-[0.12em] tracking-[0.18em] text-phsInk'
 
   if (submitted) {
     return (
@@ -165,7 +165,7 @@ function BookingForm({ serviceOptions, section, mobile = false }) {
         Book Your Inspection
       </h2>
 
-      <div className={mobile ? 'mt-4 space-y-2.5' : 'mt-6 space-y-4'}>
+      <div className={mobile ? 'mt-3 space-y-2' : 'mt-6 space-y-4'}>
         <div>
           <label htmlFor="bf-name" className={labelClass}>Full Name</label>
           <input id="bf-name" name="name" type="text" required placeholder="Jane Doe" className={fieldClass} />
@@ -222,20 +222,20 @@ function BookingForm({ serviceOptions, section, mobile = false }) {
 
         <div>
           <label htmlFor="bf-message" className={labelClass}>How can we help?</label>
-          <textarea id="bf-message" name="message" rows={mobile ? 2 : 3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)]`} />
+          <textarea id="bf-message" name="message" rows={mobile ? 2 : 3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)] max-lg:!w-[calc(100%-78px)]`} />
         </div>
 
         <Recaptcha
           ref={recaptchaRef}
           onChange={setRecaptchaToken}
-          className={`${mobile ? '-mb-3' : '-mb-6'} flex origin-top justify-center [transform:scale(0.68)]`}
+          className={`${mobile ? '!-mb-8 [transform:scale(0.58)]' : '-mb-6 [transform:scale(0.68)]'} flex origin-top justify-center`}
         />
 
         {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
-          className="cta-diag cta-diag-orange group mx-auto flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-6 py-2.5 font-sans text-[14px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed -mt-[10px]"
+          className="cta-diag cta-diag-orange group mx-auto flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-6 max-lg:px-3 py-2.5 font-sans text-[14px] max-lg:text-[12px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed -mt-[10px]"
         >
           {submitting ? 'Sending...' : 'Book Now'}
           {!submitting && <ArrowIcon className="h-[17px] w-[17px] transition-transform duration-300 group-hover:translate-x-1" />}
@@ -246,6 +246,7 @@ function BookingForm({ serviceOptions, section, mobile = false }) {
 }
 
 const FORM_DESIGN_WIDTH = 360
+const MOBILE_FORM_DESIGN_WIDTH = 338
 
 
 
@@ -428,7 +429,7 @@ export default function LandingPage({ slug, data }) {
     const el = mobileShieldFormRef.current
     if (!el) return
     const ro = new ResizeObserver(() => {
-      if (el.clientWidth) setMobileFormScale(el.clientWidth / FORM_DESIGN_WIDTH)
+      if (el.clientWidth) setMobileFormScale(el.clientWidth / MOBILE_FORM_DESIGN_WIDTH)
     })
     ro.observe(el)
     return () => ro.disconnect()
@@ -463,13 +464,18 @@ export default function LandingPage({ slug, data }) {
           <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-12">
             {/* Left copy */}
             <div>
-              <Reveal as="p" className="font-mono text-xs font-bold tracking-[0.28em] text-phsOrange drop-shadow">
+              {/* Wordmark sits here rather than in the header, so the header
+                  can spend its width on the phone number. */}
+              <Reveal as="p" className="font-display text-[clamp(18px,5.5vw,22px)] lg:text-2xl font-black leading-tight tracking-tight text-phsNavy">
+                Preventive Home Solutions
+              </Reveal>
+              <Reveal as="p" delay={60} className="mt-1.5 font-mono text-xs font-bold tracking-[0.28em] text-phsOrange drop-shadow">
                 {data.eyebrow.toUpperCase()}
               </Reveal>
-              <Reveal as="h1" delay={100} className="mt-5 font-display text-4xl font-black leading-[1.05] tracking-tight text-phsNavy sm:text-5xl lg:text-6xl">
+              <Reveal as="h1" delay={100} className="mt-3 lg:mt-5 font-display text-[clamp(1.6rem,7.6vw,2.25rem)] font-black leading-[1.05] tracking-tight text-phsNavy sm:text-5xl lg:text-6xl">
                 {data.heroStatic}
               </Reveal>
-              <Reveal delay={150} className="rotate-oneline mt-4 inline-grid max-w-full items-center overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm">
+              <Reveal delay={150} className="rotate-oneline mt-3 lg:mt-4 inline-grid max-w-full items-center overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm">
                 {/* Invisible copies of every tagline, stacked in one grid cell, so
                     the box width is fixed to the LONGEST tagline and never grows or
                     shrinks as the visible line rotates. Rendered through RotatingText
@@ -499,11 +505,45 @@ export default function LandingPage({ slug, data }) {
                   />
                 </span>
               </Reveal>
-              <Reveal as="p" delay={250} className="mt-6 max-w-xl text-[15px] leading-relaxed text-phsInk/70 sm:text-base">
+
+              {/* Mobile-only Form Container */}
+              <div id="quote-form" className="block lg:hidden scroll-mt-24 mx-auto mt-4 mb-8 w-[90%] max-w-[445px] relative drop-shadow-2xl text-phsInk">
+                {/* Background Shield */}
+                <img 
+                  src="/shield.svg" 
+                  alt="Shield Background" 
+                  className="w-full h-auto relative z-0" 
+                />
+                {/* Shield Border Overlay */}
+                <img 
+                  src="/shield border.svg" 
+                  alt="" 
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[127.7%] max-w-none pointer-events-none z-20" 
+                />
+                {/* Form Content */}
+                <div className="absolute inset-0 z-30 flex flex-col items-center justify-start px-[4%] pt-[14%]">
+                  <div ref={mobileShieldFormRef} className="w-full flex justify-center">
+                    <div
+                      className="origin-top shrink-0"
+                      style={{
+                        width: `${MOBILE_FORM_DESIGN_WIDTH}px`,
+                        transform: `scale(${mobileFormScale})`,
+                      }}
+                    >
+                      <BookingForm
+                        serviceOptions={data.serviceOptions}
+                        section={`Landing Hero (Mobile) - ${data.serviceName}`}
+                        mobile
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Reveal as="p" delay={250} className="mt-3 lg:mt-6 max-w-xl text-[15px] leading-relaxed text-phsInk/70 sm:text-base">
                 {data.heroSubtitle}
               </Reveal>
 
-              <Reveal delay={350} className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+              <Reveal delay={350} className="mt-5 lg:mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
                 <a href={`tel:${PHONE_TEL}`}
                   className="cta-diag cta-diag-orange group inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-7 py-4 font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0">
                   <PhoneIcon className="h-5 w-5" /> Call {PHONE_DISPLAY}
@@ -520,39 +560,6 @@ export default function LandingPage({ slug, data }) {
                 ))}
               </Reveal>
 
-              {/* Mobile-only Form Container */}
-              <div id="quote-form" className="block lg:hidden scroll-mt-24 mx-auto mt-12 mb-10 w-[90%] max-w-[445px] relative drop-shadow-2xl text-phsInk">
-                {/* Background Shield */}
-                <img 
-                  src="/shield.svg" 
-                  alt="Shield Background" 
-                  className="w-full h-auto relative z-0" 
-                />
-                {/* Shield Border Overlay */}
-                <img 
-                  src="/shield border.svg" 
-                  alt="" 
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[127.7%] max-w-none pointer-events-none z-20" 
-                />
-                {/* Form Content */}
-                <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-[6%] pt-[14%]">
-                  <div ref={mobileShieldFormRef} className="w-full flex justify-center">
-                    <div
-                      className="origin-top"
-                      style={{
-                        width: `${FORM_DESIGN_WIDTH}px`,
-                        transform: `scale(${mobileFormScale})`,
-                      }}
-                    >
-                      <BookingForm
-                        serviceOptions={data.serviceOptions}
-                        section={`Landing Hero (Mobile) - ${data.serviceName}`}
-                        mobile
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* Right column knight holding the shield with form overlaid (Desktop only) */}

@@ -102,9 +102,9 @@ function BookingForm({ mobile = false }) {
   }
 
   const fieldClass =
-    'w-full rounded-md border border-phsSky/15 bg-white/70 px-4 py-3 text-center text-sm text-phsInk placeholder:text-phsInk/40 outline-none transition-colors focus:border-phsSky focus:bg-white'
+    'w-full rounded-md border border-phsSky/15 bg-white/70 px-3 max-lg:px-2.5 py-3 text-center text-sm max-lg:text-[16px] text-phsInk placeholder:text-phsInk/40 outline-none transition-colors focus:border-phsSky focus:bg-white'
   const labelClass =
-    'mb-1.5 block text-center font-mono text-[11.5px] lg:text-[11px] font-bold tracking-[0.18em] text-phsInk'
+    'mb-1.5 max-lg:mb-1 block text-center font-mono text-[11.5px] max-lg:text-[13px] lg:text-[11px] font-bold max-lg:tracking-[0.12em] tracking-[0.18em] text-phsInk'
 
   if (submitted) {
     return (
@@ -140,7 +140,7 @@ function BookingForm({ mobile = false }) {
         Book Your Inspection
       </h2>
 
-      <div className={mobile ? 'mt-4 space-y-2.5' : 'mt-6 space-y-4'}>
+      <div className={mobile ? 'mt-3 space-y-2' : 'mt-6 space-y-4'}>
         <div>
           <label htmlFor="bf-name" className={labelClass}>Full Name</label>
           <input id="bf-name" name="name" type="text" required placeholder="Jane Doe" className={fieldClass} />
@@ -197,17 +197,21 @@ function BookingForm({ mobile = false }) {
 
         <div>
           <label htmlFor="bf-message" className={labelClass}>How can we help?</label>
-          <textarea id="bf-message" name="message" rows={mobile ? 2 : 3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)]`} />
+          <textarea id="bf-message" name="message" rows={mobile ? 2 : 3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)] max-lg:!w-[calc(100%-14px)]`} />
         </div>
 
         {/* Captcha scaled down so it tucks into the shield's tapering lower
-            half. The scaled box keeps its full 78px layout height, so pull the
-            following content up to close the visual gap — but on mobile leave a
-            small gap so the Book Now button sits cleanly below it. */}
+            half. scale() does not shrink layout height, so the box still
+            reserves all 78px while only ~53px is visible — the negative margin
+            reclaims that dead space and lifts Book Now off the shield's border.
+            Mobile needs a bigger pull than desktop because the shield tapers
+            hard right where the button lands. Bracketed against the real art at
+            375x812: -12px leaves it sitting on the border, -42px collides with
+            the captcha, -32px clears both. */}
         <Recaptcha
           ref={recaptchaRef}
           onChange={setRecaptchaToken}
-          className={`${mobile ? '-mb-3' : '-mb-6'} flex origin-top justify-center [transform:scale(0.68)]`}
+          className={`${mobile ? '!-mb-8' : '-mb-6'} flex origin-top justify-center [transform:scale(0.68)]`}
         />
 
         {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}
@@ -228,6 +232,7 @@ function BookingForm({ mobile = false }) {
 // that this design width maps onto the shield region, keeping all of its
 // content proportional to the shield as the screen resizes.
 const FORM_DESIGN_WIDTH = 360
+const MOBILE_FORM_DESIGN_WIDTH = 338
 
 export default function Hero() {
   // Scale the shield form to match the shield's current rendered size.
@@ -251,7 +256,7 @@ export default function Hero() {
     const el = mobileShieldFormRef.current
     if (!el) return
     const ro = new ResizeObserver(() => {
-      if (el.clientWidth) setMobileFormScale(el.clientWidth / FORM_DESIGN_WIDTH)
+      if (el.clientWidth) setMobileFormScale(el.clientWidth / MOBILE_FORM_DESIGN_WIDTH)
     })
     ro.observe(el)
     return () => ro.disconnect()
@@ -264,10 +269,21 @@ export default function Hero() {
             which otherwise lets the max-w-md paragraph below force this column
             (and the whole grid) wider than the viewport on narrow screens. */}
         <div className="-mt-5 min-w-0 lg:mt-0">
+          {/* The wordmark lives here rather than in the header, so the header
+              can spend its width on the phone number. It still reads as the
+              first line of the page, directly above the eyebrow. */}
+          <Reveal
+            as="p"
+            delay={60}
+            className="font-display text-[clamp(18px,5.5vw,22px)] lg:text-2xl font-black leading-tight tracking-tight text-phsInk"
+          >
+            Preventive Home Solutions
+          </Reveal>
+
           <Reveal
             as="p"
             delay={100}
-            className="font-mono text-xs font-bold tracking-[0.28em] text-phsOrange"
+            className="mt-1.5 font-mono text-xs font-bold tracking-[0.28em] text-phsOrange"
           >
             TRUSTED HOME CARE · NORTHERN UTAH
           </Reveal>
@@ -275,15 +291,15 @@ export default function Hero() {
           <Reveal
             as="h1"
             delay={200}
-            className="mt-6 font-display font-black leading-[1.0] tracking-tight text-phsInk"
+            className="mt-3 lg:mt-6 font-display font-black leading-[1.0] tracking-tight text-phsInk"
           >
             {/* Two static lines */}
-            <span className="block font-display text-[clamp(1.75rem,8vw,2.25rem)] sm:text-5xl lg:text-6xl">Welcome to Your</span>
-            <span className="block font-display text-[clamp(1.75rem,8vw,2.25rem)] sm:text-5xl lg:text-6xl mt-1.5">Comfort Sanctuary</span>
+            <span className="block font-display text-[clamp(1.4rem,7vw,2.25rem)] sm:text-5xl lg:text-6xl">Plumbing, Heating &amp; AC</span>
+            <span className="block text-balance font-display text-[clamp(1.4rem,7vw,2.25rem)] sm:text-5xl lg:text-6xl mt-1.5">Done Right in Northern Utah</span>
             {/* Third line: animated box, single line. Fixed width, so no layout
                 animation is needed — a plain span keeps `motion` off this page. */}
             <span
-              className="rotate-oneline mt-5 flex w-[320px] sm:w-[450px] lg:w-[480px] max-w-full items-center justify-center sm:justify-start overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm"
+              className="rotate-oneline mt-3 lg:mt-5 flex w-[320px] sm:w-[450px] lg:w-[480px] max-w-full items-center justify-center sm:justify-start overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm"
             >
               <RotatingText
                 texts={BOX_PHRASES}
@@ -298,10 +314,43 @@ export default function Hero() {
             </span>
           </Reveal>
 
+          {/* Mobile-only Form Container */}
+          <div id="quote-form" className="block lg:hidden scroll-mt-24 mx-auto mt-4 mb-8 w-[90%] max-w-[445px] relative drop-shadow-2xl">
+            {/* Background Shield */}
+            <img 
+              src="/shield.svg" 
+              alt="Shield Background" 
+              className="w-full h-auto relative z-0" 
+            />
+            {/* Shield Border Overlay */}
+            <img 
+              src="/shield border.svg" 
+              alt="" 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[127.7%] max-w-none pointer-events-none z-20" 
+            />
+            {/* Form Content positioned inside the shield bounds. Horizontal
+                padding is kept small so the fields reach toward the shield's
+                inner edges; the form is scaled uniformly off the available
+                width so it stays proportional as the screen resizes. */}
+            <div className="absolute inset-0 z-30 flex flex-col items-center justify-start px-[4%] pt-[14%]">
+              <div ref={mobileShieldFormRef} className="w-full flex justify-center">
+                <div
+                  className="origin-top"
+                  style={{
+                    width: `${MOBILE_FORM_DESIGN_WIDTH}px`,
+                    transform: `scale(${mobileFormScale})`,
+                  }}
+                >
+                  <BookingForm mobile />
+                </div>
+              </div>
+            </div>
+          </div>
+
           <Reveal
             as="p"
             delay={350}
-            className="mt-8 max-w-md text-[clamp(15px,4.5vw,18px)] sm:text-lg leading-relaxed text-phsInk/70 font-sans"
+            className="mt-2 lg:mt-8 max-w-md text-[clamp(15px,4.5vw,18px)] sm:text-lg leading-relaxed text-phsInk/70 font-sans"
           >
             <span className="lg:hidden">
               Trusted plumbing, heating, and cooling that keeps your Northern Utah home cozy all year.
@@ -312,7 +361,7 @@ export default function Hero() {
             </span>
           </Reveal>
 
-          <Reveal delay={500} className="mt-10 flex flex-col gap-4 sm:flex-row">
+          <Reveal delay={500} className="mt-6 lg:mt-10 flex flex-col gap-4 sm:flex-row">
             <a
               href="#scheduling"
               className="cta-diag cta-diag-orange group inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-7 py-4 font-semibold text-white shadow-sm hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
@@ -360,38 +409,6 @@ export default function Hero() {
             </ul>
           </Reveal>
 
-          {/* Mobile-only Form Container */}
-          <div id="quote-form" className="block lg:hidden scroll-mt-24 mx-auto mt-12 mb-10 w-[90%] max-w-[445px] relative drop-shadow-2xl">
-            {/* Background Shield */}
-            <img 
-              src="/shield.svg" 
-              alt="Shield Background" 
-              className="w-full h-auto relative z-0" 
-            />
-            {/* Shield Border Overlay */}
-            <img 
-              src="/shield border.svg" 
-              alt="" 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[127.7%] max-w-none pointer-events-none z-20" 
-            />
-            {/* Form Content positioned inside the shield bounds. Horizontal
-                padding is kept small so the fields reach toward the shield's
-                inner edges; the form is scaled uniformly off the available
-                width so it stays proportional as the screen resizes. */}
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-[6%] pt-[14%]">
-              <div ref={mobileShieldFormRef} className="w-full flex justify-center">
-                <div
-                  className="origin-top"
-                  style={{
-                    width: `${FORM_DESIGN_WIDTH}px`,
-                    transform: `scale(${mobileFormScale})`,
-                  }}
-                >
-                  <BookingForm mobile />
-                </div>
-              </div>
-            </div>
-          </div>
 
 
         </div>

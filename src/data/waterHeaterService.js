@@ -1,11 +1,13 @@
 // Content for the Water Heater Repair & Installation service landing page.
 // Drives ServicePageTemplate. See the ServiceContent typedef in that component.
 
+import { PHONE_DISPLAY } from './nav.js'
+
 /** @type {import('../components/ServicePageTemplate.jsx').ServiceContent} */
 export const WATER_HEATER_CONTENT = {
   title: 'Water Heater Repair in Layton, UT | Preventive Home Solutions',
   metaDescription:
-    'Fast water heater repair, replacement & tankless installs in Layton and Northern Utah. Upfront pricing, same-day service. Call (385) 453-9428.',
+    `Fast water heater repair, replacement & tankless installs in Layton and Northern Utah. Upfront pricing, same-day service. Call ${PHONE_DISPLAY}.`,
   path: '/water-heater-repair',
 
   breadcrumbLabel: 'Water Heater Repair',
@@ -100,7 +102,7 @@ export const WATER_HEATER_CONTENT = {
     },
     {
       q: 'Do you offer emergency water heater service?',
-      a: 'Yes. A leaking or failed water heater can cause serious water damage, so we offer fast, same-day and emergency service seven days a week. Call (385) 453-9428 and our team will get hot water restored as quickly as possible.',
+      a: `Yes. A leaking or failed water heater can cause serious water damage, so we offer fast, same-day and emergency service seven days a week. Call ${PHONE_DISPLAY} and our team will get hot water restored as quickly as possible.`,
     },
   ],
 

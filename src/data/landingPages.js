@@ -6,6 +6,8 @@
 // lives in LandingPage.jsx and data/business.js. Icon keys map to the inline
 // SVGs defined in LandingPage.jsx.
 
+import { PHONE_DISPLAY } from './nav.js'
+
 // The four trust pillars repeat across the site (hero promo column, why-us,
 // footer). Shared here so every landing page stays consistent.
 const TRUST_CHIPS = ['Same-Day Service', 'Licensed & Insured', 'Available 24/7', 'Since 1989']
@@ -44,7 +46,7 @@ export const LANDING_PAGES = {
     serviceType: 'Plumbing',
     metaTitle: 'Plumbing Services in Northern Utah | Preventive Home Solutions',
     metaDescription:
-      'Licensed plumbers in Layton & Northern Utah for repairs, drain cleaning, water heaters & sewer service. Same-day, 24/7 emergency help. Call (385) 453-9428.',
+      `Licensed plumbers in Layton & Northern Utah for repairs, drain cleaning, water heaters & sewer service. Same-day, 24/7 emergency help. Call ${PHONE_DISPLAY}.`,
     serviceName: 'Plumbing Services',
     serviceDescription:
       'Full-service residential and commercial plumbing across Northern Utah — repairs, drain cleaning, water heaters, leak detection, and trenchless sewer service, available 24/7.',
@@ -119,7 +121,7 @@ export const LANDING_PAGES = {
     serviceType: 'Heating',
     metaTitle: 'Heating & Furnace Repair | Preventive Home Solutions',
     metaDescription:
-      'Furnace repair, installation, boilers & heat pumps in Layton & Northern Utah. Same-day, 24/7 no-heat emergency service. Licensed HVAC pros. Call (385) 453-9428.',
+      `Furnace repair, installation, boilers & heat pumps in Layton & Northern Utah. Same-day, 24/7 no-heat emergency service. Licensed HVAC pros. Call ${PHONE_DISPLAY}.`,
     serviceName: 'Heating & HVAC Services',
     serviceDescription:
       'Furnace, boiler, heat pump, and mini-split service, repair, and installation across Northern Utah — keeping homes warm and energy bills in check, available 24/7.',
@@ -191,7 +193,7 @@ export const LANDING_PAGES = {
     serviceType: 'Air Conditioning',
     metaTitle: 'Air Conditioning Repair & Install | Preventive Home Solutions',
     metaDescription:
-      'AC repair, installation & tune-ups in Layton & Northern Utah. Same-day, 24/7 cooling service from licensed techs. Beat the Utah heat — call (385) 453-9428.',
+      `AC repair, installation & tune-ups in Layton & Northern Utah. Same-day, 24/7 cooling service from licensed techs. Beat the Utah heat — call ${PHONE_DISPLAY}.`,
     serviceName: 'Air Conditioning Services',
     serviceDescription:
       'AC repair, tune-ups, installation, and mini-split cooling across Northern Utah — reliable comfort that keeps your home cool and energy costs down, available 24/7.',

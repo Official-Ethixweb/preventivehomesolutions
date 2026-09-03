@@ -563,10 +563,34 @@ export default function ChatBot() {
     if (open) setHasUnread(false)
   }, [open])
 
+  // Hold the teaser back until the visitor has scrolled past the hero. Pinned
+  // at bottom-[11.5rem] it otherwise lands right on top of the hero's primary
+  // CTA on a phone, so the first thing a visitor taps is the chat bubble
+  // instead of "Schedule Service" — the button the page exists to get pressed.
+  // Waiting for scroll also means it only shows once someone is actually
+  // browsing, which is when an offer to help reads as useful, not intrusive.
   useEffect(() => {
     if (open || teaserClosed) return
-    const t = setTimeout(() => setTeaser(true), 4000)
-    return () => clearTimeout(t)
+    let timer = null
+    const scrolledPastHero = () => window.scrollY > window.innerHeight * 0.6
+    const arm = () => {
+      if (timer || !scrolledPastHero()) return
+      timer = setTimeout(() => {
+        setTeaser(true)
+        // Auto-dismiss after 3s so it never lingers over page content;
+        // teaserClosed (not just teaser) stops the scroll handler re-arming.
+        timer = setTimeout(() => {
+          setTeaser(false)
+          setTeaserClosed(true)
+        }, 3000)
+      }, 1500)
+    }
+    arm() // already scrolled (restored position or deep link)
+    window.addEventListener('scroll', arm, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', arm)
+      if (timer) clearTimeout(timer)
+    }
   }, [open, teaserClosed])
 
   useEffect(() => {
@@ -743,13 +767,13 @@ export default function ChatBot() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Close chat' : 'Open chat assistant'}
-        className={`fixed bottom-24 right-4 z-[70] h-[4.8rem] w-[4.8rem] rounded-full bg-phsNavy shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:right-6 ${
+        className={`fixed bottom-24 right-4 z-[70] h-[3.84rem] w-[3.84rem] rounded-full bg-phsNavy shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:right-6 ${
           open ? 'hidden' : 'block'
         }`}
       >
         {open ? (
           <span className="flex h-full w-full items-center justify-center rounded-full bg-phsNavy text-white">
-            <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg viewBox="0 0 24 24" className="h-[1.4rem] w-[1.4rem]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 6 6 18M6 6l12 12" />
             </svg>
           </span>
@@ -758,8 +782,8 @@ export default function ChatBot() {
             <Avatar alt="" className="h-full w-full" />
             {hasUnread && (
               <>
-                <span className="absolute right-0 top-0 h-6 w-6 animate-ping rounded-full bg-red-500/60" />
-                <span className="absolute right-0 top-0 grid h-6 w-6 place-items-center rounded-full border-2 border-white bg-red-500 text-[12px] font-bold leading-none text-white shadow-md">
+                <span className="absolute right-0 top-0 h-[1.2rem] w-[1.2rem] animate-ping rounded-full bg-red-500/60" />
+                <span className="absolute right-0 top-0 grid h-[1.2rem] w-[1.2rem] place-items-center rounded-full border-2 border-white bg-red-500 text-[9.6px] font-bold leading-none text-white shadow-md">
                   1
                 </span>
               </>

@@ -25,6 +25,7 @@ import { setLoading } from './loading.js'
 import { useSeo } from './lib/seo.js'
 import { localBusinessSchema, faqSchema } from './data/business.js'
 import { HOME_FAQS } from './data/homeFaqs.js'
+import { PHONE_DISPLAY } from './data/nav.js'
 import { useEffect, useState, lazy, Suspense } from 'react'
 
 // The ChatBot (700+ lines) isn't needed for first paint or interaction, so it
@@ -177,7 +178,7 @@ function Home() {
   useSeo({
     title: 'Plumbing, Heating & AC in Northern Utah | Preventive Home Solutions',
     description:
-      'Licensed plumbing, heating & cooling in Layton, UT and Northern Utah. Fast repairs, installs & maintenance, 7 days a week. Call (385) 453-9428.',
+      `Licensed plumbing, heating & cooling in Layton, UT and Northern Utah. Fast repairs, installs & maintenance, 7 days a week. Call ${PHONE_DISPLAY}.`,
     path: '/',
     jsonLd: [localBusinessSchema(), faqSchema(HOME_FAQS)].filter(Boolean),
   })

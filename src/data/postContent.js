@@ -6,6 +6,8 @@
 // `body` is trusted, hand-authored HTML rendered inside the .blog-prose wrapper.
 // FAQs render as their own section on the page and feed FAQPage structured data.
 
+import { PHONE_DISPLAY } from './nav.js'
+
 export const POST_CONTENT = {
   /* ------------------------------------------------------------------ */
   'emergency-plumbing-steps': {
@@ -36,7 +38,7 @@ export const POST_CONTENT = {
       },
       {
         q: 'Do you offer same-day emergency plumbing in Northern Utah?',
-        a: 'Yes. Preventive Home Solutions offers emergency and same-day availability across Clinton, Ogden, Layton, Riverdale, Brigham City and nearby areas. Call (385) 453-9428.',
+        a: `Yes. Preventive Home Solutions offers emergency and same-day availability across Clinton, Ogden, Layton, Riverdale, Brigham City and nearby areas. Call ${PHONE_DISPLAY}.`,
       },
     ],
     body: `

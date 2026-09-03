@@ -11,6 +11,7 @@
 
 import { trackEvent, trackAdsConversion, ADS_LABELS } from './analytics.js'
 import { navigate } from '../router.js'
+import { PHONE_DISPLAY } from '../data/nav.js'
 
 const ENDPOINT = '/api/contact'
 
@@ -46,7 +47,7 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
     })
   } catch (err) {
     if (err.name === 'TimeoutError' || err.name === 'AbortError') {
-      throw fail('That took too long. Please check your connection and try again, or call us at (385) 453-9428.')
+      throw fail(`That took too long. Please check your connection and try again, or call us at ${PHONE_DISPLAY}.`)
     }
     throw fail('Network error, please try again.')
   }
@@ -57,7 +58,7 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
   } catch {
     // Non-JSON response (e.g. hitting the SPA fallback in local `vite` dev where
     // the serverless function isn't running).
-    throw fail('We couldn’t send your request right now. Please call us at (385) 453-9428.')
+    throw fail(`We couldn’t send your request right now. Please call us at ${PHONE_DISPLAY}.`)
   }
 
   if (!res.ok || !data.success) {

@@ -201,13 +201,17 @@ function BookingForm({ mobile = false }) {
         </div>
 
         {/* Captcha scaled down so it tucks into the shield's tapering lower
-            half. The scaled box keeps its full 78px layout height, so pull the
-            following content up to close the visual gap — but on mobile leave a
-            small gap so the Book Now button sits cleanly below it. */}
+            half. scale() does not shrink layout height, so the box still
+            reserves all 78px while only ~53px is visible — the negative margin
+            reclaims that dead space and lifts Book Now off the shield's border.
+            Mobile needs a bigger pull than desktop because the shield tapers
+            hard right where the button lands. Bracketed against the real art at
+            375x812: -12px leaves it sitting on the border, -42px collides with
+            the captcha, -32px clears both. */}
         <Recaptcha
           ref={recaptchaRef}
           onChange={setRecaptchaToken}
-          className={`${mobile ? '-mb-3' : '-mb-6'} flex origin-top justify-center [transform:scale(0.68)]`}
+          className={`${mobile ? '!-mb-8' : '-mb-6'} flex origin-top justify-center [transform:scale(0.68)]`}
         />
 
         {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}

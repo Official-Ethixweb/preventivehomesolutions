@@ -202,14 +202,14 @@ export default function AccessibilityWidget() {
         aria-label="Accessibility options"
         aria-expanded={open}
         title="Accessibility"
-        className="fixed bottom-24 left-4 z-[70] grid h-[3.6rem] w-[3.6rem] place-items-center rounded-xl bg-phsNavy text-white shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:left-6"
+        className="fixed bottom-24 left-4 z-[70] grid h-[2.88rem] w-[2.88rem] place-items-center rounded-xl bg-phsNavy text-white shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:left-6"
       >
         {open ? (
-          <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg viewBox="0 0 24 24" className="h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M18 6 6 18M6 6l12 12" />
           </svg>
         ) : (
-          <AccessibilityIcon className="h-8 w-8 text-white" />
+          <AccessibilityIcon className="h-[1.6rem] w-[1.6rem] text-white" />
         )}
       </button>
     </>

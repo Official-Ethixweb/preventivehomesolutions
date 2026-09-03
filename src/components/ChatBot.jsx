@@ -575,7 +575,15 @@ export default function ChatBot() {
     const scrolledPastHero = () => window.scrollY > window.innerHeight * 0.6
     const arm = () => {
       if (timer || !scrolledPastHero()) return
-      timer = setTimeout(() => setTeaser(true), 1500)
+      timer = setTimeout(() => {
+        setTeaser(true)
+        // Auto-dismiss after 3s so it never lingers over page content;
+        // teaserClosed (not just teaser) stops the scroll handler re-arming.
+        timer = setTimeout(() => {
+          setTeaser(false)
+          setTeaserClosed(true)
+        }, 3000)
+      }, 1500)
     }
     arm() // already scrolled (restored position or deep link)
     window.addEventListener('scroll', arm, { passive: true })

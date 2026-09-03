@@ -294,8 +294,8 @@ export default function Hero() {
             className="mt-3 lg:mt-6 font-display font-black leading-[1.0] tracking-tight text-phsInk"
           >
             {/* Two static lines */}
-            <span className="block font-display text-[clamp(1.75rem,8vw,2.25rem)] sm:text-5xl lg:text-6xl">Plumbing, Heating &amp; AC</span>
-            <span className="block font-display text-[clamp(1.75rem,8vw,2.25rem)] sm:text-5xl lg:text-6xl mt-1.5">Done Right in Northern Utah</span>
+            <span className="block font-display text-[clamp(1.4rem,7vw,2.25rem)] sm:text-5xl lg:text-6xl">Plumbing, Heating &amp; AC</span>
+            <span className="block text-balance font-display text-[clamp(1.4rem,7vw,2.25rem)] sm:text-5xl lg:text-6xl mt-1.5">Done Right in Northern Utah</span>
             {/* Third line: animated box, single line. Fixed width, so no layout
                 animation is needed — a plain span keeps `motion` off this page. */}
             <span

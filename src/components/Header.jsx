@@ -401,13 +401,13 @@ export default function Header({ isLanding = false }) {
       >
         <div
           ref={fullHeaderRef}
-          className="mx-auto flex max-w-[1500px] items-center justify-center lg:justify-between gap-4 sm:gap-6 px-[clamp(12px,4vw,20px)] sm:px-5 pt-3 pb-[6px] lg:pt-4 lg:px-10"
+          className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 sm:gap-6 px-[clamp(12px,4vw,20px)] sm:px-5 pt-3 pb-[6px] lg:pt-4 lg:px-10"
         >
         {/* Logo */}
         <a
           href="/"
           onMouseEnter={closeMenu}
-          className="group flex flex-col items-center gap-1.5 text-center lg:flex-row lg:gap-3 lg:text-left"
+          className="group flex flex-row items-center gap-2.5 text-left lg:gap-3"
         >
           <img
             src={LOGO_SRC}
@@ -416,9 +416,9 @@ export default function Header({ isLanding = false }) {
             height="420"
             decoding="async"
             fetchpriority="high"
-            className="h-[clamp(9.8438rem,41.5625vw,13.125rem)] w-auto rounded-lg transition-transform duration-300 group-hover:scale-[1.05] lg:h-[clamp(5.0781rem,9.0625vw,8.75rem)] lg:translate-y-[5px]"
+            className="h-[62px] w-auto rounded-lg transition-transform duration-300 group-hover:scale-[1.05] lg:h-[clamp(5.0781rem,9.0625vw,8.75rem)] lg:translate-y-[5px]"
           />
-          <span className="font-display text-[clamp(16px,5vw,20px)] sm:text-xl font-extrabold leading-tight text-phsInk lg:max-w-none">
+          <span className="font-display text-[15px] sm:text-xl font-extrabold leading-tight text-phsInk lg:max-w-none">
             Preventive Home Solutions
           </span>
         </a>

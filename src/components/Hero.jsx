@@ -280,7 +280,7 @@ export default function Hero() {
           <Reveal
             as="h1"
             delay={200}
-            className="mt-6 font-display font-black leading-[1.0] tracking-tight text-phsInk"
+            className="mt-3 lg:mt-6 font-display font-black leading-[1.0] tracking-tight text-phsInk"
           >
             {/* Two static lines */}
             <span className="block font-display text-[clamp(1.75rem,8vw,2.25rem)] sm:text-5xl lg:text-6xl">Plumbing, Heating &amp; AC</span>
@@ -288,7 +288,7 @@ export default function Hero() {
             {/* Third line: animated box, single line. Fixed width, so no layout
                 animation is needed — a plain span keeps `motion` off this page. */}
             <span
-              className="rotate-oneline mt-5 flex w-[320px] sm:w-[450px] lg:w-[480px] max-w-full items-center justify-center sm:justify-start overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm"
+              className="rotate-oneline mt-3 lg:mt-5 flex w-[320px] sm:w-[450px] lg:w-[480px] max-w-full items-center justify-center sm:justify-start overflow-hidden rounded-xl bg-phsOrange px-4 py-2.5 shadow-sm"
             >
               <RotatingText
                 texts={BOX_PHRASES}
@@ -303,10 +303,43 @@ export default function Hero() {
             </span>
           </Reveal>
 
+          {/* Mobile-only Form Container */}
+          <div id="quote-form" className="block lg:hidden scroll-mt-24 mx-auto mt-4 mb-8 w-[90%] max-w-[445px] relative drop-shadow-2xl">
+            {/* Background Shield */}
+            <img 
+              src="/shield.svg" 
+              alt="Shield Background" 
+              className="w-full h-auto relative z-0" 
+            />
+            {/* Shield Border Overlay */}
+            <img 
+              src="/shield border.svg" 
+              alt="" 
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[127.7%] max-w-none pointer-events-none z-20" 
+            />
+            {/* Form Content positioned inside the shield bounds. Horizontal
+                padding is kept small so the fields reach toward the shield's
+                inner edges; the form is scaled uniformly off the available
+                width so it stays proportional as the screen resizes. */}
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-[4%] pt-[14%]">
+              <div ref={mobileShieldFormRef} className="w-full flex justify-center">
+                <div
+                  className="origin-top"
+                  style={{
+                    width: `${MOBILE_FORM_DESIGN_WIDTH}px`,
+                    transform: `scale(${mobileFormScale})`,
+                  }}
+                >
+                  <BookingForm mobile />
+                </div>
+              </div>
+            </div>
+          </div>
+
           <Reveal
             as="p"
             delay={350}
-            className="mt-8 max-w-md text-[clamp(15px,4.5vw,18px)] sm:text-lg leading-relaxed text-phsInk/70 font-sans"
+            className="mt-2 lg:mt-8 max-w-md text-[clamp(15px,4.5vw,18px)] sm:text-lg leading-relaxed text-phsInk/70 font-sans"
           >
             <span className="lg:hidden">
               Trusted plumbing, heating, and cooling that keeps your Northern Utah home cozy all year.
@@ -317,7 +350,7 @@ export default function Hero() {
             </span>
           </Reveal>
 
-          <Reveal delay={500} className="mt-10 flex flex-col gap-4 sm:flex-row">
+          <Reveal delay={500} className="mt-6 lg:mt-10 flex flex-col gap-4 sm:flex-row">
             <a
               href="#scheduling"
               className="cta-diag cta-diag-orange group inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-7 py-4 font-semibold text-white shadow-sm hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
@@ -365,38 +398,6 @@ export default function Hero() {
             </ul>
           </Reveal>
 
-          {/* Mobile-only Form Container */}
-          <div id="quote-form" className="block lg:hidden scroll-mt-24 mx-auto mt-12 mb-10 w-[90%] max-w-[445px] relative drop-shadow-2xl">
-            {/* Background Shield */}
-            <img 
-              src="/shield.svg" 
-              alt="Shield Background" 
-              className="w-full h-auto relative z-0" 
-            />
-            {/* Shield Border Overlay */}
-            <img 
-              src="/shield border.svg" 
-              alt="" 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[127.7%] max-w-none pointer-events-none z-20" 
-            />
-            {/* Form Content positioned inside the shield bounds. Horizontal
-                padding is kept small so the fields reach toward the shield's
-                inner edges; the form is scaled uniformly off the available
-                width so it stays proportional as the screen resizes. */}
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-start px-[4%] pt-[14%]">
-              <div ref={mobileShieldFormRef} className="w-full flex justify-center">
-                <div
-                  className="origin-top"
-                  style={{
-                    width: `${MOBILE_FORM_DESIGN_WIDTH}px`,
-                    transform: `scale(${mobileFormScale})`,
-                  }}
-                >
-                  <BookingForm mobile />
-                </div>
-              </div>
-            </div>
-          </div>
 
 
         </div>

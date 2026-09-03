@@ -563,10 +563,26 @@ export default function ChatBot() {
     if (open) setHasUnread(false)
   }, [open])
 
+  // Hold the teaser back until the visitor has scrolled past the hero. Pinned
+  // at bottom-[11.5rem] it otherwise lands right on top of the hero's primary
+  // CTA on a phone, so the first thing a visitor taps is the chat bubble
+  // instead of "Schedule Service" — the button the page exists to get pressed.
+  // Waiting for scroll also means it only shows once someone is actually
+  // browsing, which is when an offer to help reads as useful, not intrusive.
   useEffect(() => {
     if (open || teaserClosed) return
-    const t = setTimeout(() => setTeaser(true), 4000)
-    return () => clearTimeout(t)
+    let timer = null
+    const scrolledPastHero = () => window.scrollY > window.innerHeight * 0.6
+    const arm = () => {
+      if (timer || !scrolledPastHero()) return
+      timer = setTimeout(() => setTeaser(true), 1500)
+    }
+    arm() // already scrolled (restored position or deep link)
+    window.addEventListener('scroll', arm, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', arm)
+      if (timer) clearTimeout(timer)
+    }
   }, [open, teaserClosed])
 
   useEffect(() => {

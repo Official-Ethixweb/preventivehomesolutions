@@ -380,8 +380,8 @@ export default function Hero() {
 
           <div className="mt-3 lg:mt-5 animate-ribbon-in">
             <img
-              src="/google-5star-ribbon.webp"
-              alt="Google 5-Star Rated"
+              src="/google-rating-ribbon.webp"
+              alt="Google 4.9-Star Rated"
               width="1200"
               height="223"
               decoding="async"

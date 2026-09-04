@@ -1,6 +1,6 @@
 // Content for the conversion-focused SEO landing pages rendered by
-// LandingPage.jsx at /plumbing-services, /hvac-services and
-// /air-conditioning-services.
+// LandingPage.jsx at /plumbing-services, /hvac-services,
+// /air-conditioning-services and /water-heater-services.
 //
 // Each entry is pure data: the visual system (theme, sections, forms, schema)
 // lives in LandingPage.jsx and data/business.js. Icon keys map to the inline
@@ -262,6 +262,77 @@ export const LANDING_PAGES = {
       { label: 'Plumbing Services', href: '/plumbing-services' },
       { label: 'Ductless Mini-Splits', href: '/ac/ductless-mini-splits' },
       { label: 'Indoor Air Quality', href: '/ac/indoor-air-quality' },
+    ],
+  },
+
+  'water-heater-services': {
+    key: 'water-heater-services',
+    path: '/water-heater-services',
+    businessType: 'Plumber',
+    serviceType: 'Water Heater',
+    metaTitle: 'Water Heater Repair & Installation | Preventive Home Solutions',
+    metaDescription:
+      `Water heater repair, tank replacement & tankless installs in Layton & Northern Utah. Same-day, 24/7 no-hot-water service. Licensed plumbers. Call ${PHONE_DISPLAY}.`,
+    serviceName: 'Water Heater Services',
+    serviceDescription:
+      'Water heater repair, tank replacement, and tankless installation across Northern Utah — hot water restored fast by licensed plumbers, with upfront pricing and 24/7 emergency service.',
+    breadcrumbLabel: 'Water Heater Services',
+
+    eyebrow: 'Water Heaters · Northern Utah',
+    heroStatic: 'Northern Utah Water Heaters',
+    taglines: [
+      'Hot Water Restored, Fast',
+      'No Hot Water? Same-Day Service',
+      'Tank & Tankless Installs',
+      'Licensed Plumbers Since 1989',
+    ],
+    heroSubtitle:
+      'A cold shower on a Utah winter morning is nobody’s idea of a good start. Our licensed plumbers diagnose the real problem, repair most units the same day, and install high-efficiency tank and tankless systems built to last.',
+    heroImage: '/beforeandafterwaterheater.webp',
+    heroImageAlt: 'Water heater replacement and installation job in Layton, Utah',
+    heroImageWidth: 940,
+    heroImageHeight: 788,
+    trustChips: TRUST_CHIPS,
+    serviceNoun: 'Water Heater',
+    serviceOptions: ['Water Heater Repair', 'Tank Replacement', 'Tankless Installation', 'No Hot Water', 'Leaking Tank', 'Other'],
+
+    servicesHeading: 'What Our Water Heater Techs Do',
+    servicesIntro: 'Repair when it makes sense, replace when it doesn’t — and an honest answer either way.',
+    services: [
+      { icon: 'thermometer', title: 'Water Heater Repair', href: '/water-heater-repair', description: 'No hot water, rumbling tanks, and failed elements or pilots fixed — usually in one visit.' },
+      { icon: 'flame', title: 'Tank & Tankless Install', href: '/plumbing/water-heater', description: 'Right-sized gas, electric, and on-demand systems installed to code the same day we assess.' },
+      { icon: 'droplet', title: 'Leaking Tank Emergency', href: '/plumbing/emergency-plumbing', description: 'A leaking heater floods fast. We’re on call 24/7 to shut it down and replace it.' },
+      { icon: 'filter', title: 'Hard Water Protection', href: '/plumbing/water-quality-filters', description: 'Utah’s hard water scales tanks early — softeners and filtration add years of life.' },
+    ],
+
+    reasons: sharedReasons('water heater'),
+
+    team: {
+      heading: 'Your Neighbors in the Trade',
+      body: 'Preventive Home Solutions is a family-owned Northern Utah company — not a national chain. We carry common water heater parts on the truck, quote the job before we start it, and back every install in writing.',
+      points: [
+        'Background-checked, licensed plumbers',
+        'Common repair parts stocked on the truck',
+        'Written warranty on every install',
+        'Trusted across 10+ Northern Utah cities',
+      ],
+      image: '/beforeandafterwaterheater.webp',
+      imageAlt: 'Preventive Home Solutions plumber replacing a water heater in Northern Utah',
+    },
+
+    faqs: [
+      { q: 'Should I repair or replace my water heater?', a: 'If your unit is under 8 years old and the repair is minor, repairing is usually the better value. If it’s over 10 years old, leaking from the tank, or needs a major component, replacement is the smarter long-term choice. Our technicians give you an honest recommendation either way.' },
+      { q: 'How long does a water heater installation take?', a: 'Most standard tank replacements are finished in two to three hours. Tankless installs and conversions take longer because they may need gas line, venting, or electrical upgrades — in most cases we can still install the same day we assess it.' },
+      { q: 'Is a tankless water heater worth it?', a: 'For many Northern Utah households, yes. Tankless units deliver endless hot water, take up far less space, and last longer than traditional tanks while cutting standby energy costs. We’ll help you weigh the upfront investment against your hot-water demand.' },
+      { q: 'Do you offer emergency water heater service?', a: 'Yes. A leaking or failed water heater can cause serious water damage, so we’re on call after hours and on weekends for same-day emergency replacement across Northern Utah.' },
+      { q: 'What areas do you serve?', a: 'We serve Layton, Ogden, Clearfield, Clinton, Syracuse, Roy, Kaysville, Riverdale, West Point, Brigham City, and the surrounding Northern Utah communities.' },
+    ],
+
+    related: [
+      { label: 'Water Heater Repair', href: '/water-heater-repair' },
+      { label: 'Plumbing Services', href: '/plumbing-services' },
+      { label: 'Leak Detection & Repair', href: '/plumbing/leak-detection-repair' },
+      { label: 'Heating & Furnace Service', href: '/hvac-services' },
     ],
   },
 }

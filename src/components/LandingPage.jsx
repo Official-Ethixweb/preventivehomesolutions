@@ -548,7 +548,7 @@ export default function LandingPage({ slug, data }) {
                   className="cta-diag cta-diag-orange group inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-7 py-4 font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0">
                   <PhoneIcon className="h-5 w-5" /> Call {PHONE_DISPLAY}
                 </a>
-                <img src="/google-5star-ribbon.webp" alt="Google 5-Star Rated" width="1200" height="223"
+                <img src="/google-rating-ribbon.webp" alt="Google 4.9-Star Rated" width="1200" height="223"
                   decoding="async" className="h-auto w-[240px] max-w-full select-none sm:w-[260px]" />
               </Reveal>
 
@@ -756,7 +756,7 @@ export default function LandingPage({ slug, data }) {
           <Reveal variant="right" delay={150} className="relative">
             <div className="overflow-hidden rounded-2xl border-4 border-white/10 shadow-2xl">
               <iframe
-                title="Preventive Home Solutions service area — Northern Utah"
+                title="Preventive Home Solutions service area in Northern Utah"
                 src="https://www.google.com/maps?q=Layton,+UT&z=10&output=embed"
                 className="h-[360px] w-full border-0 lg:h-[520px]"
                 style={{ filter: 'grayscale(0.15) contrast(1.02) brightness(1.02)' }}

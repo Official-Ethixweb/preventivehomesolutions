@@ -5,10 +5,14 @@ import { useEffect, useRef, useState } from 'react'
  * eased requestAnimationFrame loop. Respects `prefers-reduced-motion` by
  * jumping straight to the final value.
  *
+ * `decimals` keeps fractional targets intact (e.g. a 4.9 star rating), which
+ * the default integer rounding would otherwise snap to 5.
+ *
  * Usage:
  *   <CountUp end={35} suffix="+" className="text-[10rem] font-extrabold" />
+ *   <CountUp end={4.9} decimals={1} suffix="★" />
  */
-export default function CountUp({ end, suffix = '', prefix = '', duration = 1800, className = '' }) {
+export default function CountUp({ end, suffix = '', prefix = '', duration = 1800, decimals = 0, className = '' }) {
   const ref = useRef(null)
   const started = useRef(false)
   const [value, setValue] = useState(0)
@@ -31,7 +35,7 @@ export default function CountUp({ end, suffix = '', prefix = '', duration = 1800
           const tick = (now) => {
             const progress = Math.min((now - start) / duration, 1)
             const eased = 1 - Math.pow(1 - progress, 3) // easeOutCubic
-            setValue(Math.round(eased * end))
+            setValue(Number((eased * end).toFixed(decimals)))
             if (progress < 1) requestAnimationFrame(tick)
           }
           requestAnimationFrame(tick)
@@ -43,12 +47,12 @@ export default function CountUp({ end, suffix = '', prefix = '', duration = 1800
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [end, duration])
+  }, [end, duration, decimals])
 
   return (
     <span ref={ref} className={className}>
       {prefix}
-      {value}
+      {value.toFixed(decimals)}
       {suffix}
     </span>
   )

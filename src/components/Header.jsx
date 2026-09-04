@@ -431,28 +431,33 @@ export default function Header({ isLanding = false }) {
             </span>
           </div>
 
-          {/* Phone as a button */}
-          {/* Highlighted CTA + address underneath */}
-          <div className="flex flex-col items-center gap-1.5">
-            <a
-              href="/#scheduling"
-              onMouseEnter={closeMenu}
-              className="cta-diag cta-diag-white rounded-md border border-phsOrange/50 bg-white px-6 py-3 font-sans text-sm font-bold text-phsOrange shadow-sm hover:-translate-y-0.5 hover:border-phsOrange hover:shadow-md active:translate-y-0"
-            >
-              Get Free Quote
-            </a>
-            <a
-              href="https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041"
-              target="_blank"
-              rel="noopener noreferrer"
-              onMouseEnter={closeMenu}
-              className="flex items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/70 transition-colors hover:text-phsOrange"
-            >
-              <MapPinIcon className="h-3 w-3 shrink-0 text-phsOrange" />
-              {SHORT_ADDRESS}
-            </a>
-          </div>
+          {/* Address. Previously stacked under Get Free Quote, which left a
+              dead gap beside the phone button; as its own row item it fills
+              that space and reads as a real storefront signal. */}
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041"
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={closeMenu}
+            className="hidden items-center gap-1.5 whitespace-nowrap rounded-md border border-phsOrange/30 bg-phsOrange/[0.06] px-3 py-1.5 font-sans text-[12px] font-bold text-phsInk transition-colors hover:border-phsOrange hover:bg-phsOrange/10 hover:text-phsOrange xl:flex"
+          >
+            <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-phsOrange" />
+            {SHORT_ADDRESS}
+          </a>
         </div>
+
+        {/* Action pair. Keeping Get Free Quote in the same flex box as the
+            phone (rather than letting justify-between space them apart) is what
+            closes the gap between the two buttons. */}
+        <div className="flex shrink-0 items-center gap-3">
+
+        <a
+          href="/#scheduling"
+          onMouseEnter={closeMenu}
+          className="cta-diag cta-diag-white hidden shrink-0 rounded-md border border-phsOrange/50 bg-white px-6 py-3 font-sans text-sm font-bold text-phsOrange shadow-sm hover:-translate-y-0.5 hover:border-phsOrange hover:shadow-md active:translate-y-0 lg:block"
+        >
+          Get Free Quote
+        </a>
 
         {/* Primary action on every breakpoint: a big, glowing, tappable phone
             number. Emergency plumbing/HVAC callers convert on a call far more
@@ -471,6 +476,8 @@ export default function Header({ isLanding = false }) {
             <span className="text-[15px] sm:text-xl font-black tracking-tight whitespace-nowrap">{PHONE_DISPLAY}</span>
           </span>
         </a>
+
+        </div>
 
       </div>
 

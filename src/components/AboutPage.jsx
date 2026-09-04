@@ -217,10 +217,10 @@ export default function AboutPage() {
               { end: 35, suffix: '+', label: 'Years of Experience' },
               { end: 7, suffix: '', label: 'Days a Week' },
               { end: 3, suffix: '', label: 'Trades, One Team' },
-              { end: 5, suffix: '★', label: 'Star Rated Service' },
+              { end: 4.9, decimals: 1, suffix: '★', label: 'Star Rated Service' },
             ].map((s, i) => (
               <Reveal key={s.label} delay={i * 90} className="text-center">
-                <CountUp end={s.end} suffix={s.suffix} className="font-display text-5xl font-black text-white drop-shadow sm:text-6xl" />
+                <CountUp end={s.end} decimals={s.decimals} suffix={s.suffix} className="font-display text-5xl font-black text-white drop-shadow sm:text-6xl" />
                 <p className="mt-3 font-mono text-[11px] font-bold tracking-[0.18em] text-white/85 sm:text-xs">
                   {s.label.toUpperCase()}
                 </p>

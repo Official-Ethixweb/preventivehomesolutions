@@ -10,6 +10,7 @@
 // the confirmation page without wiring it up individually.
 
 import { trackEvent, trackAdsConversion, ADS_LABELS } from './analytics.js'
+import { clarityTag } from './clarity.js'
 import { navigate } from '../router.js'
 import { PHONE_DISPLAY } from '../data/nav.js'
 
@@ -76,6 +77,11 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
 
   // Google Ads conversion for the same lead, so paid-search spend is attributed.
   trackAdsConversion(ADS_LABELS.leadForm)
+
+  // Tag the Clarity session so converting visits can be filtered out from the
+  // rest — "watch the sessions that became leads" vs. "watch the ones that
+  // didn't" is the comparison that makes the recordings worth watching.
+  clarityTag('lead', section || 'Unknown')
 
   // Send the visitor to the confirmation page. Runs after the conversion fire
   // above, never before/instead of it.

@@ -21,6 +21,7 @@ import { LANDING_PAGES } from './data/landingPages.js'
 import { BLOG_POSTS } from './data/blog.js'
 import { usePath, useLinkInterceptor } from './router.js'
 import { useAnalytics } from './lib/analytics.js'
+import { useClarity } from './lib/clarity.js'
 import { setLoading } from './loading.js'
 import { useSeo } from './lib/seo.js'
 import { localBusinessSchema, faqSchema } from './data/business.js'
@@ -70,6 +71,7 @@ const ROUTES = {
 export default function App() {
   useLinkInterceptor()
   useAnalytics()
+  useClarity()
   const path = usePath()
 
   // Loading screen: shown on first load and on every route change, hidden once

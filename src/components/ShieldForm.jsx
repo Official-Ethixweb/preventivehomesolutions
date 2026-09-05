@@ -3,6 +3,7 @@ import Recaptcha from './Recaptcha.jsx'
 import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
 import { PHONE_DISPLAY } from '../data/nav.js'
+import { useMediaQuery } from '../lib/useMediaQuery.js'
 import { trackEvent } from '../lib/analytics.js'
 
 /**
@@ -32,6 +33,9 @@ function CheckIcon({ className = '' }) {
 }
 
 export default function ShieldForm({ serviceNoun, section }) {
+  // Tailwind's `lg`. Below it the form is a plain card, so none of the
+  // shield's scaling machinery below is used.
+  const isDesktop = useMediaQuery('(min-width: 1024px)')
   const boxRef = useRef(null)
   const [scale, setScale] = useState(1)
   const [submitted, setSubmitted] = useState(false)
@@ -97,22 +101,38 @@ export default function ShieldForm({ serviceNoun, section }) {
   const labelClass =
     'mb-1 block text-center font-mono text-[10.5px] font-bold tracking-[0.16em] text-phsInk'
 
-  return (
-    <div className="relative mx-auto w-full max-w-[300px] drop-shadow-2xl lg:mt-8">
-      {/* Shield background + border overlay (same assets as the hero shield form) */}
-      <img src="/shield.svg" alt="" aria-hidden="true" className="relative z-0 h-auto w-full" />
-      <img
-        src="/shield border.svg"
-        alt=""
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 z-20 w-[127.7%] max-w-none -translate-x-1/2 -translate-y-1/2"
-      />
+  // On phones the shield silhouette squeezed seven fields into a 300px graphic,
+  // so the artwork read first and the form second. Below lg it is a plain card:
+  // same fields, no costume, nothing scaled.
+  const shell = (children) =>
+    isDesktop ? (
+      <div className="relative mx-auto w-full max-w-[300px] drop-shadow-2xl lg:mt-8">
+        {/* Shield background + border overlay (same assets as the hero shield form) */}
+        <img src="/shield.svg" alt="" aria-hidden="true" className="relative z-0 h-auto w-full" />
+        <img
+          src="/shield border.svg"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 z-20 w-[127.7%] max-w-none -translate-x-1/2 -translate-y-1/2"
+        />
 
-      {/* Form content positioned inside the shield bounds, scaled to fit width */}
-      <div className="absolute inset-0 z-30 flex flex-col items-center justify-start px-[8%] pt-[18%]">
-        <div ref={boxRef} className="flex w-full justify-center">
-          <div className="origin-top" style={{ width: `${FORM_DESIGN_WIDTH}px`, transform: `scale(${scale})` }}>
-            {submitted ? (
+        {/* Form content positioned inside the shield bounds, scaled to fit width */}
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-start px-[8%] pt-[18%]">
+          <div ref={boxRef} className="flex w-full justify-center">
+            <div className="origin-top" style={{ width: `${FORM_DESIGN_WIDTH}px`, transform: `scale(${scale})` }}>
+              {children}
+            </div>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <div className="mx-auto w-full max-w-[460px] rounded-2xl border border-phsInk/10 bg-white p-4 shadow-xl sm:p-6">
+        {children}
+      </div>
+    )
+
+  return shell(
+            submitted ? (
               <div className="flex min-h-[360px] flex-col items-center justify-center text-center">
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-phsOrange/15 text-phsOrange [&_svg]:h-7 [&_svg]:w-7">
                   <CheckIcon />
@@ -158,7 +178,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                         onClick={() => setDropdownOpen((v) => !v)}
                         className={`${fieldClass} flex items-center justify-between !px-3`}
                       >
-                        <span className={`block truncate ${service ? 'text-phsInk' : 'text-phsInk/40'}`}>{service || 'Select…'}</span>
+                        <span className={`block truncate ${service ? 'text-phsInk' : 'text-phsInk/70'}`}>{service || 'Select…'}</span>
                         <svg className={`h-4 w-4 shrink-0 text-phsInk/40 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -195,7 +215,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                   <Recaptcha
                     ref={recaptchaRef}
                     onChange={setRecaptchaToken}
-                    className="flex origin-top justify-center [transform:scale(0.96)]"
+                    className="flex origin-top justify-center [transform:scale(0.96)] max-lg:[transform:scale(0.9)]"
                   />
 
                   {error && <p className="text-center text-[13px] font-bold text-red-500">{error}</p>}
@@ -210,10 +230,6 @@ export default function ShieldForm({ serviceNoun, section }) {
                   </button>
                 </div>
               </form>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+            )
   )
 }

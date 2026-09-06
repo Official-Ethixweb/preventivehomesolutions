@@ -39,6 +39,15 @@ function PinIcon({ className = '' }) {
   )
 }
 
+function TagIcon({ className = '' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M20.6 13.4 12 22l-9-9V4a1 1 0 0 1 1-1h8l8.6 8.6a1.4 1.4 0 0 1 0 2z" />
+      <circle cx="7.5" cy="7.5" r="1.3" />
+    </svg>
+  )
+}
+
 function EmergencyIcon({ className = '' }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -89,6 +98,7 @@ const ITEMS = [
   { key: 'home', label: 'Home', href: '/#hero', Icon: HomeIcon },
   { key: 'services', label: 'Services', sheet: 'services', Icon: WrenchIcon },
   { key: 'quote', label: 'Get Quote', href: '/#quote-form', Icon: QuoteIcon, center: true },
+  { key: 'coupons', label: 'Coupons', href: '/coupons', Icon: TagIcon },
   { key: 'areas', label: 'Areas', sheet: 'areas', Icon: PinIcon },
   { key: 'emergency', label: 'Emergency', href: `tel:${PHONE_TEL}`, Icon: EmergencyIcon },
 ]

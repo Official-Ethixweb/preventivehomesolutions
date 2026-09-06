@@ -3,6 +3,7 @@ import Header from './components/Header.jsx'
 import Hero from './components/Hero.jsx'
 import MarqueeBanner from './components/MarqueeBanner.jsx'
 import Services from './components/Services.jsx'
+import CouponsPreview from './components/CouponsPreview.jsx'
 import WhyChoose from './components/WhyChoose.jsx'
 import BeforeAfter from './components/BeforeAfter.jsx'
 import CtaBanner from './components/CtaBanner.jsx'
@@ -198,6 +199,7 @@ function Home() {
         <MarqueeBanner />
       </div>
       <Services />
+      <CouponsPreview />
       <WhyChoose />
       <BeforeAfter />
 

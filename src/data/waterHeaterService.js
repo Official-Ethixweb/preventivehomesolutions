@@ -18,7 +18,7 @@ export const WATER_HEATER_CONTENT = {
   heroImageAlt: 'Water heater installation and replacement job in Layton, Utah',
   heroImageWidth: 940,
   heroImageHeight: 788,
-  heroH1: 'Water Heater Repair & Installation in Layton, UT — Hot Water Restored, Fast',
+  heroH1: 'Water Heater Repair & Installation in Layton, UT: Hot Water Restored, Fast',
 
   introEyebrow: 'Water Heater Experts',
   introHeading: 'Reliable Hot Water for Every Northern Utah Home',

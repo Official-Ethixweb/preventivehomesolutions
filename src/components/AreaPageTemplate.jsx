@@ -218,112 +218,110 @@ export default function AreaPageTemplate({ area }) {
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-phsNavy/90 via-phsNavy/80 to-phsNavy/70" />
         <div className="pointer-events-none absolute -top-24 -right-24 z-0 h-72 w-72 rounded-full bg-phsOrange/25 blur-3xl" />
 
-        <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-16 lg:py-24">
-          <Reveal as="nav" className="mb-6 flex flex-wrap items-center gap-2 font-mono text-[11px] font-bold tracking-[0.2em] text-white/70 sm:text-xs">
-            <a href="/" className="transition-colors hover:text-phsOrange">HOME</a>
-            <span>/</span>
-            <a href="/#areas-we-serve" className="transition-colors hover:text-phsOrange">AREAS WE SERVE</a>
-            <span>/</span>
-            <span className="text-phsOrange">{city.toUpperCase()}</span>
-          </Reveal>
+        <div className="relative z-10 mx-auto grid max-w-[1200px] items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
+          <div>
+            <Reveal as="nav" className="mb-6 flex flex-wrap items-center gap-2 font-mono text-[11px] font-bold tracking-[0.2em] text-white/70 sm:text-xs">
+              <a href="/" className="transition-colors hover:text-phsOrange">HOME</a>
+              <span>/</span>
+              <a href="/#areas-we-serve" className="transition-colors hover:text-phsOrange">AREAS WE SERVE</a>
+              <span>/</span>
+              <span className="text-phsOrange">{city.toUpperCase()}</span>
+            </Reveal>
 
-          <Reveal as="h1" delay={100} className="max-w-3xl font-display text-4xl font-black leading-[1.05] tracking-tight drop-shadow-sm sm:text-5xl lg:max-w-4xl lg:text-6xl">
-            Plumbing, Heating &amp; AC in {city}, UT — Your Local Home Comfort Guard
-          </Reveal>
+            <Reveal as="h1" delay={100} className="font-display text-4xl font-black leading-[1.05] tracking-tight drop-shadow-sm sm:text-5xl lg:text-6xl">
+              Plumbing, Heating &amp; AC in {city}, UT: Your Local Home Comfort Guard
+            </Reveal>
 
-          <Reveal delay={200} className="mt-9">
-            <a
-              href={`tel:${PHONE_TEL}`}
-              className="cta-diag cta-diag-orange group inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-8 py-4 font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
-            >
-              <PhoneIcon className="h-5 w-5" />
-              Call {PHONE_DISPLAY}
-            </a>
-          </Reveal>
+            <Reveal delay={200} className="mt-9">
+              <a
+                href={`tel:${PHONE_TEL}`}
+                className="cta-diag cta-diag-orange group inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-8 py-4 font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
+              >
+                <PhoneIcon className="h-5 w-5" />
+                Call {PHONE_DISPLAY}
+              </a>
+            </Reveal>
 
-          <Reveal delay={300} className="mt-8 flex flex-wrap gap-3">
-            <TrustChip icon={ShieldCheck} label="Licensed & Insured" />
-            <TrustChip icon={PinIcon} label={`Serving ${county}`} />
-            <TrustChip icon={DocIcon} label="Written Warranty" />
+            <Reveal delay={300} className="mt-8 flex flex-wrap gap-3">
+              <TrustChip icon={ShieldCheck} label="Licensed & Insured" />
+              <TrustChip icon={PinIcon} label={`Serving ${county}`} />
+              <TrustChip icon={DocIcon} label="Written Warranty" />
+            </Reveal>
+          </div>
+
+          {/* Right: the quote form, kept in the hero so it's the one lead
+              form on the page rather than a separate sidebar further down. */}
+          <Reveal variant="scale" delay={250} className="lg:justify-self-end lg:self-start">
+            <ShieldForm section={`Service Area: ${city}`} />
           </Reveal>
         </div>
       </section>
 
       <MarqueeBanner />
 
-      {/* -------------------------- Two-column body ----------------------- */}
+      {/* --------------------------------- Body ---------------------------- */}
       <section className="bg-white py-14 lg:py-24">
-        <div className="mx-auto flex flex-col-reverse lg:grid max-w-[1200px] gap-12 px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16">
-          {/* Main column */}
-          <div>
-            <Reveal as="p" className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.25em] text-phsOrange sm:text-sm">
-              {city} Home Services
-            </Reveal>
-            <Reveal as="h2" delay={100} className="font-display text-3xl font-black leading-[1.05] tracking-tight text-phsNavy sm:text-4xl lg:text-[2.75rem]">
-              Trusted Plumbing, Heating &amp; Cooling for {city} Homes
-            </Reveal>
-            <Reveal as="p" delay={200} className="mt-5 max-w-[68ch] text-[15px] leading-relaxed text-gray-500 sm:text-base">
-              {intro}
-            </Reveal>
+        <div className="mx-auto max-w-[1200px] px-6">
+          <Reveal as="p" className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.25em] text-phsOrange sm:text-sm">
+            {city} Home Services
+          </Reveal>
+          <Reveal as="h2" delay={100} className="font-display text-3xl font-black leading-[1.05] tracking-tight text-phsNavy sm:text-4xl lg:text-[2.75rem]">
+            Trusted Plumbing, Heating &amp; Cooling for {city} Homes
+          </Reveal>
+          <Reveal as="p" delay={200} className="mt-5 max-w-[68ch] text-[15px] leading-relaxed text-gray-500 sm:text-base">
+            {intro}
+          </Reveal>
 
-            {/* Proof stat cards */}
-            <Reveal delay={250} className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <StatCard icon={ClockBolt} title="Same-Day Service" text={`Fast response across ${city}, 7 days a week.`} />
-              <StatCard icon={PinIcon} title="Local Team" text="Based in Layton — short drives, honest arrival windows." />
-              <StatCard icon={DocIcon} title="Written Warranty" text="Every job backed in writing for lasting peace of mind." />
+          {/* Proof stat cards */}
+          <Reveal delay={250} className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <StatCard icon={ClockBolt} title="Same-Day Service" text={`Fast response across ${city}, 7 days a week.`} />
+            <StatCard icon={PinIcon} title="Local Team" text="Based in Layton — short drives, honest arrival windows." />
+            <StatCard icon={DocIcon} title="Written Warranty" text="Every job backed in writing for lasting peace of mind." />
+          </Reveal>
+
+          {/* Services grid */}
+          <div className="mt-12">
+            <Reveal as="h2" className="font-display text-2xl font-black tracking-tight text-phsNavy sm:text-[1.75rem]">
+              Services We Offer in {city}
             </Reveal>
-
-            {/* Services grid */}
-            <div className="mt-12">
-              <Reveal as="h2" className="font-display text-2xl font-black tracking-tight text-phsNavy sm:text-[1.75rem]">
-                Services We Offer in {city}
-              </Reveal>
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
-                {AREA_SERVICES.map((svc, i) => (
-                  <Reveal key={svc.label} variant="up" delay={(i % 2) * 80}>
-                    <a
-                      href={svc.href}
-                      className="group flex h-full flex-col rounded-2xl border border-[#e6ded4] bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-phsOrange/40 hover:shadow-lg"
-                    >
-                      <h3 className="font-display text-base font-bold tracking-wide text-phsNavy transition-colors duration-300 group-hover:text-phsOrange">
-                        {svc.label}
-                      </h3>
-                      <p className="mt-1.5 flex-1 text-[13.5px] leading-relaxed text-gray-500">{svc.desc}</p>
-                      <span className="mt-3 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange">
-                        Learn More
-                        <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                      </span>
-                    </a>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-
-            {/* Local map */}
-            <div className="mt-12">
-              <Reveal as="h2" className="font-display text-2xl font-black tracking-tight text-phsNavy sm:text-[1.75rem]">
-                Proudly Serving {city}{zips.length > 0 && <> — {zips.join(', ')}</>}
-              </Reveal>
-              <Reveal delay={100} className="mt-6 overflow-hidden rounded-2xl border border-[#e6ded4] shadow-lg">
-                <iframe
-                  title={`${city}, Utah service area map`}
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(city)},+UT&z=12&output=embed`}
-                  className="h-[320px] w-full border-0"
-                  style={{ filter: 'grayscale(0.15) contrast(1.02) brightness(1.05) saturate(0.95)' }}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  allowFullScreen
-                />
-              </Reveal>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {AREA_SERVICES.map((svc, i) => (
+                <Reveal key={svc.label} variant="up" delay={(i % 3) * 80}>
+                  <a
+                    href={svc.href}
+                    className="group flex h-full flex-col rounded-2xl border border-[#e6ded4] bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-phsOrange/40 hover:shadow-lg"
+                  >
+                    <h3 className="font-display text-base font-bold tracking-wide text-phsNavy transition-colors duration-300 group-hover:text-phsOrange">
+                      {svc.label}
+                    </h3>
+                    <p className="mt-1.5 flex-1 text-[13.5px] leading-relaxed text-gray-500">{svc.desc}</p>
+                    <span className="mt-3 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange">
+                      Learn More
+                      <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                  </a>
+                </Reveal>
+              ))}
             </div>
           </div>
 
-          {/* Sidebar */}
-          <aside className="lg:relative">
-            <div className="lg:sticky lg:top-40">
-              <ShieldForm section={`Service Area — ${city}`} />
-            </div>
-          </aside>
+          {/* Local map */}
+          <div className="mt-12">
+            <Reveal as="h2" className="font-display text-2xl font-black tracking-tight text-phsNavy sm:text-[1.75rem]">
+              Proudly Serving {city}{zips.length > 0 && <> ({zips.join(', ')})</>}
+            </Reveal>
+            <Reveal delay={100} className="mt-6 overflow-hidden rounded-2xl border border-[#e6ded4] shadow-lg">
+              <iframe
+                title={`${city}, Utah service area map`}
+                src={`https://www.google.com/maps?q=${encodeURIComponent(city)},+UT&z=12&output=embed`}
+                className="h-[320px] w-full border-0"
+                style={{ filter: 'grayscale(0.15) contrast(1.02) brightness(1.05) saturate(0.95)' }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
+            </Reveal>
+          </div>
         </div>
       </section>
 

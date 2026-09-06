@@ -55,6 +55,7 @@ const AreaPage = lazy(() => import('./components/AreaPage.jsx'))
 const BlogPage = lazy(() => import('./components/BlogPage.jsx'))
 const ArticlePage = lazy(() => import('./components/ArticlePage.jsx'))
 const AboutPage = lazy(() => import('./components/AboutPage.jsx'))
+const CouponsPage = lazy(() => import('./components/CouponsPage.jsx'))
 const LandingPage = lazy(() => import('./components/LandingPage.jsx'))
 const AccessibilityPage = lazy(() => import('./components/AccessibilityPage.jsx'))
 const ThankYouPage = lazy(() => import('./components/ThankYouPage.jsx'))
@@ -138,6 +139,8 @@ export default function App() {
     page = <AreaPage slug={citySlug} />
   } else if (normalizedPath === '/about-us') {
     page = <AboutPage />
+  } else if (normalizedPath === '/coupons') {
+    page = <CouponsPage />
   } else if (normalizedPath === '/accessibility') {
     page = <AccessibilityPage />
   } else if (normalizedPath === '/thank-you') {

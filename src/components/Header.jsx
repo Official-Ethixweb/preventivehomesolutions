@@ -218,12 +218,12 @@ export default function Header({ isLanding = false }) {
   }
 
   const navLinkClass =
-    'font-sans text-[15px] font-semibold text-phsInk/75 transition-colors hover:text-phsInk'
+    'whitespace-nowrap font-sans text-[17px] font-semibold text-phsInk/75 transition-colors hover:text-phsInk'
 
   // Desktop nav links (services + areas open the dropdown; about/blog jump).
   // Shared by the full header and the compact sticky nav.
   const renderNavLinks = (extraClass = '') => (
-    <nav className={`hidden items-center gap-6 lg:flex ${extraClass}`}>
+    <nav className={`hidden shrink-0 items-center gap-6 lg:flex ${extraClass}`}>
       <button
         type="button"
         onMouseEnter={() => showMenu('services')}
@@ -244,6 +244,9 @@ export default function Header({ isLanding = false }) {
         Areas We Serve
         <CaretIcon className={`h-3.5 w-3.5 transition-transform duration-300 ${openMenu === 'areas' ? 'rotate-180' : ''}`} />
       </button>
+      <a href="/coupons" onMouseEnter={closeMenu} className={navLinkClass}>
+        Coupons
+      </a>
       <a href="/about-us" onMouseEnter={closeMenu} className={navLinkClass}>
         About Us
       </a>
@@ -381,7 +384,7 @@ export default function Header({ isLanding = false }) {
                 >
                   Get Free Quote
                 </a>
-                <span className="hidden items-center gap-1 whitespace-nowrap font-sans text-[10px] font-semibold text-phsInk/55 xl:flex">
+                <span className="hidden items-center gap-1 whitespace-nowrap font-sans text-[10px] font-semibold text-phsInk/70 xl:flex">
                   <MapPinIcon className="h-2.5 w-2.5 shrink-0 text-phsOrange" />
                   {SHORT_ADDRESS}
                 </span>
@@ -430,34 +433,35 @@ export default function Header({ isLanding = false }) {
               Lic. #{LICENSE_NUMBER}
             </span>
           </div>
+        </div>
 
-          {/* Address. Previously stacked under Get Free Quote, which left a
-              dead gap beside the phone button; as its own row item it fills
-              that space and reads as a real storefront signal. */}
+        {/* Action pair. Keeping Get Free Quote in the same flex box as the
+            phone (rather than letting justify-between space them apart) is what
+            closes the gap between the two buttons. Address moved under the
+            button (mirrors the compact sticky header) instead of sitting in
+            the nav row, which left too little room there for every link to
+            stay on one line. */}
+        <div className="flex shrink-0 items-center gap-3">
+
+        <div className="hidden shrink-0 flex-col items-center gap-1 lg:flex">
+          <a
+            href="/#scheduling"
+            onMouseEnter={closeMenu}
+            className="cta-diag cta-diag-white shrink-0 rounded-md border border-phsOrange/50 bg-white px-6 py-3 font-sans text-sm font-bold text-phsOrange shadow-sm hover:-translate-y-0.5 hover:border-phsOrange hover:shadow-md active:translate-y-0"
+          >
+            Get Free Quote
+          </a>
           <a
             href="https://www.google.com/maps/search/?api=1&query=Preventive+Home+Solutions+688+N+Main+St+Layton+UT+84041"
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={closeMenu}
-            className="hidden items-center gap-1.5 whitespace-nowrap rounded-md border border-phsOrange/30 bg-phsOrange/[0.06] px-3 py-1.5 font-sans text-[12px] font-bold text-phsInk transition-colors hover:border-phsOrange hover:bg-phsOrange/10 hover:text-phsOrange xl:flex"
+            className="hidden items-center gap-1 whitespace-nowrap font-sans text-[11px] font-semibold text-phsInk/70 transition-colors hover:text-phsOrange xl:flex"
           >
-            <MapPinIcon className="h-3.5 w-3.5 shrink-0 text-phsOrange" />
+            <MapPinIcon className="h-3 w-3 shrink-0 text-phsOrange" />
             {SHORT_ADDRESS}
           </a>
         </div>
-
-        {/* Action pair. Keeping Get Free Quote in the same flex box as the
-            phone (rather than letting justify-between space them apart) is what
-            closes the gap between the two buttons. */}
-        <div className="flex shrink-0 items-center gap-3">
-
-        <a
-          href="/#scheduling"
-          onMouseEnter={closeMenu}
-          className="cta-diag cta-diag-white hidden shrink-0 rounded-md border border-phsOrange/50 bg-white px-6 py-3 font-sans text-sm font-bold text-phsOrange shadow-sm hover:-translate-y-0.5 hover:border-phsOrange hover:shadow-md active:translate-y-0 lg:block"
-        >
-          Get Free Quote
-        </a>
 
         {/* Primary action on every breakpoint: a big, glowing, tappable phone
             number. Emergency plumbing/HVAC callers convert on a call far more

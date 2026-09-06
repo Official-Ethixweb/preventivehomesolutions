@@ -228,103 +228,102 @@ export default function ServicePageTemplate({ content }) {
         {/* Warm brand glow, matching the home band */}
         <div className="pointer-events-none absolute -top-24 -right-24 z-0 h-72 w-72 rounded-full bg-phsOrange/25 blur-3xl" />
 
-        <div className="relative z-10 mx-auto max-w-[1200px] px-6 py-16 lg:py-24">
-          {/* Breadcrumb */}
-          <Reveal as="nav" className="mb-6 flex flex-wrap items-center gap-2 font-mono text-[11px] font-bold tracking-[0.2em] text-white/70 sm:text-xs">
-            <a href="/" className="transition-colors hover:text-phsOrange">HOME</a>
-            <span>/</span>
-            <a href={parentHref} className="transition-colors hover:text-phsOrange">{parentBreadcrumb.toUpperCase()}</a>
-            <span>/</span>
-            <span className="text-phsOrange">{breadcrumbLabel.toUpperCase()}</span>
-          </Reveal>
+        <div className="relative z-10 mx-auto grid max-w-[1200px] items-center gap-10 px-6 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
+          {/* Left: copy */}
+          <div>
+            {/* Breadcrumb */}
+            <Reveal as="nav" className="mb-6 flex flex-wrap items-center gap-2 font-mono text-[11px] font-bold tracking-[0.2em] text-white/70 sm:text-xs">
+              <a href="/" className="transition-colors hover:text-phsOrange">HOME</a>
+              <span>/</span>
+              <a href={parentHref} className="transition-colors hover:text-phsOrange">{parentBreadcrumb.toUpperCase()}</a>
+              <span>/</span>
+              <span className="text-phsOrange">{breadcrumbLabel.toUpperCase()}</span>
+            </Reveal>
 
-          <Reveal as="h1" delay={100} className="max-w-3xl font-display text-4xl font-black leading-[1.05] tracking-tight drop-shadow-sm sm:text-5xl lg:max-w-4xl lg:text-6xl">
-            {heroH1}
-          </Reveal>
+            <Reveal as="h1" delay={100} className="font-display text-4xl font-black leading-[1.05] tracking-tight drop-shadow-sm sm:text-5xl lg:text-6xl">
+              {heroH1}
+            </Reveal>
 
-          <Reveal delay={200} className="mt-9">
-            <a
-              href={`tel:${PHONE_TEL}`}
-              className="cta-diag cta-diag-orange group inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-8 py-4 font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
-            >
-              <PhoneIcon className="h-5 w-5" />
-              Call {PHONE_DISPLAY}
-            </a>
-          </Reveal>
+            <Reveal delay={200} className="mt-9">
+              <a
+                href={`tel:${PHONE_TEL}`}
+                className="cta-diag cta-diag-orange group inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-8 py-4 font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
+              >
+                <PhoneIcon className="h-5 w-5" />
+                Call {PHONE_DISPLAY}
+              </a>
+            </Reveal>
 
-          {/* Trust chips */}
-          <Reveal delay={300} className="mt-8 flex flex-wrap gap-3">
-            <TrustChip icon={ShieldCheck} label="Licensed & Insured" />
-            <TrustChip icon={BadgeStar} label={`Since ${since}`} />
-            <TrustChip icon={DocIcon} label="Written Warranty" />
+            {/* Trust chips */}
+            <Reveal delay={300} className="mt-8 flex flex-wrap gap-3">
+              <TrustChip icon={ShieldCheck} label="Licensed & Insured" />
+              <TrustChip icon={BadgeStar} label={`Since ${since}`} />
+              <TrustChip icon={DocIcon} label="Written Warranty" />
+            </Reveal>
+          </div>
+
+          {/* Right: the quote form, kept in the hero so it's the one lead
+              form on the page rather than a separate sidebar further down. */}
+          <Reveal variant="scale" delay={250} className="lg:justify-self-end lg:self-start">
+            <ShieldForm serviceNoun={serviceNoun} />
           </Reveal>
         </div>
       </section>
 
       <MarqueeBanner />
 
-      {/* -------------------------- Two-column body ----------------------- */}
+      {/* ------------------------------ Body ------------------------------ */}
       <section className="bg-white py-14 lg:py-24">
-        <div className="mx-auto flex flex-col-reverse lg:grid max-w-[1200px] gap-12 px-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16">
-          {/* Main column */}
-          <div>
-            <Reveal as="p" className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.25em] text-phsOrange sm:text-sm">
-              {introEyebrow}
-            </Reveal>
-            <Reveal as="h2" delay={100} className="font-display text-3xl font-black leading-[1.05] tracking-tight text-phsNavy sm:text-4xl lg:text-[2.75rem]">
-              {introHeading}
-            </Reveal>
-            <Reveal as="p" delay={200} className="mt-5 max-w-2xl text-[15px] leading-relaxed text-gray-500 sm:text-base">
-              {hook}
-            </Reveal>
+        <div className="mx-auto max-w-[1200px] px-6">
+          <Reveal as="p" className="mb-4 font-mono text-xs font-bold uppercase tracking-[0.25em] text-phsOrange sm:text-sm">
+            {introEyebrow}
+          </Reveal>
+          <Reveal as="h2" delay={100} className="font-display text-3xl font-black leading-[1.05] tracking-tight text-phsNavy sm:text-4xl lg:text-[2.75rem]">
+            {introHeading}
+          </Reveal>
+          <Reveal as="p" delay={200} className="mt-5 max-w-2xl text-[15px] leading-relaxed text-gray-500 sm:text-base">
+            {hook}
+          </Reveal>
 
-            {/* Proof stat cards */}
-            <Reveal delay={250} className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-              <StatCard icon={ClockBolt} title="Same-Day Service" text="Fast response when comfort can’t wait, 7 days a week." />
-              <StatCard icon={TagIcon} title="Upfront Pricing" text="Honest, fixed quotes before any work begins." />
-              <StatCard icon={DocIcon} title="Written Warranty" text="Every job backed in writing for lasting peace of mind." />
-            </Reveal>
+          {/* Proof stat cards */}
+          <Reveal delay={250} className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <StatCard icon={ClockBolt} title="Same-Day Service" text="Fast response when comfort can’t wait, 7 days a week." />
+            <StatCard icon={TagIcon} title="Upfront Pricing" text="Honest, fixed quotes before any work begins." />
+            <StatCard icon={DocIcon} title="Written Warranty" text="Every job backed in writing for lasting peace of mind." />
+          </Reveal>
 
-            {/* Content blocks */}
-            <div className="mt-12 space-y-10">
-              {introBlocks.map((block, i) => (
-                <Reveal key={block.heading || i} variant="up">
-                  <div>
-                    {block.heading && (
-                      <h2 className="font-display text-2xl font-black tracking-tight text-phsNavy sm:text-[1.75rem]">
-                        {block.heading}
-                      </h2>
-                    )}
-                    {block.paragraph && (
-                      <p className={`${block.heading ? 'mt-4' : ''} max-w-[68ch] text-[15px] leading-relaxed text-gray-600`}>
-                        {block.paragraph}
-                      </p>
-                    )}
-                    {block.list && (
-                      <ul className="mt-5 grid gap-3 sm:grid-cols-2">
-                        {block.list.map((li) => (
-                          <li key={li} className="flex items-start gap-3">
-                            <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-phsOrange/10 text-phsOrange [&_svg]:h-4 [&_svg]:w-4">
-                              <CheckIcon />
-                            </span>
-                            <span className="text-[15px] leading-relaxed text-phsNavy">{li}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                    {block.callUs && <CallUsLine />}
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+          {/* Content blocks */}
+          <div className="mt-12 space-y-10">
+            {introBlocks.map((block, i) => (
+              <Reveal key={block.heading || i} variant="up">
+                <div>
+                  {block.heading && (
+                    <h2 className="font-display text-2xl font-black tracking-tight text-phsNavy sm:text-[1.75rem]">
+                      {block.heading}
+                    </h2>
+                  )}
+                  {block.paragraph && (
+                    <p className={`${block.heading ? 'mt-4' : ''} max-w-[68ch] text-[15px] leading-relaxed text-gray-600`}>
+                      {block.paragraph}
+                    </p>
+                  )}
+                  {block.list && (
+                    <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                      {block.list.map((li) => (
+                        <li key={li} className="flex items-start gap-3">
+                          <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-phsOrange/10 text-phsOrange [&_svg]:h-4 [&_svg]:w-4">
+                            <CheckIcon />
+                          </span>
+                          <span className="text-[15px] leading-relaxed text-phsNavy">{li}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {block.callUs && <CallUsLine />}
+                </div>
+              </Reveal>
+            ))}
           </div>
-
-          {/* Sidebar */}
-          <aside className="lg:relative">
-            <div className="lg:sticky lg:top-40">
-              <ShieldForm serviceNoun={serviceNoun} />
-            </div>
-          </aside>
         </div>
       </section>
 

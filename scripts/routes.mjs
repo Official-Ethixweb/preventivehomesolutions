@@ -13,6 +13,7 @@ export function getRoutes() {
 
   routes.push(['/', 'weekly', '1.0'])
   routes.push(['/about-us', 'monthly', '0.6'])
+  routes.push(['/coupons', 'weekly', '0.8'])
   routes.push(['/accessibility', 'yearly', '0.3'])
   routes.push(['/blog', 'weekly', '0.7'])
   routes.push(['/water-heater-repair', 'monthly', '0.9'])

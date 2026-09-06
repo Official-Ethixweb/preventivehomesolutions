@@ -102,10 +102,19 @@ function BookingForm({ card = false }) {
     }
   }
 
-  const fieldClass =
-    'w-full rounded-md border border-phsSky/15 bg-white/70 px-3 py-3 text-center text-sm max-lg:text-[16px] text-phsInk placeholder:text-phsInk/40 outline-none transition-colors focus:border-phsSky focus:bg-white'
-  const labelClass =
-    'mb-1.5 max-lg:mb-1 block text-center font-mono text-[11.5px] max-lg:text-[13px] lg:text-[11px] font-bold max-lg:tracking-[0.12em] tracking-[0.18em] text-phsInk'
+  // The shield centres its fields because the artwork is symmetrical and a
+  // ragged left edge fights it. The card has no such constraint, so it uses the
+  // ordinary left-aligned form conventions people already know how to read.
+  const fieldBase =
+    'w-full rounded-md bg-white/70 px-3 py-3 text-sm max-lg:text-[16px] text-phsInk outline-none transition-colors focus:bg-white'
+  const fieldClass = card
+    ? `${fieldBase} border border-phsInk/20 text-left placeholder:text-phsInk/60 focus:border-phsOrange focus:ring-2 focus:ring-phsOrange/25`
+    : `${fieldBase} border border-phsSky/15 text-center placeholder:text-phsInk/40 focus:border-phsSky`
+  const labelClass = card
+    ? 'mb-1.5 block text-left font-mono text-[11px] font-bold tracking-[0.14em] text-phsInk'
+    : 'mb-1.5 max-lg:mb-1 block text-center font-mono text-[11.5px] max-lg:text-[13px] lg:text-[11px] font-bold max-lg:tracking-[0.12em] tracking-[0.18em] text-phsInk'
+  // Required fields are marked rather than left to be discovered on submit.
+  const req = <span className="text-phsOrange" aria-hidden="true"> *</span>
 
   if (submitted) {
     return (
@@ -134,26 +143,46 @@ function BookingForm({ card = false }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <p className="text-center font-mono text-xs font-bold tracking-[0.24em] text-phsOrange">
-        Request Service
-      </p>
-      <h2 className="mt-2 text-center font-sans text-2xl font-extrabold leading-tight tracking-tight text-phsInk">
-        Book Your Inspection
-      </h2>
+      {card ? (
+        /* Full-bleed orange band. The negative margins cancel the card's own
+           padding (p-4 / sm:p-6) so it meets the border on three sides; corners
+           stay square because index.css squares off every box sitewide. */
+        <div className="-mx-4 -mt-4 mb-5 bg-phsOrange px-4 py-4 sm:-mx-6 sm:-mt-6 sm:px-6">
+          <p className="font-mono text-[11px] font-bold tracking-[0.22em] text-white/90">
+            REQUEST SERVICE
+          </p>
+          <h2 className="mt-1 font-sans text-[22px] font-extrabold leading-tight tracking-tight text-white">
+            Book Your Inspection
+          </h2>
+          <p className="mt-2 text-[13px] leading-snug text-white">
+            Takes under a minute. Tell us what is going on and we will get back
+            to you to confirm a time.
+          </p>
+        </div>
+      ) : (
+        <>
+          <p className="text-center font-mono text-xs font-bold tracking-[0.24em] text-phsOrange">
+            Request Service
+          </p>
+          <h2 className="mt-2 text-center font-sans text-2xl font-extrabold leading-tight tracking-tight text-phsInk">
+            Book Your Inspection
+          </h2>
+        </>
+      )}
 
-      <div className="mt-6 space-y-4">
+      <div className={card ? 'space-y-4' : 'mt-6 space-y-4'}>
         <div>
-          <label htmlFor="bf-name" className={labelClass}>Full Name</label>
+          <label htmlFor="bf-name" className={labelClass}>Full Name{card && req}</label>
           <input id="bf-name" name="name" type="text" required placeholder="Jane Doe" className={fieldClass} />
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label htmlFor="bf-phone" className={labelClass}>Phone</label>
+            <label htmlFor="bf-phone" className={labelClass}>Phone{card && req}</label>
             <input id="bf-phone" name="phone" type="tel" required placeholder="(385) 000-0000" className={fieldClass} />
           </div>
           <div className="relative">
-            <label htmlFor="bf-service" className={labelClass}>Service</label>
+            <label htmlFor="bf-service" className={labelClass}>Service{card && req}</label>
             
             <button
               type="button"
@@ -178,7 +207,7 @@ function BookingForm({ card = false }) {
                       key={s}
                       type="button"
                       onClick={() => { setService(s); setDropdownOpen(false) }}
-                      className="block w-full px-4 py-3 text-center text-[13.5px] font-bold text-phsInk hover:bg-phsOrange/10 hover:text-phsOrange focus:bg-phsOrange/10 focus:text-phsOrange outline-none transition-colors border-b border-gray-50 last:border-0"
+                      className={`block w-full px-4 py-3 ${card ? 'text-left' : 'text-center'} text-[13.5px] font-bold text-phsInk hover:bg-phsOrange/10 hover:text-phsOrange focus:bg-phsOrange/10 focus:text-phsOrange outline-none transition-colors border-b border-gray-50 last:border-0`}
                     >
                       {s}
                     </button>
@@ -190,12 +219,16 @@ function BookingForm({ card = false }) {
         </div>
 
         <div>
-          <label htmlFor="bf-email" className={labelClass}>Email</label>
+          <label htmlFor="bf-email" className={labelClass}>
+            Email{card && <span className="font-normal tracking-normal text-phsInk/55"> (optional)</span>}
+          </label>
           <input id="bf-email" name="email" type="email" placeholder="jane@email.com" className={fieldClass} />
         </div>
 
         <div>
-          <label htmlFor="bf-message" className={labelClass}>How can we help?</label>
+          <label htmlFor="bf-message" className={labelClass}>
+            How can we help?{card && <span className="font-normal tracking-normal text-phsInk/55"> (optional)</span>}
+          </label>
           <textarea id="bf-message" name="message" rows={3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)] max-lg:!w-full`} />
         </div>
 
@@ -210,18 +243,31 @@ function BookingForm({ card = false }) {
         <Recaptcha
           ref={recaptchaRef}
           onChange={setRecaptchaToken}
-          className={`${card ? '-mb-4 [transform:scale(0.92)]' : '-mb-6 [transform:scale(0.68)]'} flex origin-top justify-center`}
+          className={`${card ? '-mb-3 [transform:scale(0.95)]' : '-mb-6 [transform:scale(0.68)]'} flex origin-top justify-center`}
         />
 
         {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}
         <button
           type="submit"
           disabled={submitting}
-          className="cta-diag cta-diag-orange group mx-auto flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-6 py-2.5 font-sans text-[14px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed -mt-[10px]"
+          className={`cta-diag cta-diag-orange group flex items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange font-sans font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed ${
+            card
+              ? 'w-full px-6 py-4 text-[15px]'
+              : 'mx-auto -mt-[10px] w-fit px-6 py-2.5 text-[14px]'
+          }`}
         >
           {submitting ? 'Sending...' : 'Book Now'}
           {!submitting && <ArrowIcon className="h-[17px] w-[17px] transition-transform duration-300 group-hover:translate-x-1" />}
         </button>
+
+        {card && (
+          <p className="pt-1 text-center text-[12px] leading-snug text-phsInk/70">
+            Prefer to talk?{' '}
+            <a href={`tel:${PHONE_TEL}`} className="font-bold text-phsOrangeDark underline underline-offset-2">
+              Call {PHONE_DISPLAY}
+            </a>
+          </p>
+        )}
       </div>
     </form>
   )
@@ -306,7 +352,7 @@ export default function Hero() {
               fields, nothing scaled. */}
           <div
             id="quote-form"
-            className="mx-auto mb-8 mt-4 block w-[94%] max-w-[460px] scroll-mt-24 rounded-2xl border border-phsInk/10 bg-white p-4 shadow-xl sm:p-6 lg:hidden"
+            className="mx-auto mb-8 mt-4 block w-[94%] max-w-[460px] scroll-mt-24 rounded-2xl border-2 border-phsOrange bg-white p-4 shadow-xl sm:p-6 lg:hidden"
           >
             <BookingForm card />
           </div>

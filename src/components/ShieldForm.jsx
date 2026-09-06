@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import Recaptcha from './Recaptcha.jsx'
 import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
-import { PHONE_DISPLAY } from '../data/nav.js'
+import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { useMediaQuery } from '../lib/useMediaQuery.js'
 import { trackEvent } from '../lib/analytics.js'
 
@@ -96,10 +96,20 @@ export default function ShieldForm({ serviceNoun, section }) {
     }
   }
 
-  const fieldClass =
-    'w-full rounded-md border border-phsSky/15 bg-white/80 px-3.5 py-2.5 text-center text-sm text-phsInk placeholder:text-phsInk/40 outline-none transition-colors focus:border-phsSky focus:bg-white'
-  const labelClass =
-    'mb-1 block text-center font-mono text-[10.5px] font-bold tracking-[0.16em] text-phsInk'
+  // The shield centres its fields because the artwork is symmetrical and a
+  // ragged left edge fights it. The card has no such constraint, so it uses the
+  // ordinary left-aligned form conventions people already know how to read.
+  const card = !isDesktop
+  const fieldBase =
+    'w-full rounded-md bg-white/80 text-phsInk outline-none transition-colors focus:bg-white'
+  const fieldClass = card
+    ? `${fieldBase} border border-phsInk/20 px-3.5 py-3 text-left text-[16px] placeholder:text-phsInk/60 focus:border-phsOrange focus:ring-2 focus:ring-phsOrange/25`
+    : `${fieldBase} border border-phsSky/15 px-3.5 py-2.5 text-center text-sm placeholder:text-phsInk/40 focus:border-phsSky`
+  const labelClass = card
+    ? 'mb-1.5 block text-left font-mono text-[11px] font-bold tracking-[0.14em] text-phsInk'
+    : 'mb-1 block text-center font-mono text-[10.5px] font-bold tracking-[0.16em] text-phsInk'
+  // Required fields are marked rather than left to be discovered on submit.
+  const req = <span className="text-phsOrange" aria-hidden="true"> *</span>
 
   // On phones the shield silhouette squeezed seven fields into a 300px graphic,
   // so the artwork read first and the form second. Below lg it is a plain card:
@@ -126,7 +136,7 @@ export default function ShieldForm({ serviceNoun, section }) {
         </div>
       </div>
     ) : (
-      <div className="mx-auto w-full max-w-[460px] rounded-2xl border border-phsInk/10 bg-white p-4 shadow-xl sm:p-6">
+      <div className="mx-auto w-full max-w-[460px] rounded-2xl border-2 border-phsOrange bg-white p-4 shadow-xl sm:p-6">
         {children}
       </div>
     )
@@ -144,35 +154,56 @@ export default function ShieldForm({ serviceNoun, section }) {
               </div>
             ) : (
               <form onSubmit={handleSubmit}>
-                <p className="text-center font-mono text-[9.5px] font-bold tracking-[0.24em] text-phsOrange">Request Service</p>
-                <h2 className="mt-1.5 text-center font-sans text-[22px] font-extrabold leading-tight tracking-tight text-phsInk">
-                  Get a Free Quote
-                </h2>
+                {card ? (
+                  /* Full-bleed orange band. The negative margins cancel the
+                     card's own padding (p-4 / sm:p-6) so it meets the border on
+                     three sides; corners stay square because index.css squares
+                     off every box sitewide. */
+                  <div className="-mx-4 -mt-4 mb-5 bg-phsOrange px-4 py-4 sm:-mx-6 sm:-mt-6 sm:px-6">
+                    <p className="font-mono text-[11px] font-bold tracking-[0.22em] text-white/90">
+                      REQUEST SERVICE
+                    </p>
+                    <h2 className="mt-1 font-sans text-[22px] font-extrabold leading-tight tracking-tight text-white">
+                      Get a Free Quote
+                    </h2>
+                    <p className="mt-2 text-[13px] leading-snug text-white">
+                      Takes under a minute. Tell us what is going on and we will
+                      get back to you with a price.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-center font-mono text-[9.5px] font-bold tracking-[0.24em] text-phsOrange">Request Service</p>
+                    <h2 className="mt-1.5 text-center font-sans text-[22px] font-extrabold leading-tight tracking-tight text-phsInk">
+                      Get a Free Quote
+                    </h2>
+                  </>
+                )}
 
-                <div className="mt-4 space-y-3">
-                  <div className="grid grid-cols-2 gap-2.5">
+                <div className={card ? 'space-y-4' : 'mt-4 space-y-3'}>
+                  <div className={`grid grid-cols-2 ${card ? 'gap-3' : 'gap-2.5'}`}>
                     <div>
-                      <label htmlFor="sf-first" className={labelClass}>First Name</label>
+                      <label htmlFor="sf-first" className={labelClass}>First Name{card && req}</label>
                       <input id="sf-first" name="first_name" type="text" required placeholder="Jane" className={fieldClass} />
                     </div>
                     <div>
-                      <label htmlFor="sf-last" className={labelClass}>Last Name</label>
+                      <label htmlFor="sf-last" className={labelClass}>Last Name{card && req}</label>
                       <input id="sf-last" name="last_name" type="text" required placeholder="Doe" className={fieldClass} />
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="sf-email" className={labelClass}>Email</label>
+                    <label htmlFor="sf-email" className={labelClass}>Email{card && req}</label>
                     <input id="sf-email" name="email" type="email" required placeholder="jane@email.com" className={fieldClass} />
                   </div>
 
                   <div className="grid grid-cols-2 gap-2.5">
                     <div>
-                      <label htmlFor="sf-phone" className={labelClass}>Phone</label>
+                      <label htmlFor="sf-phone" className={labelClass}>Phone{card && req}</label>
                       <input id="sf-phone" name="phone" type="tel" required placeholder="(385) 000-0000" className={fieldClass} />
                     </div>
                     <div className="relative">
-                      <label htmlFor="sf-service" className={labelClass}>Service Needed</label>
+                      <label htmlFor="sf-service" className={labelClass}>Service Needed{card && req}</label>
                       <button
                         type="button"
                         onClick={() => setDropdownOpen((v) => !v)}
@@ -193,7 +224,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                                 key={s}
                                 type="button"
                                 onClick={() => { setService(s); setDropdownOpen(false) }}
-                                className="block w-full border-b border-gray-50 px-3 py-2.5 text-center text-[13px] font-bold text-phsInk outline-none transition-colors last:border-0 hover:bg-phsOrange/10 hover:text-phsOrange"
+                                className={`block w-full border-b border-gray-50 px-3 py-2.5 ${card ? 'text-left' : 'text-center'} text-[13px] font-bold text-phsInk outline-none transition-colors last:border-0 hover:bg-phsOrange/10 hover:text-phsOrange`}
                               >
                                 {s}
                               </button>
@@ -207,7 +238,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                   {/* SMS consent */}
                   <label className="flex items-start gap-2 px-1 text-left">
                     <input type="checkbox" name="sms_consent" required className="mt-0.5 h-3.5 w-3.5 shrink-0 accent-phsOrange" />
-                    <span className="text-[10.5px] leading-snug text-phsInk/70">
+                    <span className={`leading-snug text-phsInk/70 ${card ? 'text-[12px]' : 'text-[10.5px]'}`}>
                       I agree to receive text messages from Preventive Home Solutions about my request. Msg &amp; data rates may apply.
                     </span>
                   </label>
@@ -215,7 +246,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                   <Recaptcha
                     ref={recaptchaRef}
                     onChange={setRecaptchaToken}
-                    className="flex origin-top justify-center [transform:scale(0.96)] max-lg:[transform:scale(0.9)]"
+                    className={`flex origin-top justify-center ${card ? '[transform:scale(0.95)]' : '[transform:scale(0.96)]'}`}
                   />
 
                   {error && <p className="text-center text-[13px] font-bold text-red-500">{error}</p>}
@@ -223,11 +254,22 @@ export default function ShieldForm({ serviceNoun, section }) {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="cta-diag cta-diag-orange group mx-auto mt-1 flex w-fit items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange px-8 py-3 font-sans text-[15px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
+                    className={`cta-diag cta-diag-orange group mt-1 flex items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange font-sans text-[15px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 ${
+                      card ? 'w-full px-6 py-4' : 'mx-auto w-fit px-8 py-3'
+                    }`}
                   >
                     {submitting ? 'Sending…' : 'Book Now'}
                     {!submitting && <ArrowIcon className="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-x-1" />}
                   </button>
+
+                  {card && (
+                    <p className="pt-1 text-center text-[12px] leading-snug text-phsInk/70">
+                      Prefer to talk?{' '}
+                      <a href={`tel:${PHONE_TEL}`} className="font-bold text-phsOrangeDark underline underline-offset-2">
+                        Call {PHONE_DISPLAY}
+                      </a>
+                    </p>
+                  )}
                 </div>
               </form>
             )

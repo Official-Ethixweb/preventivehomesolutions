@@ -4,6 +4,7 @@ import MarqueeBanner from './MarqueeBanner.jsx'
 import Strands from './Strands.jsx'
 import Footer from './Footer.jsx'
 import Reveal from './Reveal.jsx'
+import ShieldForm from './ShieldForm.jsx'
 import { SERVICE_PAGES, subServiceHref } from '../data/services.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { useSeo } from '../lib/seo.js'
@@ -145,7 +146,7 @@ export default function ServicePage({ slug }) {
 
             <Reveal delay={350} className="mt-9 flex flex-col gap-4 sm:flex-row">
               <a
-                href="/#scheduling"
+                href="#hero-quote-form"
                 className="cta-diag cta-diag-orange group inline-flex items-center justify-center gap-3 rounded-md bg-phsOrange px-7 py-4 font-semibold text-white shadow-md hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0"
               >
                 Get a Free Quote
@@ -161,28 +162,11 @@ export default function ServicePage({ slug }) {
             </Reveal>
           </div>
 
-          {/* Right: framed photo with the service shield icon */}
-          <Reveal variant="scale" delay={250} className="relative">
-            <div className="relative mx-auto w-full max-w-md bg-white p-3 shadow-2xl">
-              <span className="absolute top-0 left-0 z-10 h-8 w-8 border-t-4 border-l-4 border-phsOrange" />
-              <span className="absolute top-0 right-0 z-10 h-8 w-8 border-t-4 border-r-4 border-phsOrange" />
-              <span className="absolute bottom-0 left-0 z-10 h-8 w-8 border-b-4 border-l-4 border-phsOrange" />
-              <span className="absolute bottom-0 right-0 z-10 h-8 w-8 border-b-4 border-r-4 border-phsOrange" />
-              <div className="relative aspect-[4/3] w-full overflow-hidden">
-                <img
-                  src={data.heroImage}
-                  alt={data.heroImageAlt}
-                  width={data.heroImageWidth}
-                  height={data.heroImageHeight}
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-phsNavy/30 to-transparent" />
-              </div>
-            </div>
-            {/* Shield icon badge */}
-            <div className="absolute -bottom-6 left-1/2 flex h-24 w-24 -translate-x-1/2 items-center justify-center rounded-2xl border border-white/40 bg-white shadow-xl">
-              <img src={data.iconSrc} alt={`${data.name} icon`} className="h-14 w-14 object-contain" />
-            </div>
+          {/* Right: the quote form itself, so every service page keeps its
+              one lead form inside the hero instead of scattered further down
+              the page or off on the homepage's own contact form. */}
+          <Reveal id="hero-quote-form" variant="scale" delay={250} className="scroll-mt-24 lg:justify-self-end lg:self-start">
+            <ShieldForm serviceNoun={data.name} section={`${data.name} Page - Hero`} />
           </Reveal>
         </div>
       </section>

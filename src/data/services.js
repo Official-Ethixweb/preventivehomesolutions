@@ -18,7 +18,7 @@ export const SERVICE_PAGES = {
     heroImageAlt: 'Pot filler faucet installation in Ogden real job photo',
     heroImageWidth: 1200,
     heroImageHeight: 900,
-    introTitle: 'Plumbing Services in Layton, UT — Keeping Your Home Running Smoothly',
+    introTitle: 'Plumbing Services in Layton, UT: Keeping Your Home Running Smoothly',
     introText:
       "From a dripping faucet to a full repipe, our licensed plumbers handle it all with clean, code-compliant workmanship. We diagnose the real problem, fix it right the first time, and protect your Northern Utah home from costly water damage available 7 days a week.",
     metaDescription:

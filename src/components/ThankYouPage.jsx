@@ -33,7 +33,7 @@ export default function ThankYouPage() {
             <CheckIcon className="h-9 w-9" />
           </div>
           <h1 className="font-display text-3xl font-black leading-tight tracking-tight text-phsNavy sm:text-4xl">
-            Thanks — we've received your request
+            Thanks! We've received your request
           </h1>
           <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-gray-500 sm:text-base">
             We'll be in touch shortly to confirm the details. For urgent needs, call us at{' '}

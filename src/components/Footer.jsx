@@ -4,6 +4,7 @@ import { FULL_ADDRESS, BUSINESS } from '../data/business.js'
 const quickLinks = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about-us' },
+  { label: 'Coupons', href: '/coupons' },
   { label: 'Blogs', href: '/blog' },
   { label: 'Preventive Tips', href: '/blog' },
   { label: 'Maintenance', href: '/#services' },

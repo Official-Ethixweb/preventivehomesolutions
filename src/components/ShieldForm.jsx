@@ -243,10 +243,14 @@ export default function ShieldForm({ serviceNoun, section }) {
                     </span>
                   </label>
 
+                  {/* Google's checkbox widget is a fixed ~304px wide, wider
+                      than this shield's usable interior once the artwork has
+                      tapered this far down — scaled well below the card's
+                      0.95 so it never pokes past the shield's edge. */}
                   <Recaptcha
                     ref={recaptchaRef}
                     onChange={setRecaptchaToken}
-                    className={`flex origin-top justify-center ${card ? '[transform:scale(0.95)]' : '[transform:scale(0.96)]'}`}
+                    className={`flex origin-top justify-center ${card ? '[transform:scale(0.95)]' : '[transform:scale(0.72)]'}`}
                   />
 
                   {error && <p className="text-center text-[13px] font-bold text-red-500">{error}</p>}

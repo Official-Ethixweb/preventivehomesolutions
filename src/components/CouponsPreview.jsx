@@ -60,7 +60,7 @@ export default function CouponsPreview() {
 
         {/* Horizontal scroll on phones (no room for a grid); a real grid from
             sm up, matching every other card row on the site. */}
-        <div className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 lg:grid-cols-4">
+        <div className="-mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden px-6 py-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-5 sm:overflow-visible sm:px-0 sm:py-0 lg:grid-cols-4">
           {FEATURED.map((c, i) => (
             <Reveal key={c.id} variant="up" delay={(i % 4) * 80} className="w-[240px] shrink-0 snap-start sm:w-auto">
               <a

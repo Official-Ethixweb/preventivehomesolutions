@@ -44,10 +44,7 @@ import { localBusinessSchema, serviceSchema, faqSchema, breadcrumbSchema } from 
  * @property {IntroBlock[]} introBlocks Ordered content blocks (first = 9-item service list).
  * @property {{q:string,a:string}[]} faqs
  * @property {{label:string,href:string}[]} related  Exactly 4 related-service links.
- * @property {string} [since]          Founding year for the "Since [year]" trust chip.
  */
-
-const SINCE_YEAR = '1989' // Matches the "35+ Years of Experience" badge on the site.
 
 /* ------------------------------- Icons --------------------------------- */
 const iconBase = {
@@ -81,7 +78,6 @@ function CheckIcon({ className = '' }) {
   )
 }
 const ShieldCheck = <svg {...iconBase}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /><path d="m9 11 2 2 4-4" /></svg>
-const BadgeStar = <svg {...iconBase}><circle cx="12" cy="8" r="5" /><path d="m9 12-1 9 4-2 4 2-1-9M12 6l.9 1.8 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2L9.1 8.1l2-.3z" /></svg>
 const DocIcon = <svg {...iconBase}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><path d="M14 2v6h6M9 13h6M9 17h4" /></svg>
 const ClockBolt = <svg {...iconBase}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
 const TagIcon = <svg {...iconBase}><path d="M20.6 13.4 12 22l-9-9V4a1 1 0 0 1 1-1h8l8.6 8.6a1.4 1.4 0 0 1 0 2z" /><circle cx="7.5" cy="7.5" r="1.3" /></svg>
@@ -181,7 +177,7 @@ export default function ServicePageTemplate({ content }) {
   const {
     title, metaDescription, path, breadcrumbLabel, parentBreadcrumb, parentHref,
     heroImage, heroImageAlt, heroImageWidth, heroImageHeight, heroH1, introEyebrow, introHeading, hook, serviceNoun,
-    introBlocks = [], faqs = [], related = [], since = SINCE_YEAR,
+    introBlocks = [], faqs = [], related = [],
   } = content
 
   useSeo({
@@ -257,7 +253,6 @@ export default function ServicePageTemplate({ content }) {
             {/* Trust chips */}
             <Reveal delay={300} className="mt-8 flex flex-wrap gap-3">
               <TrustChip icon={ShieldCheck} label="Licensed & Insured" />
-              <TrustChip icon={BadgeStar} label={`Since ${since}`} />
               <TrustChip icon={DocIcon} label="Written Warranty" />
             </Reveal>
           </div>

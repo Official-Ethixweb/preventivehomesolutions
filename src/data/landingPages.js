@@ -14,7 +14,7 @@ import { PHONE_DISPLAY } from './nav.js'
 
 // The four trust pillars repeat across the site (hero promo column, why-us,
 // footer). Shared here so every landing page stays consistent.
-const TRUST_CHIPS = ['Same-Day Service', 'Licensed & Insured', 'Available 24/7', 'Since 1989']
+const TRUST_CHIPS = ['Same-Day Service', 'Licensed & Insured', 'Available 24/7']
 
 // Why-Us reason cards. Nearly identical across trades, so shared with a small
 // per-page tweak to the response line.
@@ -36,8 +36,8 @@ const sharedReasons = (trade) => [
   },
   {
     icon: 'badge',
-    title: 'Local Since 1989',
-    description: 'A family-owned Northern Utah team with 35+ years protecting homes just like yours.',
+    title: 'Locally Owned & Operated',
+    description: 'A family-owned Northern Utah team protecting homes just like yours.',
   },
 ]
 
@@ -63,7 +63,7 @@ export const LANDING_PAGES = {
       'Fixed Right, The First Time',
       'Drains Cleared · No Clog Too Tough',
       'Burst Pipe? We’re On Call 24/7',
-      'Licensed Plumbers Since 1989',
+      'Licensed & Insured Plumbers',
     ],
     heroSubtitle:
       'From a dripping faucet to a full repipe, our licensed plumbers protect your home from costly water damage, with clean, code-compliant work and honest pricing.',
@@ -137,7 +137,7 @@ export const LANDING_PAGES = {
       'Built for Utah Winters',
       'No Heat? We’re On Call 24/7',
       'High-Efficiency Furnace Installs',
-      'Certified HVAC Techs Since 1989',
+      'Certified HVAC Technicians',
     ],
     heroSubtitle:
       'When the temperature drops, your heating can’t afford to fail. We service, repair, and install furnaces, boilers, heat pumps, and mini-splits, keeping your home warm all season long.',
@@ -209,7 +209,7 @@ export const LANDING_PAGES = {
       'Cool Air When You Need It Most',
       'Same-Day AC Repair',
       'High-Efficiency AC Installs',
-      'Certified Cooling Techs Since 1989',
+      'Certified Cooling Technicians',
     ],
     heroSubtitle:
       'Utah summers get hot fast. Whether your AC needs a tune-up, a repair, or a full replacement, our certified technicians deliver reliable cooling and keep your energy costs down.',
@@ -288,7 +288,7 @@ export const LANDING_PAGES = {
       'Hot Water Restored, Fast',
       'No Hot Water? Same-Day Service',
       'Tank & Tankless Installs',
-      'Licensed Plumbers Since 1989',
+      'Licensed & Insured Plumbers',
     ],
     heroSubtitle:
       'A cold shower on a Utah winter morning is nobody’s idea of a good start. Our licensed plumbers diagnose the real problem, repair most units the same day, and install high-efficiency tank and tankless systems built to last.',
@@ -359,7 +359,7 @@ export const LANDING_PAGES = {
       'Found Fast, Fixed Right',
       'Non-Invasive Leak Location',
       'Wet Spot? We Find The Source',
-      'Licensed Plumbers Since 1989',
+      'Licensed & Insured Plumbers',
     ],
     heroSubtitle:
       'A hidden leak can run for months behind a wall, rotting framing and quietly inflating your water bill. We pinpoint the exact source without tearing your home apart, then repair it before small drips turn into structural damage.',

@@ -23,7 +23,6 @@ export const BUSINESS = {
   },
   // Approx coordinates for the Layton address (used in LocalBusiness geo).
   geo: { lat: 41.0512, lng: -111.9711 },
-  since: '1989',
   priceRange: '$$',
 }
 
@@ -70,7 +69,6 @@ export function localBusinessSchema({ businessType = 'HomeAndConstructionBusines
     image: image ? (image.startsWith('http') ? image : ORIGIN + image) : `${ORIGIN}/og-image.png`,
     logo: `${ORIGIN}/main logo.webp`,
     priceRange: BUSINESS.priceRange,
-    foundingDate: BUSINESS.since,
     address: postalAddress(),
     geo: {
       '@type': 'GeoCoordinates',

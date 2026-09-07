@@ -23,7 +23,7 @@ const FALLBACK_REVIEWS = [
   { rating: 5, text: 'Same-day service, upfront pricing, and clean, code-compliant work every time.' },
   { rating: 5, text: 'Licensed and insured technicians who explain the problem before they fix it.' },
   { rating: 5, text: 'Available 24/7 for emergencies, with no waiting days for a callback.' },
-  { rating: 5, text: 'Family-owned and serving Northern Utah homeowners since 1989.' },
+  { rating: 5, text: 'A family-owned team serving Northern Utah homeowners with pride.' },
   { rating: 5, text: 'Every job backed by a written warranty, so you know the work will last.' },
   { rating: 5, text: 'Honest, upfront quotes before any work begins, with no hourly surprises.' },
 ]

@@ -119,7 +119,7 @@ function CouponTicket({ coupon, index, onClaim }) {
   )
 }
 
-const TRUST_CHIPS = ['Same-Day Service', 'Licensed & Insured', 'Available 7 Days', 'Since 1989']
+const TRUST_CHIPS = ['Same-Day Service', 'Licensed & Insured', 'Available 7 Days']
 
 const HOW_IT_WORKS = [
   { title: 'Pick your services', desc: 'Tap every icon that applies: plumbing, heating, cooling, whatever the job needs.' },
@@ -127,10 +127,7 @@ const HOW_IT_WORKS = [
   { title: 'We call to confirm', desc: 'A real person calls back to schedule your visit, discount already applied.' },
 ]
 
-/** Seal badge for the BBB-verified "Business Started" date, a distinct fact
- * (legal entity registration) from the "35+ Years Experience / Since 1989"
- * trade-experience claim used sitewide, so it's kept as its own medallion
- * rather than folded into that copy. */
+/** Seal badge for the BBB-verified "Business Started" date. */
 function RegisteredSeal() {
   return (
     <div className="relative flex h-[104px] w-[104px] shrink-0 items-center justify-center rounded-full border-2 border-phsOrange bg-white shadow-md">

@@ -445,7 +445,7 @@ export default function Hero() {
         </div>
 
         {/* Right column knight holding the shield, with the booking form on the shield face */}
-        <Reveal variant="scale" delay={300} className="relative w-full max-w-[625px] lg:max-w-[680px] lg:-translate-y-[90px] lg:-translate-x-[70px] lg:justify-self-end lg:-mt-8 lg:-ml-12 mt-4 lg:mt-0">
+        <Reveal variant="scale" delay={300} className="relative w-full max-w-[625px] lg:-translate-y-[90px] lg:-translate-x-[70px] lg:justify-self-end lg:-mt-8 lg:-ml-12 mt-4 lg:mt-0">
 
           {/* Desktop-only Knight with Form overlaid. The whole block is uniformly
               scaled, so the shield form (positioned/scaled off the knight's

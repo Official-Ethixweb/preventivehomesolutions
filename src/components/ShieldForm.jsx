@@ -135,7 +135,7 @@ export default function ShieldForm({ serviceNoun, section }) {
   // same fields, no costume, nothing scaled.
   const shell = (children) =>
     isDesktop ? (
-      <div className="relative mx-auto w-full max-w-[380px] drop-shadow-2xl lg:mt-8">
+      <div className="relative mx-auto w-full max-w-[300px] drop-shadow-2xl lg:mt-8">
         {/* Shield background + border overlay (same assets as the hero shield form) */}
         <img src="/shield.svg" alt="" aria-hidden="true" className="relative z-0 h-auto w-full" />
         <img

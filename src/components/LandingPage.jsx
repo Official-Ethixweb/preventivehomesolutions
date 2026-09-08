@@ -514,7 +514,7 @@ export default function LandingPage({ slug, data }) {
         <div className="absolute inset-0 z-0 bg-gradient-to-br from-[#FAF8F5]/95 via-[#FAF8F5]/90 to-[#FAF8F5]/80" />
         <div className="pointer-events-none absolute -top-24 -right-24 z-0 h-72 w-72 rounded-full bg-phsOrange/10 blur-3xl" />
 
-        <div className="relative z-10 mx-auto max-w-[1200px] px-6 pt-10 pb-12 lg:max-w-[1320px] lg:pt-14 lg:pb-24">
+        <div className="relative z-10 mx-auto max-w-[1200px] px-6 pt-10 pb-12 lg:pt-14 lg:pb-24">
           {/* Breadcrumb */}
           <Reveal as="nav" className="mb-6 flex items-center gap-2 font-mono text-[11px] font-bold tracking-[0.2em] text-phsInk/50 sm:text-xs">
             <a href="/" className="transition-colors hover:text-phsOrange">HOME</a>
@@ -604,7 +604,7 @@ export default function LandingPage({ slug, data }) {
             </div>
 
             {/* Right column knight holding the shield with form overlaid (Desktop only) */}
-            <Reveal variant="scale" delay={300} className="relative w-full max-w-[625px] lg:max-w-[680px] lg:-translate-y-[90px] lg:-translate-x-[30px] lg:justify-self-end lg:-mt-8 lg:-ml-12 mt-4 lg:mt-0 hidden lg:block">
+            <Reveal variant="scale" delay={300} className="relative w-full max-w-[625px] lg:-translate-y-[90px] lg:-translate-x-[30px] lg:justify-self-end lg:-mt-8 lg:-ml-12 mt-4 lg:mt-0 hidden lg:block">
               <div className="relative lg:scale-[0.96] lg:origin-top">
                 {/* Elemental aura behind the knight */}
                 <div className="phs-fire-glow pointer-events-none absolute left-1/2 top-[16%] z-0 h-[60%] w-[72%] -translate-x-1/2 rounded-full bg-[#f3741b] blur-[70px]" />

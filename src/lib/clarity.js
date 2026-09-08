@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { isProductionHost } from './isProductionHost.js'
 
 // Microsoft Clarity — heatmaps + session recordings.
 //
@@ -7,9 +8,11 @@ import { useEffect } from 'react'
 // replay as real pages and heatmaps are computed per URL.
 //
 // Same contract as analytics.js: the Project ID is read from
-// VITE_CLARITY_PROJECT_ID (public — it ships in the bundle either way), and
-// when it isn't set every function here is a no-op, so local dev and Vercel
-// previews never record a session.
+// VITE_CLARITY_PROJECT_ID (public — it ships in the bundle either way), but
+// every function here also requires the real production domain (see
+// isProductionHost.js) — local dev, Vercel previews, and anyone testing
+// against a copied .env never record a session, even if the env var happens
+// to be populated.
 //
 // Loading is deferred to browser idle: the tag is ~50 KB and nothing about it
 // is needed for first paint, so it must not compete with the LCP image or the
@@ -17,7 +20,7 @@ import { useEffect } from 'react'
 // inside a normal visit — no meaningful data is lost.
 
 export const CLARITY_PROJECT_ID = import.meta.env.VITE_CLARITY_PROJECT_ID || ''
-export const clarityConfigured = Boolean(CLARITY_PROJECT_ID)
+export const clarityConfigured = Boolean(CLARITY_PROJECT_ID) && isProductionHost()
 
 /** Inject the Clarity tag once. */
 export function initClarity() {

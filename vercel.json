@@ -1,5 +1,29 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/maintenance", "destination": "/", "permanent": true },
+    { "source": "/bountiful", "destination": "/", "permanent": true },
+    { "source": "/farmington", "destination": "/", "permanent": true },
+    { "source": "/kaysville/plumbing", "destination": "/plumbing", "permanent": true },
+    { "source": "/layton/plumbing", "destination": "/plumbing", "permanent": true },
+    { "source": "/layton/plumbing/water-heater-installation", "destination": "/plumbing/water-heater", "permanent": true },
+    { "source": "/ogden/heating", "destination": "/hvac", "permanent": true },
+    { "source": "/ogden/plumbing/water-heater-leaking", "destination": "/plumbing/water-heater", "permanent": true },
+    { "source": "/riverdale/plumbing", "destination": "/plumbing", "permanent": true },
+    { "source": "/roy/plumbing", "destination": "/plumbing", "permanent": true },
+    { "source": "/clinton/heating", "destination": "/hvac", "permanent": true },
+    { "source": "/clinton/plumbing/no-hot-water", "destination": "/plumbing/water-heater", "permanent": true },
+    { "source": "/heating/boiler-service-and-maintenance", "destination": "/hvac/boiler-service", "permanent": true },
+    { "source": "/heating/heat-pumps", "destination": "/hvac/heat-pumps", "permanent": true },
+    { "source": "/cooling/ac-installation-and-replacement", "destination": "/ac/ac-installation", "permanent": true },
+    { "source": "/cooling/ac-maintenance-repair", "destination": "/ac/ac-repair", "permanent": true },
+    { "source": "/cooling/heat-pumps", "destination": "/ac/heat-pumps", "permanent": true },
+    { "source": "/water-heaters/tankless-waterheater", "destination": "/water-heater-repair", "permanent": true },
+    { "source": "/preventive-home-tips", "destination": "/blog", "permanent": true },
+    { "source": "/emergency-plumbing-steps-what-to-do-before-the-technician-arrives", "destination": "/blog/emergency-plumbing-steps", "permanent": true },
+    { "source": "/drain-clearing/main-line-clearing-and-cleaning", "destination": "/plumbing/sewer-services", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],

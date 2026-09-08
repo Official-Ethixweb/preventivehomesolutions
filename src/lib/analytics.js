@@ -1,12 +1,15 @@
 import { useEffect } from 'react'
 import { usePath } from '../router.js'
+import { isProductionHost } from './isProductionHost.js'
 
 // Google Analytics 4 (gtag.js) integration.
 //
 // The Measurement ID is read from VITE_GA_MEASUREMENT_ID (public — it is safe to
-// expose in the client bundle, exactly like the reCAPTCHA site key). When the ID
-// isn't configured, every function here is a no-op, so local dev and previews
-// never send hits.
+// expose in the client bundle, exactly like the reCAPTCHA site key). Every
+// function here is a no-op unless BOTH the ID is configured AND we're running
+// on the real production domain (see isProductionHost.js) — local dev, Vercel
+// previews, and anyone testing against a copied .env never send hits, even if
+// the env var happens to be populated.
 //
 // This SPA does its own client-side routing, so we disable gtag's automatic
 // page_view and send one manually on every route change (see useAnalytics()).
@@ -14,7 +17,7 @@ import { usePath } from '../router.js'
 // central helpers below so tracking stays consistent across every page.
 
 export const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID || ''
-export const analyticsConfigured = Boolean(GA_MEASUREMENT_ID)
+export const analyticsConfigured = Boolean(GA_MEASUREMENT_ID) && isProductionHost()
 
 /** Inject gtag.js once and configure the property (manual page_view mode). */
 export function initAnalytics() {
@@ -36,13 +39,14 @@ export function initAnalytics() {
 
 // Google Ads conversion tracking.
 //
-// Separate channel from GA4 above: the Ads tag itself (AW-16752767608) is loaded
-// in index.html, and these labels come straight from the conversion-action
-// snippets in the Ads UI. They are public client-side identifiers, so they live
-// in code rather than an env var — same reasoning as the reCAPTCHA site key.
+// Separate channel from GA4 above: the Ads tag itself (AW-16752767608), and
+// these labels come straight from the conversion-action snippets in the Ads
+// UI. They are public client-side identifiers, so they live in code rather
+// than an env var — same reasoning as the reCAPTCHA site key.
 //
-// Fired only on a real lead action (a tel: tap, a successful form POST), never
-// on page load, so "Page load" conversion actions must be set to Click in Ads.
+// Conversion events fire only on a real lead action (a tel: tap, a successful
+// form POST), never on page load, so "Page load" conversion actions must be
+// set to Click in Ads.
 const ADS_ID = 'AW-16752767608'
 
 export const ADS_LABELS = {
@@ -50,6 +54,29 @@ export const ADS_LABELS = {
   phoneCall: 'lhRSCJmp3qUcEPjkq7Q-',
   // "PHS - Form Submission" conversion action.
   leadForm: 'mIKoCM2ax6UcEPjkq7Q-',
+}
+
+/** Inject the Ads base tag once. Used to be a hardcoded, unconditional
+ * <script> in index.html — loading it here instead means it's gated by
+ * isProductionHost() like every other tracking script, so it stops firing on
+ * every local/dev/preview page load regardless of env var contents. */
+export function initAdsTag() {
+  if (!isProductionHost() || typeof window === 'undefined') return
+  if (window.__phsAdsInit) return
+  window.__phsAdsInit = true
+
+  window.dataLayer = window.dataLayer || []
+  if (typeof window.gtag !== 'function') {
+    // eslint-disable-next-line prefer-rest-params
+    window.gtag = function gtag() { window.dataLayer.push(arguments) }
+  }
+  window.gtag('js', new Date())
+  window.gtag('config', ADS_ID)
+
+  const s = document.createElement('script')
+  s.async = true
+  s.src = `https://www.googletagmanager.com/gtag/js?id=${ADS_ID}`
+  document.head.appendChild(s)
 }
 
 /**
@@ -101,7 +128,10 @@ export function trackPageView(path) {
 export function useAnalytics() {
   const path = usePath()
 
-  useEffect(() => { initAnalytics() }, [])
+  useEffect(() => {
+    initAnalytics()
+    initAdsTag()
+  }, [])
   useEffect(() => { trackPageView(path) }, [path])
 
   useEffect(() => {

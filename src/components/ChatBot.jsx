@@ -3,18 +3,34 @@ import { navigate } from '../router.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { submitLead as submitLeadToServer } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
+import { useMediaQuery } from '../lib/useMediaQuery.js'
+import { trackEvent } from '../lib/analytics.js'
+import {
+  matchIntent,
+  matchTradeRoute,
+  textIncludesAny,
+  EMERGENCY_KEYWORDS,
+  BOOKING_KEYWORDS,
+} from '../data/chatbotKnowledge.js'
 import Recaptcha from './Recaptcha.jsx'
 
 /**
- * Guided support chatbot with validated lead capture.
+ * Guided support chatbot with validated lead capture, plus a free-text
+ * layer with knowledge of the real site content (services, service areas,
+ * coupons, FAQs) — a deterministic keyword/intent matcher, not an LLM (no
+ * API key, no server-side inference; see data/chatbotKnowledge.js for the
+ * honest explanation of what that does and doesn't cover).
  *
- * A deterministic, rule-based assistant: it walks visitors to the right
- * service, and collects their contact details (name, phone, email, ZIP,
- * service) with real validation before submitting the lead through the same
- * /api/contact pipeline every other site form uses (see submitLead in
- * lib/submitForm.js) — same reCAPTCHA verification, same SMTP2GO email. The
- * whole guided menu lives in FLOW and the intake questions live in
- * LEAD_STEPS, so both are easy to extend.
+ * The original guided menu (button clicks only) is untouched: it walks
+ * visitors to the right service, and collects their contact details (name,
+ * phone, email, ZIP, service) with real validation before submitting the
+ * lead through the same /api/contact pipeline every other site form uses
+ * (see submitLead in lib/submitForm.js) — same reCAPTCHA verification, same
+ * SMTP2GO email. The whole guided menu lives in FLOW and the intake
+ * questions live in LEAD_STEPS, so both are easy to extend. Free text typed
+ * at any point in 'menu' mode is handled by handleFreeText, which reuses
+ * the exact same revealSeq()/setOptions()/showNode()/startForm() machinery
+ * a button click already uses.
  */
 
 // Default-avatar palette pulled from the brand navy/sky family (phsNavy #0a2540 /
@@ -172,6 +188,10 @@ const FLOW = {
       { label: 'Book an appointment', form: true },
       { label: 'I have an emergency', next: 'emergency' },
       { label: 'Talk to our team', next: 'contact' },
+      // Demonstrates the free-text box below is real — both are worded to
+      // land a solid match (an FAQ entry and the coupons entry).
+      { label: 'Which areas do you serve?', freeText: 'what areas do you cover' },
+      { label: 'Any current coupons?', freeText: 'any current coupons' },
     ],
   },
 
@@ -304,6 +324,10 @@ export default function ChatBot() {
   const [recaptchaToken, setRecaptchaToken] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const recaptchaRef = useRef(null)
+  // Below lg the panel goes full-screen (see the panel className below), so it
+  // needs to block background scroll like any other full-screen mobile sheet;
+  // the small floating desktop widget never did and still shouldn't.
+  const isDesktop = useMediaQuery('(min-width: 1024px)')
 
   const timers = useRef([])
   const scrollEnd = useRef(null)
@@ -500,7 +524,90 @@ export default function ChatBot() {
     advanceForm()
   }
 
+  // Free text typed while browsing the menu (not during the intake steps,
+  // which stay exactly as validated as before). Deterministic keyword
+  // matching against real site content — see data/chatbotKnowledge.js.
+  // Order matters: a bare ZIP, then urgent language, then booking language,
+  // then the general knowledge base, then a broad trade word, then a
+  // graceful human-escalation fallback. Never a dead end.
+  const handleFreeText = useCallback((raw) => {
+    const val = raw.trim()
+    if (!val) return
+    pushUser(val)
+    setInputValue('')
+    trackEvent('chatbot_free_text', { message: val.slice(0, 100) })
+
+    const zipMatch = val.match(/\b(\d{5})\b/)
+    if (zipMatch) {
+      const zip = zipMatch[1]
+      const city = SERVED_ZIPS[zip]
+      trackEvent('chatbot_free_text_match', { topic: city ? 'zip_served' : 'zip_unserved' })
+      if (city) {
+        revealSeq(`Yes — ${zip} (${city}) is inside our regular service area.`, () =>
+          setOptions([
+            { label: 'Get a Free Quote', form: true },
+            { label: 'Ask Something Else', next: 'services' },
+          ])
+        )
+      } else {
+        revealSeq(
+          `${zip} looks like it may be outside our current service area (we serve Northern Utah). We can still have our team reach out to confirm whether we can help.`,
+          () =>
+            setOptions([
+              { label: 'Have the Team Contact Me', form: true },
+              { label: `Call ${PHONE_DISPLAY}`, tel: PHONE_TEL },
+            ])
+        )
+      }
+      return
+    }
+
+    if (textIncludesAny(val, EMERGENCY_KEYWORDS)) {
+      trackEvent('chatbot_free_text_match', { topic: 'emergency' })
+      schedule(() => showNode('emergency'), 200)
+      return
+    }
+
+    if (textIncludesAny(val, BOOKING_KEYWORDS)) {
+      const trade = matchTradeRoute(val)
+      const kbMatch = matchIntent(val)
+      trackEvent('chatbot_free_text_match', { topic: 'booking' })
+      schedule(() => startForm(trade?.serviceNoun || kbMatch?.serviceNoun || null), 260)
+      return
+    }
+
+    const match = matchIntent(val)
+    if (match) {
+      trackEvent('chatbot_free_text_match', { topic: match.id })
+      revealSeq(match.reply, () => setOptions(match.quickReplies || []))
+      return
+    }
+
+    const trade = matchTradeRoute(val)
+    if (trade) {
+      trackEvent('chatbot_free_text_match', { topic: trade.next })
+      schedule(() => showNode(trade.next), 200)
+      return
+    }
+
+    trackEvent('chatbot_free_text_fallback', { message: val.slice(0, 100) })
+    revealSeq(
+      "I'm not 100% sure about that one, but a real person can help. Want me to connect you?",
+      () =>
+        setOptions([
+          { label: `Call ${PHONE_DISPLAY}`, tel: PHONE_TEL },
+          { label: 'Request a Callback', form: true },
+          { label: 'Ask Something Else', next: 'services' },
+        ])
+    )
+  }, [revealSeq, schedule, showNode, startForm])
+
   const handleOption = (opt) => {
+    if (opt.freeText) {
+      setOptions([])
+      handleFreeText(opt.freeText)
+      return
+    }
     pushUser(opt.label)
     setOptions([])
 
@@ -597,15 +704,31 @@ export default function ChatBot() {
     scrollEnd.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
   }, [messages, typing, options, inputActive])
 
+  // Full-screen mobile panel: lock the page behind it so it reads as its own
+  // screen rather than a sheet the visitor can still scroll the page under.
+  useEffect(() => {
+    if (!open || isDesktop) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [open, isDesktop])
+
   useEffect(() => () => clearTimers(), [])
 
   const curStep = mode === 'form' && inputActive ? steps.current[stepIdx.current] : null
+  // Outside the validated intake steps, the same input row doubles as the
+  // free-text question box — available any time the panel is just browsing
+  // the guided menu, never during a specific validated question or the
+  // final confirm-and-submit screen.
+  const freeTextActive = mode === 'menu'
 
   return (
     <>
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-4 right-4 z-[80] flex w-[calc(100vw-2rem)] max-w-[380px] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl ring-1 ring-black/10 animate-sheet-up lg:bottom-24 lg:right-6">
+        <div className="fixed inset-0 z-[80] flex flex-col overflow-hidden bg-white shadow-2xl ring-1 ring-black/10 animate-sheet-up lg:inset-auto lg:bottom-24 lg:right-6 lg:w-[380px] lg:rounded-2xl">
           {/* Header */}
           <div className="flex items-center gap-3 bg-phsNavy px-4 py-3">
             <div className="relative">
@@ -643,7 +766,7 @@ export default function ChatBot() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 space-y-3 overflow-y-auto bg-phsCream/60 px-4 py-4" style={{ height: 'min(60vh, 440px)' }}>
+          <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-phsCream/60 px-4 py-4 lg:h-[min(60vh,440px)] lg:flex-none">
             {messages.map((m) =>
               m.from === 'bot' ? (
                 <div key={m.id} className="flex items-end gap-2">
@@ -704,12 +827,15 @@ export default function ChatBot() {
             </div>
           )}
 
-          {/* Text input (intake steps) */}
-          {curStep && (
+          {/* Text input: bound to the current validated intake question when
+              one is active, otherwise doubles as the free-text question box
+              (see freeTextActive above) — same row, same styling either way. */}
+          {(curStep || freeTextActive) && (
             <form
               onSubmit={(e) => {
                 e.preventDefault()
-                handleTextSubmit()
+                if (curStep) handleTextSubmit()
+                else handleFreeText(inputValue)
               }}
               className="flex items-center gap-2 border-t border-black/5 bg-white px-3 py-3"
             >
@@ -717,14 +843,15 @@ export default function ChatBot() {
                 ref={inputRef}
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                inputMode={curStep.inputMode}
-                placeholder={curStep.placeholder}
+                inputMode={curStep ? curStep.inputMode : 'text'}
+                placeholder={curStep ? curStep.placeholder : 'Ask a question…'}
+                aria-label={curStep ? curStep.placeholder : 'Ask a question'}
                 autoComplete="off"
                 className="min-w-0 flex-1 rounded-full border border-black/15 bg-phsCream/50 px-4 py-2.5 text-sm text-phsInk outline-none placeholder:text-phsInk/40 focus:border-phsOrange focus:ring-2 focus:ring-phsOrange/30"
               />
               <button
                 type="submit"
-                disabled={!inputValue.trim()}
+                disabled={!inputValue.trim() || typing}
                 aria-label="Send"
                 className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-phsOrange text-white transition hover:bg-phsOrangeDark disabled:cursor-not-allowed disabled:opacity-40"
               >

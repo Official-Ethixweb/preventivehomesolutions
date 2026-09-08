@@ -181,7 +181,7 @@ function BookingForm({ card = false }) {
         </>
       )}
 
-      <div className={card ? 'space-y-4' : 'mt-6 space-y-4'}>
+      <div className={card ? 'space-y-4' : 'mt-6 space-y-2.5'}>
         <div>
           <label htmlFor="bf-name" className={labelClass}>Full Name{card && req}</label>
           <input id="bf-name" name="name" type="text" required placeholder="Jane Doe" className={fieldClass} />
@@ -250,7 +250,7 @@ function BookingForm({ card = false }) {
           <label htmlFor="bf-message" className={labelClass}>
             How can we help?{card && <span className="font-normal tracking-normal text-phsInk/55"> (optional)</span>}
           </label>
-          <textarea id="bf-message" name="message" rows={3} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)] max-lg:!w-full`} />
+          <textarea id="bf-message" name="message" rows={card ? 3 : 2} placeholder="Briefly describe the issue…" className={`${fieldClass} resize-none mx-auto block !w-[calc(100%-32px)] max-lg:!w-full`} />
         </div>
 
         {/* Captcha scaled down so it tucks into the shield's tapering lower
@@ -264,7 +264,7 @@ function BookingForm({ card = false }) {
         <Recaptcha
           ref={recaptchaRef}
           onChange={setRecaptchaToken}
-          className={`${card ? '-mb-3 [transform:scale(0.95)]' : '-mb-6 [transform:scale(0.68)]'} flex origin-top justify-center`}
+          className={`${card ? '-mb-3 [transform:scale(0.95)]' : '-mb-8 [transform:scale(0.68)]'} flex origin-top justify-center`}
         />
 
         {error && <p className="text-red-500 text-sm text-center font-bold">{error}</p>}

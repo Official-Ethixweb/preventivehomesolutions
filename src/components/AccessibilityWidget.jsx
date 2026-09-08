@@ -100,7 +100,7 @@ export default function AccessibilityWidget() {
         <div
           role="dialog"
           aria-label="Accessibility options"
-          className="fixed bottom-24 left-4 z-[85] w-[calc(100vw-2rem)] max-w-[310px] overflow-hidden rounded-2xl border border-black/10 bg-white shadow-2xl animate-sheet-up lg:bottom-6 lg:left-24"
+          className="fixed bottom-6 left-4 z-[85] w-[calc(100vw-2rem)] max-w-[310px] overflow-hidden rounded-2xl border border-black/10 bg-white shadow-2xl animate-sheet-up lg:bottom-6 lg:left-24"
         >
           {/* Header */}
           <div className="flex items-center gap-2 bg-phsNavy px-4 py-3">
@@ -202,7 +202,7 @@ export default function AccessibilityWidget() {
         aria-label="Accessibility options"
         aria-expanded={open}
         title="Accessibility"
-        className="fixed bottom-24 left-4 z-[70] grid h-[2.88rem] w-[2.88rem] place-items-center rounded-xl bg-phsNavy text-white shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:left-6"
+        className="fixed bottom-6 left-4 z-[70] grid h-[2.88rem] w-[2.88rem] place-items-center rounded-xl bg-phsNavy text-white shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:left-6"
       >
         {open ? (
           <svg viewBox="0 0 24 24" className="h-[1.2rem] w-[1.2rem]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

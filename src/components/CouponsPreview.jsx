@@ -2,9 +2,9 @@ import Reveal from './Reveal.jsx'
 import { COUPONS } from '../data/coupons.js'
 
 /**
- * Home-page teaser for /coupons — the mobile nav (BottomNav) has no room for
- * every page as its own tab, so this section is how phone visitors ever find
- * the coupons at all, not just desktop nav + footer link.
+ * Home-page teaser for /coupons — the mobile hamburger menu links to it too,
+ * but a menu item is easy to miss; putting real offers directly on the home
+ * page gives visitors a reason to actually go look, not just a way to.
  */
 
 const iconBase = {

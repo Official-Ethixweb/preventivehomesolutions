@@ -671,9 +671,10 @@ export default function ChatBot() {
   }, [open])
 
   // Hold the teaser back until the visitor has scrolled past the hero. Pinned
-  // at bottom-[11.5rem] it otherwise lands right on top of the hero's primary
-  // CTA on a phone, so the first thing a visitor taps is the chat bubble
-  // instead of "Schedule Service" — the button the page exists to get pressed.
+  // near the bottom of the screen it otherwise lands right on top of the
+  // hero's primary CTA on a phone, so the first thing a visitor taps is the
+  // chat bubble instead of "Schedule Service" — the button the page exists to
+  // get pressed.
   // Waiting for scroll also means it only shows once someone is actually
   // browsing, which is when an offer to help reads as useful, not intrusive.
   useEffect(() => {
@@ -867,7 +868,7 @@ export default function ChatBot() {
 
       {/* Teaser bubble — dismissible so it never blocks page content */}
       {!open && teaser && !teaserClosed && (
-        <div className="fixed bottom-[11.5rem] right-4 z-[65] max-w-[220px] animate-fade-in lg:bottom-[7rem] lg:right-6">
+        <div className="fixed bottom-28 right-4 z-[65] max-w-[220px] animate-fade-in lg:bottom-[7rem] lg:right-6">
           <button
             onClick={() => setOpen(true)}
             className="block w-full rounded-2xl rounded-br-sm bg-white py-3 pl-4 pr-6 text-left text-sm font-medium text-phsInk shadow-xl ring-1 ring-black/10"
@@ -894,7 +895,7 @@ export default function ChatBot() {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? 'Close chat' : 'Open chat assistant'}
-        className={`fixed bottom-24 right-4 z-[70] h-[3.84rem] w-[3.84rem] rounded-full bg-phsNavy shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:right-6 ${
+        className={`fixed bottom-6 right-4 z-[70] h-[3.84rem] w-[3.84rem] rounded-full bg-phsNavy shadow-xl ring-2 ring-phsOrange transition-transform hover:scale-105 active:scale-95 lg:bottom-6 lg:right-6 ${
           open ? 'hidden' : 'block'
         }`}
       >

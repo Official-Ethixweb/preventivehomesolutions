@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import BottomNav from './BottomNav.jsx'
+import MobileMenu from './MobileMenu.jsx'
 import { SERVICE_GROUPS, SERVICE_AREAS, PHONE_DISPLAY, PHONE_TEL, LICENSE_NUMBER, areaHref } from '../data/nav.js'
 import { BUSINESS } from '../data/business.js'
 
@@ -49,6 +49,14 @@ function PhoneIcon({ className = '' }) {
         strokeWidth="1.6"
         strokeLinejoin="round"
       />
+    </svg>
+  )
+}
+
+function HamburgerIcon({ className = '' }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <path d="M4 7h16M4 12h16M4 17h16" />
     </svg>
   )
 }
@@ -156,6 +164,7 @@ export default function Header({ isLanding = false }) {
 
   const [openMenu, setOpenMenu] = useState(null) // 'services' | 'areas' | null
   const [query, setQuery] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   // Swap to a compact, pinned nav once the user scrolls past the full header.
   // (position:sticky is unreliable here because an ancestor uses overflow-x:
@@ -376,7 +385,7 @@ export default function Header({ isLanding = false }) {
                 <PhoneIcon className="h-4 w-4 text-white" />
                 {PHONE_DISPLAY}
               </a>
-              <div className="flex flex-col items-center gap-1">
+              <div className="hidden flex-col items-center gap-1 lg:flex">
                 <a
                   href="/#scheduling"
                   onMouseEnter={closeMenu}
@@ -389,6 +398,14 @@ export default function Header({ isLanding = false }) {
                   {SHORT_ADDRESS}
                 </span>
               </div>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Open menu"
+                className="rounded-md p-1.5 text-phsInk/80 transition hover:bg-phsInk/5 hover:text-phsInk lg:hidden"
+              >
+                <HamburgerIcon className="h-6 w-6" />
+              </button>
             </div>
           </div>
         </div>
@@ -481,16 +498,29 @@ export default function Header({ isLanding = false }) {
           </span>
         </a>
 
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen(true)}
+          aria-label="Open menu"
+          className="rounded-md p-1.5 text-phsInk/80 transition hover:bg-phsInk/5 hover:text-phsInk lg:hidden"
+        >
+          <HamburgerIcon className="h-7 w-7" />
+        </button>
+
         </div>
 
       </div>
 
-      {/* Mobile bottom navigation (replaces the hamburger) */}
-      <BottomNav />
-
       {/* Full-width mega menu under the full header */}
       {renderMegaMenu()}
     </header>
+
+    {/* Mobile hamburger menu — rendered outside <header> deliberately: that
+        element has backdrop-blur, and backdrop-filter (like filter/transform)
+        creates a new containing block for position:fixed descendants, which
+        made inset-y-0 resolve against the ~80px header instead of the
+        viewport. As a sibling here it sizes to the real viewport. */}
+    <MobileMenu open={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
     </>
   )
 }

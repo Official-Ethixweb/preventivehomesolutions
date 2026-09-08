@@ -275,11 +275,16 @@ export default function ShieldForm({ serviceNoun, section }) {
                   {/* Google's checkbox widget is a fixed ~304px wide, wider
                       than this shield's usable interior once the artwork has
                       tapered this far down — scaled well below the card's
-                      0.95 so it never pokes past the shield's edge. */}
+                      0.95 so it never pokes past the shield's edge. scale()
+                      doesn't shrink the layout box though, so the shield
+                      variant still reserved its full unscaled height below
+                      the visible (smaller) widget — pushing Book Now down
+                      toward the shield's taper. The negative margin reclaims
+                      that dead space, same fix already used in Hero.jsx. */}
                   <Recaptcha
                     ref={recaptchaRef}
                     onChange={setRecaptchaToken}
-                    className={`flex origin-top justify-center ${card ? '[transform:scale(0.95)]' : '[transform:scale(0.72)]'}`}
+                    className={`flex origin-top justify-center ${card ? '[transform:scale(0.95)]' : '-mb-5 [transform:scale(0.72)]'}`}
                   />
 
                   {error && <p className="text-center text-[13px] font-bold text-red-500">{error}</p>}

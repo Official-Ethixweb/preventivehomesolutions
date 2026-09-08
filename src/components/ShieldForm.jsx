@@ -199,7 +199,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                   </>
                 )}
 
-                <div className={card ? 'space-y-4' : 'mt-4 space-y-3'}>
+                <div className={card ? 'space-y-4' : 'mt-4 space-y-2'}>
                   <div className={`grid grid-cols-2 ${card ? 'gap-3' : 'gap-2.5'}`}>
                     <div>
                       <label htmlFor="sf-first" className={labelClass}>First Name{card && req}</label>
@@ -284,7 +284,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                   <Recaptcha
                     ref={recaptchaRef}
                     onChange={setRecaptchaToken}
-                    className={`flex origin-top justify-center ${card ? '[transform:scale(0.95)]' : '-mb-5 [transform:scale(0.72)]'}`}
+                    className={`flex origin-top justify-center ${card ? '[transform:scale(0.95)]' : '-mb-7 [transform:scale(0.72)]'}`}
                   />
 
                   {error && <p className="text-center text-[13px] font-bold text-red-500">{error}</p>}
@@ -292,8 +292,8 @@ export default function ShieldForm({ serviceNoun, section }) {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className={`cta-diag cta-diag-orange group mt-1 flex items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange font-sans text-[15px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 ${
-                      card ? 'w-full px-6 py-4' : 'mx-auto w-fit px-8 py-3'
+                    className={`cta-diag cta-diag-orange group flex items-center justify-center gap-2 whitespace-nowrap rounded-md bg-phsOrange font-sans text-[15px] font-bold tracking-[0.12em] text-white shadow-sm hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 ${
+                      card ? 'mt-1 w-full px-6 py-4' : 'mx-auto w-fit px-8 py-3'
                     }`}
                   >
                     {submitting ? 'Sending…' : 'Book Now'}

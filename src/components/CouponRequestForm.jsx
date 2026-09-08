@@ -4,6 +4,7 @@ import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { trackEvent } from '../lib/analytics.js'
+import { OTHER_SERVICE_MAX_LENGTH } from './OtherServiceField.jsx'
 
 /**
  * Quote-request form for the /coupons page. Always the plain "card" layout
@@ -95,8 +96,12 @@ export default function CouponRequestForm({ selectedCoupon, onClearCoupon }) {
   function toggleService(key) {
     setSelected((prev) => {
       const next = new Set(prev)
-      if (next.has(key)) next.delete(key)
-      else next.add(key)
+      if (next.has(key)) {
+        next.delete(key)
+        if (key === 'other') setOtherText('')
+      } else {
+        next.add(key)
+      }
       return next
     })
   }
@@ -123,8 +128,13 @@ export default function CouponRequestForm({ selectedCoupon, onClearCoupon }) {
     setSubmitting(true)
     setError(null)
 
+    // Keep `service` to the plain category labels — the free-text "Other"
+    // description travels in `message` instead, never folded into `service`,
+    // so a lead with "Other" always keeps that as a stable, filterable value.
     const serviceLabels = SERVICE_OPTIONS.filter((o) => o.key !== 'other' && selected.has(o.key)).map((o) => o.label)
-    if (selected.has('other') && otherText.trim()) serviceLabels.push(`Other: ${otherText.trim()}`)
+    if (selected.has('other')) serviceLabels.push('Other')
+    const otherNote = selected.has('other') && otherText.trim() ? `Other service requested: ${otherText.trim()}` : ''
+    const couponNote = selectedCoupon ? `Interested in coupon: ${selectedCoupon.title} (${selectedCoupon.badge})` : ''
 
     const formData = new FormData(e.target)
     try {
@@ -135,7 +145,7 @@ export default function CouponRequestForm({ selectedCoupon, onClearCoupon }) {
           email: formData.get('email'),
           phone: formData.get('phone'),
           service: serviceLabels.join(', '),
-          message: selectedCoupon ? `Interested in coupon: ${selectedCoupon.title} (${selectedCoupon.badge})` : undefined,
+          message: [otherNote, couponNote].filter(Boolean).join('\n\n') || undefined,
         },
         { section: sectionLabel, recaptchaToken }
       )
@@ -248,19 +258,26 @@ export default function CouponRequestForm({ selectedCoupon, onClearCoupon }) {
             })}
           </div>
 
-          {selected.has('other') && (
-            <div className="mt-2.5">
-              <label htmlFor="cf-other" className="sr-only">Tell us more</label>
+          <div
+            aria-hidden={!selected.has('other')}
+            className={`grid overflow-hidden transition-all duration-300 ease-out ${
+              selected.has('other') ? 'mt-2.5 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+            }`}
+          >
+            <div className="min-h-0">
+              <label htmlFor="cf-other" className="sr-only">Tell us what you need</label>
               <textarea
                 id="cf-other"
                 value={otherText}
                 onChange={(e) => setOtherText(e.target.value)}
                 rows={2}
-                placeholder="Tell us more about what you need…"
+                maxLength={OTHER_SERVICE_MAX_LENGTH}
+                tabIndex={selected.has('other') ? 0 : -1}
+                placeholder="Please describe the service or issue you need help with..."
                 className={`${fieldClass} resize-none`}
               />
             </div>
-          )}
+          </div>
         </div>
 
         <label className="flex items-start gap-2 px-1 text-left">

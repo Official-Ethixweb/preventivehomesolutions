@@ -5,15 +5,18 @@ import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { trackEvent } from '../lib/analytics.js'
+import OtherServiceField from './OtherServiceField.jsx'
 
 const inputClass =
   'w-full rounded-lg bg-gray-100 border border-gray-200 px-5 py-4 text-[15px] text-phsInk placeholder-gray-400 outline-none transition-all duration-200 focus:border-phsOrange focus:ring-2 focus:ring-phsOrange/20 focus:bg-white'
+const labelClass = 'mb-1.5 block text-[13px] font-bold text-phsInk'
 
 export default function ContactForm() {
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [service, setService] = useState('')
+  const [otherText, setOtherText] = useState('')
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [recaptchaToken, setRecaptchaToken] = useState('')
   const recaptchaRef = useRef(null)
@@ -25,6 +28,11 @@ export default function ContactForm() {
     if (!service) {
       setError('Please choose a service.')
       trackEvent('form_validation_error', { form_section: 'Contact / Get a Free Quote', field: 'service' })
+      return
+    }
+    if (service === 'Other' && !otherText.trim()) {
+      setError('Please tell us a bit about what service you need.')
+      trackEvent('form_validation_error', { form_section: 'Contact / Get a Free Quote', field: 'service_other' })
       return
     }
     if (recaptchaConfigured && !recaptchaToken) {
@@ -42,6 +50,7 @@ export default function ContactForm() {
           name: formData.get('name'),
           phone: formData.get('phone'),
           service,
+          message: service === 'Other' ? otherText.trim() : undefined,
         },
         { section: 'Contact / Get a Free Quote', recaptchaToken }
       )
@@ -211,11 +220,11 @@ export default function ContactForm() {
                         <>
                           <div className="fixed inset-0 z-40" onClick={() => setDropdownOpen(false)} />
                           <div className="absolute left-0 right-0 z-50 mt-1 overflow-hidden rounded-md border border-gray-200 bg-white shadow-xl">
-                            {['Plumbing Services', 'Heating Services', 'Cooling Services', 'Water Heater Services', 'Drain Clearing & Cleaning', 'Maintenance'].map((s) => (
+                            {['Plumbing Services', 'Heating Services', 'Cooling Services', 'Water Heater Services', 'Drain Clearing & Cleaning', 'Maintenance', 'Other'].map((s) => (
                               <button
                                 key={s}
                                 type="button"
-                                onClick={() => { setService(s); setDropdownOpen(false) }}
+                                onClick={() => { setService(s); if (s !== 'Other') setOtherText(''); setDropdownOpen(false) }}
                                 className="block w-full px-5 py-3.5 text-left text-[14.5px] font-medium text-phsInk hover:bg-phsOrange/10 hover:text-phsOrange focus:bg-phsOrange/10 focus:text-phsOrange outline-none transition-colors border-b border-gray-50 last:border-0"
                               >
                                 {s}
@@ -225,6 +234,15 @@ export default function ContactForm() {
                         </>
                       )}
                     </div>
+
+                    <OtherServiceField
+                      open={service === 'Other'}
+                      value={otherText}
+                      onChange={setOtherText}
+                      labelClassName={labelClass}
+                      fieldClassName={inputClass}
+                      id="cf-other-details"
+                    />
 
                     <Recaptcha ref={recaptchaRef} onChange={setRecaptchaToken} className="flex justify-center" />
 

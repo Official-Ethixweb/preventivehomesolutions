@@ -11,6 +11,7 @@ import Recaptcha from './Recaptcha.jsx'
 import { submitLead } from '../lib/submitForm.js'
 import { recaptchaConfigured } from '../lib/recaptcha.js'
 import { trackEvent } from '../lib/analytics.js'
+import OtherServiceField from './OtherServiceField.jsx'
 import { useSeo } from '../lib/seo.js'
 import { BUSINESS, FULL_ADDRESS, buildLandingSchema } from '../data/business.js'
 import { PHONE_DISPLAY, PHONE_TEL, SERVICE_AREAS, areaHref } from '../data/nav.js'
@@ -93,6 +94,7 @@ function BookingForm({ serviceOptions, section, compact = false }) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [service, setService] = useState('')
+  const [otherText, setOtherText] = useState('')
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [recaptchaToken, setRecaptchaToken] = useState('')
   const recaptchaRef = useRef(null)
@@ -104,6 +106,11 @@ function BookingForm({ serviceOptions, section, compact = false }) {
       trackEvent('form_validation_error', { form_section: section, field: 'service' })
       return
     }
+    if (service === 'Other' && !otherText.trim()) {
+      setError('Please tell us a bit about what service you need.')
+      trackEvent('form_validation_error', { form_section: section, field: 'service_other' })
+      return
+    }
     if (recaptchaConfigured && !recaptchaToken) {
       setError('Please confirm you’re not a robot.')
       trackEvent('form_validation_error', { form_section: section, field: 'recaptcha' })
@@ -113,6 +120,10 @@ function BookingForm({ serviceOptions, section, compact = false }) {
     setError(null)
 
     const formData = new FormData(e.target)
+    // "How can we help?" is a separate, optional field a visitor may already
+    // have filled in — merge rather than overwrite it with the Other detail.
+    const userMessage = (formData.get('message') || '').trim()
+    const otherNote = service === 'Other' && otherText.trim() ? `Other service requested: ${otherText.trim()}` : ''
     try {
       await submitLead(
         {
@@ -120,7 +131,7 @@ function BookingForm({ serviceOptions, section, compact = false }) {
           phone: formData.get('phone'),
           email: formData.get('email') || '',
           service,
-          message: formData.get('message') || '',
+          message: [otherNote, userMessage].filter(Boolean).join('\n\n'),
         },
         { section, recaptchaToken }
       )
@@ -237,7 +248,7 @@ function BookingForm({ serviceOptions, section, compact = false }) {
                     <button
                       key={s}
                       type="button"
-                      onClick={() => { setService(s); setDropdownOpen(false) }}
+                      onClick={() => { setService(s); if (s !== 'Other') setOtherText(''); setDropdownOpen(false) }}
                       className={`block w-full px-4 py-3 ${card ? 'text-left' : 'text-center'} text-[13.5px] font-bold text-phsInk hover:bg-phsOrange/10 hover:text-phsOrange focus:bg-phsOrange/10 focus:text-phsOrange outline-none transition-colors border-b border-gray-50 last:border-0`}
                     >
                       {s}
@@ -248,6 +259,16 @@ function BookingForm({ serviceOptions, section, compact = false }) {
             )}
           </div>
         </div>
+
+        <OtherServiceField
+          open={service === 'Other'}
+          value={otherText}
+          onChange={setOtherText}
+          labelClassName={labelClass}
+          fieldClassName={fieldClass}
+          id={compact ? 'lp-other-details-shield' : 'lp-other-details-card'}
+          compact={compact}
+        />
 
         {!compact && (
           <div>

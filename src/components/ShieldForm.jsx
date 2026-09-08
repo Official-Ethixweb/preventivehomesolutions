@@ -5,6 +5,7 @@ import { recaptchaConfigured } from '../lib/recaptcha.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { useMediaQuery } from '../lib/useMediaQuery.js'
 import { trackEvent } from '../lib/analytics.js'
+import OtherServiceField from './OtherServiceField.jsx'
 
 /**
  * "Get a Free Quote" form rendered on the shield graphic (shield.svg +
@@ -42,6 +43,7 @@ export default function ShieldForm({ serviceNoun, section }) {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const [service, setService] = useState(serviceNoun || '')
+  const [otherText, setOtherText] = useState('')
   const [dropdownOpen, setDropdownOpen] = useState(false)
 
   useEffect(() => {
@@ -78,6 +80,11 @@ export default function ShieldForm({ serviceNoun, section }) {
       trackEvent('form_validation_error', { form_section: sectionLabel, field: 'service' })
       return
     }
+    if (service === 'Other' && !otherText.trim()) {
+      setError('Please tell us a bit about what service you need.')
+      trackEvent('form_validation_error', { form_section: sectionLabel, field: 'service_other' })
+      return
+    }
     if (recaptchaConfigured && !recaptchaToken) {
       setError('Please confirm you’re not a robot.')
       trackEvent('form_validation_error', { form_section: sectionLabel, field: 'recaptcha' })
@@ -95,6 +102,7 @@ export default function ShieldForm({ serviceNoun, section }) {
           email: formData.get('email'),
           phone: formData.get('phone'),
           service,
+          message: service === 'Other' ? otherText.trim() : undefined,
         },
         { section: sectionLabel, recaptchaToken }
       )
@@ -234,7 +242,7 @@ export default function ShieldForm({ serviceNoun, section }) {
                               <button
                                 key={s}
                                 type="button"
-                                onClick={() => { setService(s); setDropdownOpen(false) }}
+                                onClick={() => { setService(s); if (s !== 'Other') setOtherText(''); setDropdownOpen(false) }}
                                 className={`block w-full border-b border-gray-50 px-3 py-2.5 ${card ? 'text-left' : 'text-center'} text-[13px] font-bold text-phsInk outline-none transition-colors last:border-0 hover:bg-phsOrange/10 hover:text-phsOrange`}
                               >
                                 {s}
@@ -245,6 +253,16 @@ export default function ShieldForm({ serviceNoun, section }) {
                       )}
                     </div>
                   </div>
+
+                  <OtherServiceField
+                    open={service === 'Other'}
+                    value={otherText}
+                    onChange={setOtherText}
+                    labelClassName={labelClass}
+                    fieldClassName={fieldClass}
+                    id="sf-other-details"
+                    compact={!card}
+                  />
 
                   {/* SMS consent */}
                   <label className="flex items-start gap-2 px-1 text-left">

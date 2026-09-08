@@ -729,7 +729,7 @@ export default function ChatBot() {
     <>
       {/* Chat panel */}
       {open && (
-        <div className="fixed inset-0 z-[80] flex flex-col overflow-hidden bg-white shadow-2xl ring-1 ring-black/10 animate-sheet-up lg:inset-auto lg:bottom-24 lg:right-6 lg:w-[380px] lg:rounded-2xl">
+        <div className="fixed inset-x-0 top-0 z-[80] flex h-dvh flex-col overflow-hidden bg-white shadow-2xl ring-1 ring-black/10 animate-sheet-up lg:inset-auto lg:bottom-24 lg:right-6 lg:h-auto lg:w-[380px] lg:rounded-2xl">
           {/* Header */}
           <div className="flex items-center gap-3 bg-phsNavy px-4 py-3">
             <div className="relative">

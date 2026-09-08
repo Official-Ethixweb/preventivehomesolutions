@@ -54,7 +54,18 @@ export default function ShieldForm({ serviceNoun, section }) {
     return () => ro.disconnect()
   }, [])
 
-  const SERVICE_OPTIONS = ['Plumbing', 'Heating', 'Cooling', 'Water Heater', 'Drain & Sewer', 'Other']
+  // The 6 generic categories cover most pages, but every sub-service page
+  // presets `service` to its own specific title (see serviceNoun: title in
+  // serviceContent.js) — e.g. "Garbage Disposal" — which isn't one of the 6.
+  // Without this, that page's own service silently isn't a real option: the
+  // preset shows once, but opening the dropdown to confirm it (or changing
+  // it and coming back) loses it for good. Insert it as an extra first
+  // choice whenever it isn't already one of the base categories.
+  const baseServiceOptions = ['Plumbing', 'Heating', 'Cooling', 'Water Heater', 'Drain & Sewer']
+  const SERVICE_OPTIONS =
+    serviceNoun && !baseServiceOptions.includes(serviceNoun)
+      ? [serviceNoun, ...baseServiceOptions, 'Other']
+      : [...baseServiceOptions, 'Other']
 
   const [recaptchaToken, setRecaptchaToken] = useState('')
   const recaptchaRef = useRef(null)

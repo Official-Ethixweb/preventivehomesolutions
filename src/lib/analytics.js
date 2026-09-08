@@ -91,18 +91,33 @@ export function trackAdsConversion(label) {
 }
 
 /**
- * Send a GA4 event. Safe to call whether or not analytics is configured — it
- * falls back to a dataLayer push, and in dev it logs to the console so events
- * are verifiable without a live Measurement ID.
+ * Send a GA4 event. Safe to call whether or not analytics is configured — a
+ * no-op when gtag hasn't loaded (local dev, previews, or before initAnalytics()
+ * has run), and in dev it logs to the console so events are verifiable without
+ * a live Measurement ID.
+ *
+ * `opts.beacon` marks the hit `transport_type: 'beacon'`, gtag.js's own
+ * mechanism for events fired right before a context change (a tel: tap that
+ * backgrounds the tab for the phone app, a lead redirect to /thank-you) — it
+ * queues the hit via navigator.sendBeacon instead of a regular XHR/fetch, so
+ * the request is handed off immediately rather than possibly being caught
+ * mid-flight. Use it for click_to_call and generate_lead; every other event
+ * fires with the page in no danger of changing context, so the default
+ * (ordinary request) is fine.
  */
-export function trackEvent(name, params = {}) {
+export function trackEvent(name, params = {}, { beacon = false } = {}) {
   if (typeof window === 'undefined') return
+  const payload = beacon ? { ...params, transport_type: 'beacon' } : params
   if (typeof window.gtag === 'function') {
-    window.gtag('event', name, params)
-  } else if (Array.isArray(window.dataLayer)) {
-    window.dataLayer.push({ event: name, ...params })
+    window.gtag('event', name, payload)
+  } else if (import.meta.env.DEV) {
+    // No GTM container reads this repo's dataLayer, so pushing a plain
+    // {event, ...} object here would never actually be sent anywhere — it
+    // would just sit in the array looking like it worked. Surface that in
+    // dev instead of pretending the event was queued.
+    console.debug('[GA4] gtag not initialized yet — dropped event:', name, payload)
   }
-  if (import.meta.env.DEV) console.debug('[GA4]', name, params)
+  if (import.meta.env.DEV) console.debug('[GA4]', name, payload)
 }
 
 /** Manually record a page_view for the given SPA path. */
@@ -141,7 +156,7 @@ export function useAnalytics() {
         const href = anchor.getAttribute('href') || ''
         const label = anchor.textContent.trim().slice(0, 60)
         if (href.startsWith('tel:')) {
-          trackEvent('click_to_call', { link_url: href, phone_number: href.replace('tel:', ''), link_text: label })
+          trackEvent('click_to_call', { link_url: href, phone_number: href.replace('tel:', ''), link_text: label }, { beacon: true })
           trackAdsConversion(ADS_LABELS.phoneCall)
           return
         }

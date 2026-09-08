@@ -15,7 +15,7 @@ import { AREA_PAGES } from './serviceAreas.js'
 import { COUPONS } from './coupons.js'
 import { HOME_FAQS } from './homeFaqs.js'
 import { BUSINESS, FULL_ADDRESS } from './business.js'
-import { LICENSE_NUMBER, PHONE_DISPLAY, PHONE_TEL, areaHref } from './nav.js'
+import { LICENSE_NUMBER, PHONE_DISPLAY, PHONE_TEL, SERVICE_AREAS, areaHref } from './nav.js'
 
 const STOPWORDS = new Set([
   'and', 'or', 'the', 'a', 'an', 'of', 'for', 'to', 'in', 'on', 'with', '&',
@@ -142,9 +142,14 @@ const smallTalkEntries = [
  * flow (startForm) instead of an informational reply. Deliberately excludes
  * "quote"/"estimate" — those show up in plain pricing questions ("do you
  * offer free estimates?") that should get the informational answer, not an
- * unprompted jump into the lead form. */
+ * unprompted jump into the lead form.
+ *
+ * The "call me" phrases were a real, high-value miss found in a live audit:
+ * "Can someone call me?" is about as clear a purchase-intent signal as a
+ * visitor can send, and it was falling straight into the generic fallback. */
 export const BOOKING_KEYWORDS = [
   'book', 'schedule', 'appointment', 'come out', 'send someone', 'set up a visit',
+  'call me', 'call back', 'callback', 'have someone call', 'give me a call', 'someone call',
 ]
 
 /* ------------------------------ Sub-services ------------------------------ */
@@ -183,7 +188,10 @@ const areaEntries = Object.values(AREA_PAGES).map((area) => ({
 /* --------------------------------- Coupons ---------------------------------- */
 const couponEntry = {
   id: 'coupons',
-  keywords: ['coupon', 'coupons', 'discount', 'discounts', 'deal', 'deals', 'special', 'specials', 'promo', 'promotion', 'offer', 'offers', 'savings'],
+  // "offer"/"offers" deliberately excluded — too generic, and collides with
+  // ordinary phrasing like "do you offer free estimates" (found live, in an
+  // audit) that has nothing to do with coupons.
+  keywords: ['coupon', 'coupons', 'discount', 'discounts', 'deal', 'deals', 'special', 'specials', 'promo', 'promotion', 'savings'],
   reply: `We've got a few offers running right now: ${COUPONS.slice(0, 4).map((c) => `${c.title} (${c.badge})`).join(', ')}. See the full list and claim one on our coupons page.`,
   quickReplies: [
     { label: 'View All Coupons', href: '/coupons' },
@@ -214,11 +222,27 @@ const metaEntries = [
   },
   {
     id: 'pricing',
-    keywords: ['price', 'pricing', 'cost', 'costs', 'expensive', 'cheap', 'rate', 'rates', 'fee', 'fees'],
+    // "how much" was a real miss: "How much is a plumber?" has no other
+    // pricing word in it, so without this phrase it fell through to a
+    // generic plumbing description instead of the actual pricing answer.
+    keywords: ['price', 'pricing', 'cost', 'costs', 'expensive', 'cheap', 'rate', 'rates', 'fee', 'fees', 'how much'],
     reply: "We don't guess over the phone — every job gets a free, upfront, fixed quote before any work begins, so there are no hourly surprises.",
     quickReplies: [
       { label: 'Get a Free Quote', form: true },
       { label: 'View Coupons', href: '/coupons' },
+    ],
+  },
+  {
+    id: 'coverage',
+    // A real miss: "Do you service my area?" (no city named) matched none
+    // of the area entries (city-specific) or the "what areas do you cover"
+    // FAQ (its derived keywords are "areas"/"cover" — this phrasing uses
+    // neither: singular "area" and the word "service" instead of "cover").
+    keywords: ['my area', 'your area', 'service my area', 'cover my area', 'you cover', 'you service', 'area covered', 'covered area', 'service area', 'which areas', 'which cities'],
+    reply: `We service all of Northern Utah, including ${SERVICE_AREAS.slice(0, -1).join(', ')}, and ${SERVICE_AREAS[SERVICE_AREAS.length - 1]}. Tell me your city and I can confirm.`,
+    quickReplies: [
+      { label: 'Get a Free Quote', form: true },
+      { label: 'Ask Something Else', next: 'services' },
     ],
   },
   {

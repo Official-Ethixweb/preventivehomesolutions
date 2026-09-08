@@ -67,13 +67,15 @@ export async function submitLead(fields, { section, recaptchaToken } = {}) {
   }
 
   // GA4 conversion: a lead form was submitted successfully. `section` tells us
-  // which form/page it came from (Hero, Contact, Landing CTA, etc.).
+  // which form/page it came from (Hero, Contact, Landing CTA, etc.). Sent as a
+  // beacon since it's immediately followed by navigate('/thank-you') below —
+  // see trackEvent's beacon option in analytics.js.
   trackEvent('generate_lead', {
     form_section: section || 'Unknown',
     service: fields.service || '',
     property_type: fields.propertyType || '',
     page_path: typeof window !== 'undefined' ? window.location.pathname : '',
-  })
+  }, { beacon: true })
 
   // Google Ads conversion for the same lead, so paid-search spend is attributed.
   trackAdsConversion(ADS_LABELS.leadForm)

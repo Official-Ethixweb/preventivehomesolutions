@@ -751,7 +751,7 @@ export default function ChatBot() {
       {open && (
         <div
           className="fixed inset-x-0 top-0 z-[80] flex flex-col overflow-hidden bg-white shadow-2xl ring-1 ring-black/10 animate-sheet-up lg:inset-auto lg:bottom-24 lg:right-6 lg:w-[380px] lg:rounded-2xl"
-          style={{ height: isDesktop ? 'auto' : viewportHeight ? `${viewportHeight}px` : '100dvh' }}
+          style={{ height: isDesktop ? '460px' : viewportHeight ? `${viewportHeight}px` : '100dvh' }}
         >
           {/* Header */}
           <div className="flex items-center gap-3 bg-phsNavy px-4 py-3">
@@ -790,7 +790,7 @@ export default function ChatBot() {
           </div>
 
           {/* Messages */}
-          <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-phsCream/60 px-4 py-4 lg:h-[min(60vh,440px)] lg:flex-none">
+          <div className="min-h-0 flex-1 space-y-3 overflow-y-auto bg-phsCream/60 px-4 py-4">
             {messages.map((m) =>
               m.from === 'bot' ? (
                 <div key={m.id} className="flex items-end gap-2">

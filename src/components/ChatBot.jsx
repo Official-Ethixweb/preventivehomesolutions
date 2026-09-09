@@ -716,6 +716,28 @@ export default function ChatBot() {
     }
   }, [open, isDesktop])
 
+  // `h-dvh` (below) covers most of the on-screen-keyboard resize, but mobile
+  // Safari also adds its own toolbar above the keyboard (shows the site's
+  // domain + field navigation arrows) that CSS viewport units don't reliably
+  // account for — the panel can end up sized taller than what's actually
+  // visible, pushing Send behind that toolbar/keyboard. The Visual Viewport
+  // API is the mechanism built specifically to report the real visible
+  // height, so track it directly and let it override the CSS height once
+  // available; falls back to plain `h-dvh` on browsers without it.
+  const [viewportHeight, setViewportHeight] = useState(null)
+  useEffect(() => {
+    if (!open || isDesktop || typeof window === 'undefined' || !window.visualViewport) return
+    const vv = window.visualViewport
+    const update = () => setViewportHeight(vv.height)
+    update()
+    vv.addEventListener('resize', update)
+    vv.addEventListener('scroll', update)
+    return () => {
+      vv.removeEventListener('resize', update)
+      vv.removeEventListener('scroll', update)
+    }
+  }, [open, isDesktop])
+
   useEffect(() => () => clearTimers(), [])
 
   const curStep = mode === 'form' && inputActive ? steps.current[stepIdx.current] : null
@@ -729,7 +751,10 @@ export default function ChatBot() {
     <>
       {/* Chat panel */}
       {open && (
-        <div className="fixed inset-x-0 top-0 z-[80] flex h-dvh flex-col overflow-hidden bg-white shadow-2xl ring-1 ring-black/10 animate-sheet-up lg:inset-auto lg:bottom-24 lg:right-6 lg:h-auto lg:w-[380px] lg:rounded-2xl">
+        <div
+          className="fixed inset-x-0 top-0 z-[80] flex h-dvh flex-col overflow-hidden bg-white shadow-2xl ring-1 ring-black/10 animate-sheet-up lg:inset-auto lg:bottom-24 lg:right-6 lg:h-auto lg:w-[380px] lg:rounded-2xl"
+          style={!isDesktop && viewportHeight ? { height: `${viewportHeight}px` } : undefined}
+        >
           {/* Header */}
           <div className="flex items-center gap-3 bg-phsNavy px-4 py-3">
             <div className="relative">

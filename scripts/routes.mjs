@@ -4,6 +4,7 @@
 // what App.jsx actually renders.
 import { SERVICE_PAGES } from '../src/data/services.js'
 import { AREA_SLUGS } from '../src/data/serviceAreas.js'
+import { CITY_SERVICES } from '../src/data/cityServiceContent.js'
 import { LANDING_PAGES } from '../src/data/landingPages.js'
 import { BLOG_POSTS } from '../src/data/blog.js'
 
@@ -27,6 +28,12 @@ export function getRoutes() {
 
   for (const slug of AREA_SLUGS) {
     routes.push([`/service-areas/${slug}`, 'monthly', '0.8'])
+  }
+
+  for (const [citySlug, serviceSlugs] of Object.entries(CITY_SERVICES)) {
+    for (const serviceSlug of serviceSlugs) {
+      routes.push([`/${citySlug}/${serviceSlug}`, 'monthly', '0.85'])
+    }
   }
 
   for (const data of Object.values(LANDING_PAGES)) {

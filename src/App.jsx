@@ -18,6 +18,7 @@ import Footer from './components/Footer.jsx'
 import Loader from './components/Loader.jsx'
 import AccessibilityWidget from './components/AccessibilityWidget.jsx'
 import { SERVICE_PAGES, getSubService } from './data/services.js'
+import { CITY_SERVICES } from './data/cityServiceContent.js'
 import { LANDING_PAGES } from './data/landingPages.js'
 import { BLOG_POSTS } from './data/blog.js'
 import { usePath, useLinkInterceptor } from './router.js'
@@ -53,6 +54,7 @@ const ServicePage = lazy(() => import('./components/ServicePage.jsx'))
 const SubServicePage = lazy(() => import('./components/SubServicePage.jsx'))
 const WaterHeaterPage = lazy(() => import('./components/WaterHeaterPage.jsx'))
 const AreaPage = lazy(() => import('./components/AreaPage.jsx'))
+const CityServicePage = lazy(() => import('./components/CityServicePage.jsx'))
 const BlogPage = lazy(() => import('./components/BlogPage.jsx'))
 const ArticlePage = lazy(() => import('./components/ArticlePage.jsx'))
 const AboutPage = lazy(() => import('./components/AboutPage.jsx'))
@@ -126,6 +128,13 @@ export default function App() {
   const segments = normalizedPath.split('/').filter(Boolean)
   const subService =
     segments.length === 2 ? getSubService(segments[0], segments[1]) : null
+  // City + service route, e.g. /layton/water-heater — distinct from the
+  // sub-service route above since segments[0] is a service-area city slug,
+  // never a trade slug (plumbing/hvac/ac), so the two never collide.
+  const citySubService =
+    segments.length === 2 && CITY_SERVICES[segments[0]]?.includes(segments[1])
+      ? segments
+      : null
 
   // Conversion landing pages, e.g. /plumbing-services, /hvac-services.
   const landingKey = normalizedPath.replace(/^\//, '')
@@ -138,6 +147,8 @@ export default function App() {
   } else if (normalizedPath.startsWith('/service-areas/')) {
     const citySlug = normalizedPath.slice('/service-areas/'.length)
     page = <AreaPage slug={citySlug} />
+  } else if (citySubService) {
+    page = <CityServicePage citySlug={citySubService[0]} serviceSlug={citySubService[1]} />
   } else if (normalizedPath === '/about-us') {
     page = <AboutPage />
   } else if (normalizedPath === '/coupons') {

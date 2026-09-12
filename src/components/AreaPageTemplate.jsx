@@ -11,6 +11,14 @@ import ShieldForm from './ShieldForm.jsx'
 import { useSeo } from '../lib/seo.js'
 import { PHONE_DISPLAY, PHONE_TEL, SERVICE_AREAS, areaHref } from '../data/nav.js'
 import { localBusinessSchema, serviceSchema, faqSchema, breadcrumbSchema } from '../data/business.js'
+import { CITY_SERVICES } from '../data/cityServiceContent.js'
+
+// Label for each registered city-service slug, for the featured-guides list
+// below — keeps AreaPageTemplate from importing the full content adapter.
+const CITY_SERVICE_LABELS = {
+  'water-heater': 'Water Heater',
+  'tankless-water-heater': 'Tankless Water Heater',
+}
 
 /**
  * Reusable service-area landing page — one layout for every city.
@@ -173,6 +181,7 @@ export default function AreaPageTemplate({ area }) {
   const { slug, city, county, zips, intro } = area
   const pageUrl = `/service-areas/${slug}`
   const faqs = buildFaqs(city)
+  const featuredServices = CITY_SERVICES[slug] ?? []
 
   useSeo({
     title: `Plumbing & HVAC in ${city}, UT | Preventive Home Solutions`,
@@ -304,6 +313,33 @@ export default function AreaPageTemplate({ area }) {
               ))}
             </div>
           </div>
+
+          {/* Featured city-specific service guides, when this city has any. */}
+          {featuredServices.length > 0 && (
+            <div className="mt-12">
+              <Reveal as="h2" className="font-display text-2xl font-black tracking-tight text-phsNavy sm:text-[1.75rem]">
+                {city} Service Guides
+              </Reveal>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {featuredServices.map((serviceSlug, i) => (
+                  <Reveal key={serviceSlug} variant="up" delay={(i % 2) * 80}>
+                    <a
+                      href={`/${slug}/${serviceSlug}`}
+                      className="group flex h-full flex-col rounded-2xl border border-[#e6ded4] bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-phsOrange/40 hover:shadow-lg"
+                    >
+                      <h3 className="font-display text-base font-bold tracking-wide text-phsNavy transition-colors duration-300 group-hover:text-phsOrange">
+                        {CITY_SERVICE_LABELS[serviceSlug] ?? serviceSlug} in {city}
+                      </h3>
+                      <span className="mt-3 inline-flex items-center gap-1.5 font-display text-sm font-bold text-phsOrange">
+                        Learn More
+                        <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                      </span>
+                    </a>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Local map */}
           <div className="mt-12">

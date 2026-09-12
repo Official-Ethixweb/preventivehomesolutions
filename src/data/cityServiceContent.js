@@ -67,6 +67,7 @@ const CITY_SERVICES_CONTENT = {
  * page should link to them. Layton only, for now — see file header. */
 export const CITY_SERVICES = {
   layton: ['water-heater', 'tankless-water-heater'],
+  clinton: ['water-heater', 'tankless-water-heater'],
 }
 
 function buildFaqs(city, title) {

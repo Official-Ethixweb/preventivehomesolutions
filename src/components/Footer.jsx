@@ -137,8 +137,8 @@ function SimpleFooter() {
         </p>
         <nav className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-sans text-[13px] font-semibold text-white/80">
           <a href="/accessibility" className="hover:text-white">Accessibility</a>
-          <a href="#" className="hover:text-white">Privacy Policy</a>
-          <a href="#" className="hover:text-white">Terms &amp; Conditions</a>
+          <a href="/privacy-policy" className="hover:text-white">Privacy Policy</a>
+          <a href="/terms-and-conditions" className="hover:text-white">Terms &amp; Conditions</a>
         </nav>
       </div>
     </footer>
@@ -267,9 +267,9 @@ export default function Footer({ simple = false }) {
           </p>
           <nav className="flex items-center gap-6">
             <a href="/accessibility">Accessibility</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms &amp; Conditions</a>
-            <a href="#">Sitemap</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/terms-and-conditions">Terms &amp; Conditions</a>
+            <a href="/sitemap.xml">Sitemap</a>
           </nav>
         </div>
       </div>

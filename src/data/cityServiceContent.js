@@ -19,6 +19,7 @@ import { PHONE_DISPLAY } from './nav.js'
 // vs. tankless are genuinely different buying decisions worth their own page.
 const TANKLESS_CONTENT = {
   title: 'Tankless Water Heater',
+  metaSummary: 'Tankless water heater installation, sizing and repair, gas or electric.',
   description:
     'On-demand hot water with no storage tank — installation, sizing, and repair for gas and electric tankless systems.',
   intro:
@@ -43,6 +44,7 @@ const TANKLESS_CONTENT = {
 const CITY_SERVICES_CONTENT = {
   'water-heater': {
     title: 'Water Heater',
+    metaSummary: 'Tank and tankless water heater repair, maintenance and installation.',
     description: 'Repair, maintenance, and installation for tank and tankless water heaters, with reliable hot water guaranteed.',
     intro:
       "No hot water is more than an inconvenience — it's a home emergency. We repair, maintain, and install both tank and tankless water heaters, sized right for your household, so you get dependable hot water without wasting energy.",
@@ -106,7 +108,7 @@ export function cityServiceToContent(citySlug, serviceSlug) {
   if (!area || !service) return null
 
   const { city, zips } = area
-  const { title, description, intro, included, warningTitle, warnings } = service
+  const { title, metaSummary, description, intro, included, warningTitle, warnings } = service
   const path = `/${citySlug}/${serviceSlug}`
 
   const introBlocks = [
@@ -147,7 +149,9 @@ export function cityServiceToContent(citySlug, serviceSlug) {
   const titleTag = `${title} Repair & Installation in ${city}, UT | Preventive Home Solutions`
   return {
     title: titleTag.length <= 60 ? titleTag : `${title} Repair & Installation in ${city}, UT`,
-    metaDescription: `${description} Licensed, same-day ${title.toLowerCase()} service in ${city}, UT. Call ${PHONE_DISPLAY}.`,
+    // metaSummary (not the longer on-page description) keeps this under ~160
+    // characters so the city and phone number aren't truncated in search results.
+    metaDescription: `${metaSummary} Licensed, same-day service in ${city}, UT. Call ${PHONE_DISPLAY}.`,
     path,
 
     breadcrumbLabel: title,

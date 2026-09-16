@@ -135,7 +135,7 @@ export const POST_CONTENT = {
   /* ------------------------------------------------------------------ */
   'utah-inversions-indoor-air-quality': {
     metaTitle:
-      'Utah Inversions and Indoor Air Quality: Solutions That Actually Work | Preventive Home Solutions',
+      'Utah Inversions & Indoor Air Quality: What Works | Preventive Home Solutions',
     metaDescription:
       'Winter inversions trap pollution along the Wasatch Front. Learn which indoor air quality upgrades filtration, ventilation, humidity control actually protect your home.',
     keywords: [
@@ -228,7 +228,7 @@ export const POST_CONTENT = {
   /* ------------------------------------------------------------------ */
   'seer2-2026-hvac-standards': {
     metaTitle:
-      'SEER2 and 2026 HVAC Efficiency Standards Explained for Utah Homeowners | Preventive Home Solutions',
+      'SEER2 & 2026 HVAC Efficiency Standards for Utah | Preventive Home Solutions',
     metaDescription:
       'SEER2 changed how AC and heat pump efficiency is measured. Here is the plain-English version for Northern Utah homeowners what the ratings mean and how to shop.',
     keywords: [
@@ -411,7 +411,7 @@ export const POST_CONTENT = {
   /* ------------------------------------------------------------------ */
   'utah-hard-water-impacts': {
     metaTitle:
-      "Utah Hard Water: How It Impacts Your Home's Plumbing and Appliances | Preventive Home Solutions",
+      'Utah Hard Water: Effects on Plumbing & Appliances | Preventive Home Solutions',
     metaDescription:
       'Northern Utah has some of the hardest water in the country. Learn how mineral scale damages pipes, water heaters and appliances and how to protect your home.',
     keywords: [

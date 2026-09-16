@@ -18,7 +18,7 @@ function CheckIcon({ className = '' }) {
 export default function ThankYouPage() {
   useSeo({
     title: 'Thank You | Preventive Home Solutions',
-    description: "We've received your request and will be in touch shortly.",
+    description: "Thanks for contacting Preventive Home Solutions. We've received your request and will be in touch shortly.",
     path: '/thank-you',
     noindex: true,
   })

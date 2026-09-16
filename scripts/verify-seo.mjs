@@ -219,7 +219,8 @@ for (const [route, p] of pages) {
   for (const href of p.hrefs) {
     if (!href.startsWith('/') || href.startsWith('//')) continue
     const target = norm(decodeURIComponent(href.split(/[?#]/)[0] || '/'))
-    if (realRoutes.has(target)) continue
+    // Real routes and real static files (e.g. the footer's /sitemap.xml link).
+    if (realRoutes.has(target) || (path.extname(target) && existsSync(path.join(DIST, target)))) continue
     const r = redirectTarget(target)
     const key = `${target}${r ? ` (redirects to ${r.to})` : ' (404)'}`
     linkIssues.set(key, [...(linkIssues.get(key) || []), route])
@@ -328,6 +329,9 @@ if (BASE_URL) {
   for (const fake of FAKE_URLS) {
     const { hops, res, loop } = await follow(fake)
     const body = res ? await res.text() : ''
+    // Vercel's Firewall blocks probes like /index.php and /wp-login.php with a
+    // 403 before they reach the site; that's an acceptable "not found" outcome.
+    if (res?.status === 403 && res.headers.get('x-vercel-mitigated') === 'deny') continue
     check('HTTP: fake URLs return 404', !loop && hops.length === 0 && res?.status === 404, `${fake}: ${loop ? 'redirect loop' : hops.length ? `redirected → ${hops.at(-1).to}` : `HTTP ${res?.status}`}`)
     check('HTTP: fake URLs return 404', body.includes('Page Not Found'), `${fake}: 404 body is not the PHS Not Found page`)
   }

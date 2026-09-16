@@ -21,6 +21,7 @@ import { SERVICE_PAGES, getSubService } from './data/services.js'
 import { CITY_SERVICES } from './data/cityServiceContent.js'
 import { LANDING_PAGES } from './data/landingPages.js'
 import { BLOG_POSTS } from './data/blog.js'
+import { LEGAL_PAGES } from './data/legal.js'
 import { usePath, useLinkInterceptor } from './router.js'
 import { useAnalytics } from './lib/analytics.js'
 import { useClarity } from './lib/clarity.js'
@@ -61,6 +62,7 @@ const AboutPage = lazy(() => import('./components/AboutPage.jsx'))
 const CouponsPage = lazy(() => import('./components/CouponsPage.jsx'))
 const LandingPage = lazy(() => import('./components/LandingPage.jsx'))
 const AccessibilityPage = lazy(() => import('./components/AccessibilityPage.jsx'))
+const LegalPage = lazy(() => import('./components/LegalPage.jsx'))
 const ThankYouPage = lazy(() => import('./components/ThankYouPage.jsx'))
 const NotFoundPage = lazy(() => import('./components/NotFoundPage.jsx'))
 
@@ -155,6 +157,8 @@ export default function App() {
     page = <CouponsPage />
   } else if (normalizedPath === '/accessibility') {
     page = <AccessibilityPage />
+  } else if (LEGAL_PAGES[normalizedPath]) {
+    page = <LegalPage doc={LEGAL_PAGES[normalizedPath]} />
   } else if (normalizedPath === '/thank-you') {
     page = <ThankYouPage />
   } else if (normalizedPath === '/blog') {
@@ -193,7 +197,7 @@ export default function App() {
 
 function Home() {
   useSeo({
-    title: 'Plumbing, Heating & AC in Northern Utah | Preventive Home Solutions',
+    title: 'Northern Utah Plumbing & HVAC | Preventive Home Solutions',
     description:
       `Licensed plumbing, heating & cooling in Layton, UT and Northern Utah. Fast repairs, installs & maintenance, 7 days a week. Call ${PHONE_DISPLAY}.`,
     path: '/',

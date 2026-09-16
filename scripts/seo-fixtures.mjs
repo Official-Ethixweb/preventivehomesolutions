@@ -112,9 +112,8 @@ export const LEGACY_URLS = {
   '/plumbing/': 'LIVE',
   '/plumbing/water-line-replacement/': 'LIVE',
   '/about-us/': 'LIVE',
-  // Known gaps: no equivalent page exists on the new site (needs owner content)
-  '/privacy-policy/': 404,
-  '/terms-and-conditions/': 404,
+  '/privacy-policy/': 'LIVE',
+  '/terms-and-conditions/': 'LIVE',
 }
 
 /** Must return a true 404 — never 200, never redirected somewhere unrelated. */

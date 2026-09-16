@@ -345,7 +345,7 @@ export const LANDING_PAGES = {
     path: '/leak-detection-services',
     businessType: 'Plumber',
     serviceType: 'Leak Detection',
-    metaTitle: 'Leak Detection & Repair in Northern Utah | Preventive Home Solutions',
+    metaTitle: 'Leak Detection in Northern Utah | Preventive Home Solutions',
     metaDescription:
       `Hidden water leak detection & repair in Layton & Northern Utah. Non-invasive location, slab leaks, pipe repair. Same-day, 24/7 service. Call ${PHONE_DISPLAY}.`,
     serviceName: 'Leak Detection & Repair',

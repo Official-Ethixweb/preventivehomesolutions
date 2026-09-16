@@ -46,3 +46,14 @@ export function getRoutes() {
 
   return routes
 }
+
+/**
+ * Every path that must exist as a static HTML file in dist/. That's all
+ * sitemap routes plus real pages deliberately kept OUT of the sitemap
+ * (noindexed utility pages). vercel.json has no SPA catch-all rewrite, so a
+ * path missing here serves the 404 page — keep this in sync with App.jsx.
+ * @returns {string[]}
+ */
+export function getPrerenderRoutes() {
+  return [...getRoutes().map(([p]) => p), '/thank-you']
+}

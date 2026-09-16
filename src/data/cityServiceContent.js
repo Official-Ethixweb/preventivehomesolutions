@@ -141,9 +141,12 @@ export function cityServiceToContent(citySlug, serviceSlug) {
     : []
   related.push({ label: `${city} Service Area`, href: `/service-areas/${citySlug}` })
 
-  const titleTag = `${title} in ${city}, UT | Preventive Home Solutions`
+  // "Repair & Installation" keeps these titles distinct from the generic
+  // /plumbing/water-heater page ("Water Heater in Layton, UT"), which would
+  // otherwise share an identical <title> with /layton/water-heater.
+  const titleTag = `${title} Repair & Installation in ${city}, UT | Preventive Home Solutions`
   return {
-    title: titleTag.length <= 60 ? titleTag : `${title} in ${city}, UT`,
+    title: titleTag.length <= 60 ? titleTag : `${title} Repair & Installation in ${city}, UT`,
     metaDescription: `${description} Licensed, same-day ${title.toLowerCase()} service in ${city}, UT. Call ${PHONE_DISPLAY}.`,
     path,
 

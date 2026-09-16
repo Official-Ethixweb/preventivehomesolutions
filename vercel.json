@@ -1,52 +1,234 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/maintenance", "destination": "/", "permanent": true },
-    { "source": "/bountiful", "destination": "/", "permanent": true },
-    { "source": "/farmington", "destination": "/", "permanent": true },
-    { "source": "/kaysville/plumbing", "destination": "/plumbing", "permanent": true },
-    { "source": "/layton/plumbing", "destination": "/plumbing", "permanent": true },
-    { "source": "/layton/plumbing/water-heater-installation", "destination": "/plumbing/water-heater", "permanent": true },
-    { "source": "/ogden/heating", "destination": "/hvac", "permanent": true },
-    { "source": "/ogden/plumbing/water-heater-leaking", "destination": "/plumbing/water-heater", "permanent": true },
-    { "source": "/riverdale/plumbing", "destination": "/plumbing", "permanent": true },
-    { "source": "/roy/plumbing", "destination": "/plumbing", "permanent": true },
-    { "source": "/clinton/heating", "destination": "/hvac", "permanent": true },
-    { "source": "/clinton/plumbing/no-hot-water", "destination": "/plumbing/water-heater", "permanent": true },
-    { "source": "/heating/boiler-service-and-maintenance", "destination": "/hvac/boiler-service", "permanent": true },
-    { "source": "/heating/heat-pumps", "destination": "/hvac/heat-pumps", "permanent": true },
-    { "source": "/cooling/ac-installation-and-replacement", "destination": "/ac/ac-installation", "permanent": true },
-    { "source": "/cooling/ac-maintenance-repair", "destination": "/ac/ac-repair", "permanent": true },
-    { "source": "/cooling/heat-pumps", "destination": "/ac/heat-pumps", "permanent": true },
-    { "source": "/water-heaters/tankless-waterheater", "destination": "/water-heater-repair", "permanent": true },
-    { "source": "/preventive-home-tips", "destination": "/blog", "permanent": true },
-    { "source": "/emergency-plumbing-steps-what-to-do-before-the-technician-arrives", "destination": "/blog/emergency-plumbing-steps", "permanent": true },
-    { "source": "/drain-clearing/main-line-clearing-and-cleaning", "destination": "/plumbing/sewer-services", "permanent": true }
-  ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/layton/plumbing/water-heater-installation",
+      "destination": "/layton/water-heater",
+      "permanent": true
+    },
+    {
+      "source": "/clinton/plumbing/no-hot-water",
+      "destination": "/clinton/water-heater",
+      "permanent": true
+    },
+    {
+      "source": "/:city(ogden|clinton|layton|syracuse|west-point|roy|clearfield|riverdale|brigham-city|kaysville)-ut-hvac-contractor",
+      "destination": "/service-areas/:city",
+      "permanent": true
+    },
+    {
+      "source": "/:city(ogden|clinton|layton|syracuse|west-point|roy|clearfield|riverdale|brigham-city|kaysville)-ut",
+      "destination": "/service-areas/:city",
+      "permanent": true
+    },
+    {
+      "source": "/:city(ogden|clinton|layton|syracuse|west-point|roy|clearfield|riverdale|brigham-city|kaysville)",
+      "destination": "/service-areas/:city",
+      "permanent": true
+    },
+    {
+      "source": "/:city(ogden|clinton|layton|syracuse|west-point|roy|clearfield|riverdale|brigham-city|kaysville)/:trade(plumbing|heating|cooling|hvac|ac|air-conditioning|water-heaters|drain-clearing)",
+      "destination": "/service-areas/:city",
+      "permanent": true
+    },
+    {
+      "source": "/:city(ogden|clinton|layton|syracuse|west-point|roy|clearfield|riverdale|brigham-city|kaysville)/:trade(plumbing|heating|cooling|hvac|ac|air-conditioning|water-heaters|drain-clearing)/:rest*",
+      "destination": "/service-areas/:city",
+      "permanent": true
+    },
+    {
+      "source": "/bountiful",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/farmington",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/bountiful/:rest*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/farmington/:rest*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/maintenance",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/about-us",
+      "permanent": true
+    },
+    {
+      "source": "/products/leak-detection",
+      "destination": "/leak-detection-services",
+      "permanent": true
+    },
+    {
+      "source": "/plumbing/emergency-services",
+      "destination": "/plumbing/emergency-plumbing",
+      "permanent": true
+    },
+    {
+      "source": "/heating/boiler-service-and-maintenance",
+      "destination": "/hvac/boiler-service",
+      "permanent": true
+    },
+    {
+      "source": "/heating/furnace-maintenance-and-repair",
+      "destination": "/hvac/furnace-repair",
+      "permanent": true
+    },
+    {
+      "source": "/heating/heat-pumps",
+      "destination": "/hvac/heat-pumps",
+      "permanent": true
+    },
+    {
+      "source": "/heating/:rest*",
+      "destination": "/hvac",
+      "permanent": true
+    },
+    {
+      "source": "/heating",
+      "destination": "/hvac",
+      "permanent": true
+    },
+    {
+      "source": "/cooling/ac-installation-and-replacement",
+      "destination": "/ac/ac-installation",
+      "permanent": true
+    },
+    {
+      "source": "/cooling/ac-maintenance-repair",
+      "destination": "/ac/ac-repair",
+      "permanent": true
+    },
+    {
+      "source": "/cooling/heat-pumps",
+      "destination": "/ac/heat-pumps",
+      "permanent": true
+    },
+    {
+      "source": "/cooling/:rest*",
+      "destination": "/ac",
+      "permanent": true
+    },
+    {
+      "source": "/cooling",
+      "destination": "/ac",
+      "permanent": true
+    },
+    {
+      "source": "/water-heaters/tankless-waterheater",
+      "destination": "/layton/tankless-water-heater",
+      "permanent": true
+    },
+    {
+      "source": "/water-heaters/tankless-water-heaters",
+      "destination": "/layton/tankless-water-heater",
+      "permanent": true
+    },
+    {
+      "source": "/water-heaters/:rest*",
+      "destination": "/water-heater-repair",
+      "permanent": true
+    },
+    {
+      "source": "/water-heaters",
+      "destination": "/water-heater-repair",
+      "permanent": true
+    },
+    {
+      "source": "/drain-clearing/main-line-clearing-and-cleaning",
+      "destination": "/plumbing/sewer-services",
+      "permanent": true
+    },
+    {
+      "source": "/drain-clearing/:rest*",
+      "destination": "/plumbing/drain-clearing",
+      "permanent": true
+    },
+    {
+      "source": "/drain-clearing",
+      "destination": "/plumbing/drain-clearing",
+      "permanent": true
+    },
+    {
+      "source": "/preventive-home-tips",
+      "destination": "/blog",
+      "permanent": true
+    },
+    {
+      "source": "/home-maintenance-tips-for-every-season",
+      "destination": "/blog/home-maintenance-tips-every-season",
+      "permanent": true
+    },
+    {
+      "source": "/seer2-and-2025-hvac-efficiency-standards-explained-for-utah-homeowners",
+      "destination": "/blog/seer2-2026-hvac-standards",
+      "permanent": true
+    },
+    {
+      "source": "/emergency-plumbing-steps-what-to-do-before-the-technician-arrives",
+      "destination": "/blog/emergency-plumbing-steps",
+      "permanent": true
+    }
   ],
   "headers": [
     {
       "source": "/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*)\\.(webp|png|jpg|jpeg|svg|ico|woff2?|ttf)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=2592000" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
       ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "geolocation=(), camera=(), microphone=()" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "geolocation=(), camera=(), microphone=()"
+        }
       ]
     }
   ]

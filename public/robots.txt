@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow:
 
 Sitemap: https://www.preventivehomesolutions.com/sitemap.xml

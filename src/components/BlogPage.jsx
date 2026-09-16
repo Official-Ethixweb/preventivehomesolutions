@@ -7,7 +7,7 @@ import Footer from './Footer.jsx'
 import Reveal from './Reveal.jsx'
 import { BLOG_POSTS, BLOG_AUTHOR } from '../data/blog.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
-import { useSeo, ORIGIN, SITE_NAME } from '../lib/seo.js'
+import { useSeo, ORIGIN, SITE_NAME, absoluteUrl } from '../lib/seo.js'
 
 /* ------------------------------ Inline icons ----------------------------- */
 function ArrowIcon({ className = '' }) {
@@ -96,7 +96,7 @@ export default function BlogPage() {
       blogPost: BLOG_POSTS.map((p) => ({
         '@type': 'BlogPosting',
         headline: p.title,
-        image: ORIGIN + p.image,
+        image: absoluteUrl(p.image),
         datePublished: new Date(p.date).toISOString(),
         articleSection: p.category,
         author: { '@type': 'Organization', name: SITE_NAME },

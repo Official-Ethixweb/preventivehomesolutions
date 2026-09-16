@@ -4,7 +4,7 @@
 // The landing pages inject these schemas through useSeo({ jsonLd }). Keeping the
 // business facts here means the phone/email/address show up identically in the
 // visible markup AND the structured data crawlers read.
-import { ORIGIN } from '../lib/seo.js'
+import { ORIGIN, absoluteUrl } from '../lib/seo.js'
 import { PHONE_DISPLAY, PHONE_TEL, SERVICE_AREAS } from './nav.js'
 
 export const BUSINESS = {
@@ -66,8 +66,8 @@ export function localBusinessSchema({ businessType = 'HomeAndConstructionBusines
     url,
     telephone: `+1-${BUSINESS.phoneTel.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3')}`,
     email: BUSINESS.email,
-    image: image ? (image.startsWith('http') ? image : ORIGIN + image) : `${ORIGIN}/og-image.png`,
-    logo: `${ORIGIN}/main logo.webp`,
+    image: absoluteUrl(image || '/og-image.png'),
+    logo: absoluteUrl('/main logo.webp'),
     priceRange: BUSINESS.priceRange,
     address: postalAddress(),
     geo: {

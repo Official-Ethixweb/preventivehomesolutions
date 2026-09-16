@@ -1,4 +1,4 @@
-// Content for the individual service pages (Plumbing, HVAC, AC Conditioning).
+// Content for the individual service pages (Plumbing, HVAC, Air Conditioning).
 // Each entry drives one route (/plumbing, /hvac, /ac) rendered by ServicePage.
 // Icon keys map to inline SVGs defined in ServicePage so this data stays plain.
 //
@@ -188,7 +188,7 @@ export const SERVICE_PAGES = {
         },
       },
       {
-        title: 'Emergency Services',
+        title: 'Emergency Plumbing',
         slug: 'emergency-plumbing',
         icon: 'alarm',
         description: "Burst pipe or overflow? We're on call after hours for fast, same-day emergency response.",
@@ -420,7 +420,7 @@ export const SERVICE_PAGES = {
   ac: {
     slug: 'ac',
     eyebrow: 'Cooling Services',
-    name: 'AC Conditioning',
+    name: 'Air Conditioning',
     iconSrc: '/Group 10.svg',
     heroImage: '/AC installed 01.webp',
     heroImageAlt: 'Air conditioning unit installation real job photo',

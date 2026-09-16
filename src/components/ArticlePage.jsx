@@ -6,7 +6,7 @@ import Reveal from './Reveal.jsx'
 import { BLOG_POSTS, BLOG_AUTHOR } from '../data/blog.js'
 import { POST_CONTENT } from '../data/postContent.js'
 import { PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
-import { useSeo, ORIGIN, SITE_NAME } from '../lib/seo.js'
+import { useSeo, ORIGIN, SITE_NAME, absoluteUrl } from '../lib/seo.js'
 
 function ArrowIcon({ className = '' }) {
   return (
@@ -89,7 +89,7 @@ export default function ArticlePage({ post }) {
         '@type': 'BlogPosting',
         headline: post.title,
         description: content?.metaDescription ?? post.excerpt,
-        image: ORIGIN + post.image,
+        image: absoluteUrl(post.image),
         datePublished: published,
         dateModified: published,
         articleSection: post.category,

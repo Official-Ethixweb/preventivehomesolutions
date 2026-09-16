@@ -6,8 +6,18 @@ import { useEffect } from 'react'
 // crawlers and link unfurlers see meaningful, per-page metadata.
 
 const SITE_NAME = 'Preventive Home Solutions'
-const ORIGIN =
-  typeof window !== 'undefined' ? window.location.origin : 'https://www.preventivehomesolutions.com'
+// Always the live domain — never window.location.origin. Pages are prerendered
+// from a localhost server at build time, and preview deploys run on
+// *.vercel.app; either would otherwise leak into canonical URLs, og:url and
+// every JSON-LD @id baked into the static HTML Google indexes.
+const ORIGIN = 'https://www.preventivehomesolutions.com'
+
+/** Absolute URL for a root-relative asset path. Many public/ files have
+ *  spaces in their names ("main logo.webp"), which are invalid unencoded in
+ *  og:image and JSON-LD URLs. Absolute http(s) URLs pass through unchanged. */
+function absoluteUrl(p) {
+  return p.startsWith('http') ? p : ORIGIN + encodeURI(p)
+}
 
 function upsertMeta(selector, attr, name, content) {
   if (content == null) return
@@ -48,7 +58,7 @@ export function useSeo({ title, description, path, image = '/og-image.png', json
     if (title) document.title = title
 
     const canonical = ORIGIN + (path || window.location.pathname)
-    const ogImage = image.startsWith('http') ? image : ORIGIN + image
+    const ogImage = absoluteUrl(image)
 
     upsertMeta('meta[name="description"]', 'name', 'description', description)
     upsertLink('canonical', canonical)
@@ -66,6 +76,9 @@ export function useSeo({ title, description, path, image = '/og-image.png', json
     upsertMeta('meta[name="twitter:image"]', 'name', 'twitter:image', ogImage)
 
     // JSON-LD structured data removed on unmount so each page owns its own.
+    // A prerendered page already carries this page's JSON-LD in its static
+    // HTML; drop it before re-adding so the live DOM never holds two copies.
+    document.head.querySelectorAll('script[data-seo="page"]').forEach((el) => el.remove())
     let script
     if (jsonLd) {
       script = document.createElement('script')
@@ -82,4 +95,4 @@ export function useSeo({ title, description, path, image = '/og-image.png', json
   }, [title, description, path, image, noindex, JSON.stringify(jsonLd)])
 }
 
-export { ORIGIN, SITE_NAME }
+export { ORIGIN, SITE_NAME, absoluteUrl }

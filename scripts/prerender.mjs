@@ -23,7 +23,7 @@
 //
 //   Usage: node scripts/prerender.mjs   (runs automatically in `npm run build`)
 
-import { chromium } from 'playwright-core'
+import { chromium, errors } from 'playwright-core'
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
@@ -110,6 +110,36 @@ async function snapshot(page, route, { expectNotFound = false } = {}) {
   return html
 }
 
+/**
+ * snapshot(), retried ONCE only when a readiness wait (goto / H1 / canonical)
+ * throws Playwright's TimeoutError. Vercel's headless Chromium intermittently
+ * stalls for seconds with the page's own JS idle, so a fully-rendered page can
+ * still miss the 5s canonical window. The retry reloads the same URL and runs
+ * the exact same checks with the same timeouts; any non-timeout failure (wrong
+ * page, bad canonical, 404 content) is never retried, and a second failure
+ * fails the build exactly as before.
+ */
+const retried = []
+async function snapshotWithRetry(page, route, opts) {
+  try {
+    return await snapshot(page, route, opts)
+  } catch (err) {
+    if (!(err instanceof errors.TimeoutError)) throw err
+    const reason = err.message.split('\n')[0]
+    console.warn(`↻ Retrying ${route} once — readiness check timed out: ${reason}`)
+    try {
+      const html = await snapshot(page, route, opts)
+      console.warn(`✓ Retry succeeded: ${route}`)
+      retried.push([route, 'succeeded'])
+      return html
+    } catch (retryErr) {
+      console.error(`✗ Retry failed: ${route}: ${retryErr.message.split('\n')[0]}`)
+      retried.push([route, 'failed'])
+      throw retryErr
+    }
+  }
+}
+
 const routes = getPrerenderRoutes()
 const outputs = new Map() // file -> html; written only if every page succeeds
 const total = routes.length + 1 // + 404.html
@@ -122,13 +152,13 @@ try {
   const page = await browser.newPage()
   for (const route of routes) {
     try {
-      outputs.set(outFile(route), await snapshot(page, route))
+      outputs.set(outFile(route), await snapshotWithRetry(page, route))
     } catch (err) {
       failed.push([route, err.message])
     }
   }
   try {
-    outputs.set(path.join(DIST, '404.html'), await snapshot(page, NOT_FOUND_PROBE, { expectNotFound: true }))
+    outputs.set(path.join(DIST, '404.html'), await snapshotWithRetry(page, NOT_FOUND_PROBE, { expectNotFound: true }))
   } catch (err) {
     failed.push(['404.html', err.message])
   }
@@ -140,6 +170,7 @@ try {
 }
 
 console.log(`Prerendered ${outputs.size}/${total} pages (incl. 404.html).`)
+if (retried.length) console.log(`Retries: ${retried.map(([r, result]) => `${r} (${result})`).join(', ')}`)
 if (failed.length || outputs.size !== total) {
   console.error('❌ Prerender failed — refusing to ship shell-only pages. Build aborted.')
   failed.forEach(([r, msg]) => console.error(`  ${r}: ${msg}`))

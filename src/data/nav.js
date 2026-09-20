@@ -81,4 +81,8 @@ export function areaHref(city) {
 
 export const PHONE_DISPLAY = '(385) 453-9428'
 export const PHONE_TEL = '3854539428'
-export const LICENSE_NUMBER = '1428845-5501'
+export const LICENSE_NUMBER = '14028845-5501'
+export const LICENSES = [
+  { label: 'UT State General Plumbing Contractor License', number: LICENSE_NUMBER },
+  { label: 'UT State HVAC Specialty License', number: LICENSE_NUMBER },
+]

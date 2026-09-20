@@ -1,4 +1,4 @@
-import { LICENSE_NUMBER, PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
+import { LICENSE_NUMBER, LICENSES, PHONE_DISPLAY, PHONE_TEL } from '../data/nav.js'
 import { FULL_ADDRESS, BUSINESS } from '../data/business.js'
 
 const quickLinks = [
@@ -182,10 +182,14 @@ export default function Footer({ simple = false }) {
             </p>
 
             {/* State license */}
-            <p className="mt-5 inline-flex items-center gap-2 rounded-md border border-white/20 px-3 py-1.5 font-sans text-[13px] font-bold text-white">
-              <span className="font-mono uppercase tracking-[0.12em] text-white/70">Lic.</span>
-              #{LICENSE_NUMBER}
-            </p>
+            <ul className="mt-5 space-y-2 font-sans text-[13px] text-white">
+              {LICENSES.map(({ label, number }) => (
+                <li key={label} className="rounded-md border border-white/20 px-3 py-1.5">
+                  <span className="block font-mono text-[11px] uppercase tracking-[0.08em] text-white/70">{label}</span>
+                  <span className="font-bold">#{number}</span>
+                </li>
+              ))}
+            </ul>
 
             {/* Social Icons */}
             <div className="flex items-center gap-4 mt-6">

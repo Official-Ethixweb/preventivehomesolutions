@@ -199,7 +199,9 @@ export default function Footer({ simple = false }) {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/preventive.home.solutions/"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Instagram"
                 className="flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
               >

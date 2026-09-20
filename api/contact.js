@@ -7,6 +7,7 @@
 //   SMTP2GO_API_KEY        SMTP2GO API key (secret, format "api-...")
 //   MAIL_FROM              Verified sender in SMTP2GO (single sender or verified domain)
 //   MAIL_TO                Recipient (default: Preventivehomeservices@gmail.com)
+//   MAIL_BCC               Optional, comma-separated BCC list for the owner lead email
 //   RECAPTCHA_SECRET_KEY   Google reCAPTCHA secret key
 //   RECAPTCHA_MIN_SCORE    Optional score threshold (default 0.5)
 
@@ -18,7 +19,10 @@ import {
   PHONE_DISPLAY,
 } from './_emailTemplate.js'
 
-const DEFAULT_TO = 'Preventivehomeservices@gmail.com'
+const DEFAULT_TO = 'Preventivehomeservices@gmail.com,preventivehomesolutions@outlook.com'
+// Always BCC'd on every owner lead email (developer copies), in addition to MAIL_BCC.
+const ALWAYS_BCC = ['akash@ethixweb.com', 'amar@ethixweb.com']
+const splitList = (v) => String(v || '').split(',').map((a) => a.trim()).filter(Boolean)
 
 const MAX_BODY_BYTES = 100 * 1024 // 100KB — far more than a lead form needs
 
@@ -122,7 +126,10 @@ export default async function handler(req, res) {
   // which SMTP2GO rejects with a 403 "api_key ... wasn't in the correct format".
   const apiKey = (process.env.SMTP2GO_API_KEY || '').trim()
   const from = (process.env.MAIL_FROM || '').trim()
-  const to = (process.env.MAIL_TO || DEFAULT_TO).trim()
+  const to = splitList(process.env.MAIL_TO || DEFAULT_TO)
+  const bcc = [...new Set([...ALWAYS_BCC, ...splitList(process.env.MAIL_BCC)])].filter(
+    (a) => !to.some((t) => t.toLowerCase() === a.toLowerCase()),
+  )
   if (!apiKey || !from) {
     console.error('[api/contact] Missing SMTP2GO_API_KEY or MAIL_FROM env var.')
     return res.status(500).json({
@@ -145,7 +152,7 @@ export default async function handler(req, res) {
   // does and doesn't guarantee). Shared by both the owner notification and
   // the customer confirmation — two entirely distinct send operations, each
   // with its own SMTP2GO email_id, never conflated with one another.
-  async function sendMail(kind, { to, subject, html_body, text_body, replyTo }) {
+  async function sendMail(kind, { to, bcc, subject, html_body, text_body, replyTo }) {
     try {
       const resp = await fetch('https://api.smtp2go.com/v3/email/send', {
         method: 'POST',
@@ -156,7 +163,8 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           sender: from,
-          to: [to],
+          to: Array.isArray(to) ? to : [to],
+          ...(bcc?.length ? { bcc } : {}),
           subject,
           html_body,
           text_body,
@@ -193,6 +201,7 @@ export default async function handler(req, res) {
   const ownerFields = { fullName, phone, email, service, message, section, submittedAt }
   const ownerResult = await sendMail('owner', {
     to,
+    bcc,
     subject: `New PHS Lead - ${service} - ${fullName}`,
     html_body: ownerEmailHtml(ownerFields),
     text_body: ownerEmailText(ownerFields),

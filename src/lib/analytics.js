@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { usePath } from '../router.js'
 import { isProductionHost } from './isProductionHost.js'
+import { PHONE_DISPLAY } from '../data/nav.js'
 
 // Google Analytics 4 (gtag.js) integration.
 //
@@ -52,6 +53,9 @@ const ADS_ID = 'AW-16752767608'
 export const ADS_LABELS = {
   // "PHS - Phone Click" conversion action.
   phoneCall: 'lhRSCJmp3qUcEPjkq7Q-',
+  // "PHS - Website Calls" — Google forwarding number (call-from-website)
+  // conversion. Secondary, so it reports calls without touching bidding.
+  websiteCalls: '1S6ECPz6iYYdEPjkq7Q-',
   // "PHS - Form Submission" conversion action.
   leadForm: 'mIKoCM2ax6UcEPjkq7Q-',
 }
@@ -72,6 +76,12 @@ export function initAdsTag() {
   }
   window.gtag('js', new Date())
   window.gtag('config', ADS_ID)
+  // Call tracking: swaps PHONE_DISPLAY for a Google forwarding number, for ad
+  // visitors only. PHONE_DISPLAY must stay exactly as it appears on the site
+  // and as entered in the "PHS - Website Calls" conversion action.
+  window.gtag('config', `${ADS_ID}/${ADS_LABELS.websiteCalls}`, {
+    phone_conversion_number: PHONE_DISPLAY,
+  })
 
   const s = document.createElement('script')
   s.async = true
